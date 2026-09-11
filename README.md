@@ -1,4 +1,4 @@
-# Robotique au primaire — CSS des Bois-Francs
+# Robotique — CSS des Bois-Francs
 
 Répertoire des projets de robotique du primaire, consultable par les enseignantes
 et enseignants, et administrable par une seule personne depuis son navigateur.
