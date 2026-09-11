@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Robotique au primaire — CSS des Bois-Francs</title>
+<meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle et par univers.">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+</head>
+<body>
+
+<a class="saut-contenu" href="#resultats">Aller aux projets</a>
+
+<header class="entete">
+  <div class="contenant">
+    <p class="entete__organisme">Centre de services scolaire des Bois-Francs</p>
+    <h1 class="entete__titre">Robotique au primaire</h1>
+    <p class="entete__sous-titre">
+      Répertoire des projets de robotique. Filtrez par cycle, par ensemble et par univers,
+      puis ouvrez le document du projet qui vous intéresse.
+    </p>
+  </div>
+</header>
+
+<nav class="filtres" aria-label="Filtrer les projets">
+  <div class="contenant filtres__grille">
+
+    <div class="groupe-filtre champ-recherche">
+      <label class="groupe-filtre__titre" for="recherche">Rechercher</label>
+      <div class="champ-recherche__boite">
+        <svg class="champ-recherche__icone" width="17" height="17" viewBox="0 0 24 24" fill="none"
+             stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+        </svg>
+        <input type="search" id="recherche" autocomplete="off"
+               placeholder="Ex. : capteur de couleur, labyrinthe…">
+      </div>
+    </div>
+
+    <div class="groupe-filtre">
+      <span class="groupe-filtre__titre" id="titre-cycle">Cycle</span>
+      <div class="jetons" id="filtres-cycle" role="group" aria-labelledby="titre-cycle"></div>
+    </div>
+
+    <div class="groupe-filtre">
+      <span class="groupe-filtre__titre" id="titre-ensemble">Ensemble de robotique</span>
+      <div class="jetons" id="filtres-ensemble" role="group" aria-labelledby="titre-ensemble"></div>
+    </div>
+
+    <div class="groupe-filtre">
+      <span class="groupe-filtre__titre" id="titre-univers">Univers</span>
+      <div class="jetons" id="filtres-univers" role="group" aria-labelledby="titre-univers"></div>
+    </div>
+
+  </div>
+</nav>
+
+<main class="contenant" id="resultats">
+  <div class="resultats">
+    <p class="resultats__compte" id="compte" role="status" aria-live="polite"></p>
+    <button type="button" class="lien-bouton" id="reinitialiser" hidden>Réinitialiser les filtres</button>
+  </div>
+
+  <ul class="grille" id="grille"></ul>
+
+  <div class="etat-vide" id="etat-vide" hidden>
+    <div class="etat-vide__icone" aria-hidden="true">🔍</div>
+    <h2 id="etat-vide-titre">Aucun projet ne correspond</h2>
+    <p id="etat-vide-texte">Essayez d’élargir votre recherche ou de retirer un filtre.</p>
+    <button type="button" class="lien-bouton" id="reinitialiser-2">Réinitialiser les filtres</button>
+  </div>
+</main>
+
+<footer class="pied">
+  <div class="contenant">
+    <p><strong>Centre de services scolaire des Bois-Francs</strong> — Service des ressources éducatives</p>
+    <p><a href="admin.html">Administration du répertoire</a></p>
+  </div>
+</footer>
+
+<script src="assets/commun.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>

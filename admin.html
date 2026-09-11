@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Administration — Robotique au primaire</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="stylesheet" href="assets/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
+</head>
+<body class="admin-corps">
+
+<header class="entete">
+  <div class="contenant">
+    <p class="entete__organisme">Centre de services scolaire des Bois-Francs</p>
+    <h1 class="entete__titre">Administration du répertoire</h1>
+    <p class="entete__sous-titre">
+      Ajoutez, modifiez ou retirez des projets, puis publiez-les sur le site.
+      <a class="entete__lien-admin" href="index.html">Voir le site public</a>
+    </p>
+  </div>
+</header>
+
+<div class="contenant">
+
+  <!-- ===================== Connexion ===================== -->
+  <section class="panneau" style="margin-top:26px">
+    <h2>1 · Connexion au dépôt</h2>
+    <p class="panneau__aide">
+      À faire une seule fois sur cet appareil. Votre jeton reste dans ce navigateur
+      et n’est transmis qu’à GitHub.
+      <a href="README.md#jeton" target="_blank" rel="noopener">Comment créer un jeton ?</a>
+    </p>
+
+    <div class="bandeau bandeau--info" id="bandeau-connexion" hidden></div>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:0 16px">
+      <div class="champ">
+        <label for="f-owner">Propriétaire du dépôt</label>
+        <input type="text" id="f-owner" autocomplete="off" spellcheck="false" placeholder="sbergeronencp002">
+      </div>
+      <div class="champ">
+        <label for="f-repo">Nom du dépôt</label>
+        <input type="text" id="f-repo" autocomplete="off" spellcheck="false" placeholder="robot">
+      </div>
+      <div class="champ">
+        <label for="f-branche">Branche publiée</label>
+        <input type="text" id="f-branche" autocomplete="off" spellcheck="false" placeholder="main">
+      </div>
+    </div>
+
+    <div class="champ">
+      <label for="f-jeton">Jeton d’accès GitHub <span class="champ__note">— permission « Contents : Read and write »</span></label>
+      <input type="password" id="f-jeton" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
+    </div>
+
+    <div class="barre-boutons">
+      <button type="button" class="bouton bouton--primaire" id="btn-connexion">Se connecter</button>
+      <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-oublier">Oublier le jeton</button>
+    </div>
+  </section>
+
+  <div class="disposition-admin">
+
+    <!-- ===================== Formulaire ===================== -->
+    <section class="panneau" style="margin-bottom:0">
+      <h2 id="titre-formulaire">2 · Nouveau projet</h2>
+      <p class="panneau__aide" id="aide-formulaire">Remplissez la fiche. Elle s’affichera telle quelle sur le site.</p>
+
+      <form id="formulaire" novalidate>
+        <input type="hidden" id="f-id">
+
+        <div class="champ">
+          <label for="f-titre">Titre du projet</label>
+          <input type="text" id="f-titre" maxlength="90" required placeholder="Ex. : Le robot trieur de couleurs">
+        </div>
+
+        <div class="champ">
+          <label for="f-description">Description courte</label>
+          <textarea id="f-description" maxlength="200" required
+                    placeholder="Une ou deux phrases : ce que les élèves font et ce qu’ils apprennent."></textarea>
+          <span class="compteur-car" id="compteur-description">0 / 200</span>
+        </div>
+
+        <fieldset class="champ">
+          <legend class="champ__legende">Cycle</legend>
+          <div class="choix" id="choix-cycle"></div>
+        </fieldset>
+
+        <fieldset class="champ">
+          <legend class="champ__legende">Ensemble de robotique</legend>
+          <div class="choix" id="choix-ensemble"></div>
+        </fieldset>
+
+        <fieldset class="champ">
+          <legend class="champ__legende">Univers</legend>
+          <div class="choix" id="choix-univers"></div>
+        </fieldset>
+
+        <fieldset class="champ">
+          <legend class="champ__legende">Durée approximative</legend>
+          <div class="choix" id="choix-duree"></div>
+        </fieldset>
+
+        <div class="champ">
+          <label for="f-lien">Lien vers le document (SharePoint)</label>
+          <input type="url" id="f-lien" spellcheck="false"
+                 placeholder="https://cssbf-my.sharepoint.com/…">
+          <span class="compteur-car" style="text-align:left">Collez un lien de partage « Tout le monde ».</span>
+        </div>
+
+        <div class="champ">
+          <label for="f-image">Image du projet <span class="champ__note">— facultative, redimensionnée automatiquement</span></label>
+          <input type="file" id="f-image" accept="image/*">
+          <div class="barre-boutons" style="margin-top:8px">
+            <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-retirer-image" hidden>Retirer l’image</button>
+          </div>
+        </div>
+
+        <div class="champ">
+          <span class="champ__legende">Aperçu de la tuile</span>
+          <div class="apercu-tuile" id="apercu"></div>
+        </div>
+
+        <div class="bandeau bandeau--erreur" id="bandeau-formulaire" hidden></div>
+
+        <div class="barre-boutons">
+          <button type="submit" class="bouton bouton--primaire" id="btn-enregistrer">Ajouter le projet</button>
+          <button type="button" class="bouton bouton--secondaire" id="btn-annuler" hidden>Annuler la modification</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ===================== Liste + publication ===================== -->
+    <section class="panneau" style="margin-bottom:0">
+      <h2>3 · Projets du répertoire <span class="etiquette-etat" id="etat-publication">—</span></h2>
+      <p class="panneau__aide" id="aide-liste">Connectez-vous au dépôt pour charger les projets existants.</p>
+
+      <div class="bandeau bandeau--attente" id="bandeau-publication" hidden></div>
+
+      <div class="barre-boutons" style="margin-top:0; margin-bottom:16px">
+        <button type="button" class="bouton bouton--publier" id="btn-publier" disabled>Publier sur le site</button>
+        <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-recharger" disabled>Recharger depuis le site</button>
+      </div>
+
+      <pre class="journal" id="journal" hidden></pre>
+
+      <ul class="liste-projets" id="liste-projets"></ul>
+    </section>
+
+  </div>
+</div>
+
+<footer class="pied">
+  <div class="contenant">
+    <p><strong>Centre de services scolaire des Bois-Francs</strong> — Administration du répertoire de robotique</p>
+  </div>
+</footer>
+
+<script src="assets/commun.js"></script>
+<script src="assets/admin.js"></script>
+</body>
+</html>
