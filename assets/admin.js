@@ -398,8 +398,8 @@
 
     const n = champs.description.value.length;
     const compteur = $("compteur-description");
-    compteur.textContent = `${n} / 200`;
-    compteur.classList.toggle("compteur-car--limite", n >= 200);
+    compteur.textContent = `${n} / 100`;
+    compteur.classList.toggle("compteur-car--limite", n >= 100);
   }
 
   champs.titre.addEventListener("input", majApercu);
