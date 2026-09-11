@@ -207,7 +207,7 @@
      Connexion
      ========================================================================== */
 
-  async function connecter() {
+  async function connecter(automatique = false) {
     depot.owner   = champs.owner.value.trim();
     depot.repo    = champs.repo.value.trim();
     depot.branche = champs.branche.value.trim() || "main";
@@ -228,9 +228,11 @@
       connecte = true;
 
       const brouillonEnAttente = modifie;
-      let garderLocal = false;
+      // À l'ouverture de la page, on conserve d'office le travail en cours :
+      // une boîte de dialogue au chargement serait déroutante.
+      let garderLocal = automatique;
 
-      if (brouillonEnAttente) {
+      if (brouillonEnAttente && !automatique) {
         garderLocal = window.confirm(
           "Vous avez des modifications non publiées sur cet appareil.\n\n" +
           "OK : les conserver et continuer à travailler dessus.\n" +
@@ -247,9 +249,11 @@
       $("aide-liste").textContent =
         "Chaque enregistrement reste sur cet appareil jusqu’à ce que vous cliquiez sur « Publier sur le site ».";
       $("btn-recharger").disabled = false;
+      $("panneau-connexion").open = false;
       rafraichir();
     } catch (err) {
       connecte = false;
+      $("panneau-connexion").open = true;
       afficher($("bandeau-connexion"), "erreur", `<strong>Connexion impossible</strong><p>${echapper(err.message)}</p>`);
     } finally {
       $("btn-connexion").disabled = false;
@@ -492,7 +496,17 @@
      Liste et état
      ========================================================================== */
 
+  function rafraichirEtatConnexion() {
+    const etiquette = $("etat-connexion");
+    etiquette.textContent = connecte ? "connecté" : "non connecté";
+    etiquette.className = `etiquette-etat${connecte ? " etiquette-etat--publie" : ""}`;
+    $("detail-connexion").textContent = connecte
+      ? `${depot.owner}/${depot.repo} · branche ${depot.branche}`
+      : "";
+  }
+
   function rafraichirEtat() {
+    rafraichirEtatConnexion();
     const etiquette = $("etat-publication");
     if (!connecte) {
       etiquette.textContent = "hors ligne";
@@ -629,6 +643,7 @@
     champs.jeton.value = "";
     connecte = false;
     enregistrerDepot();
+    $("panneau-connexion").open = true;
     afficher($("bandeau-connexion"), "info", "<p>Jeton retiré de cet appareil.</p>");
     rafraichirEtat();
   });
@@ -650,10 +665,16 @@
 
   if (modifie) {
     afficher($("bandeau-publication"), "attente",
-      "<strong>Modifications non publiées</strong><p>Des changements faits sur cet appareil attendent d’être publiés. Connectez-vous au dépôt pour les envoyer.</p>");
+      "<strong>Modifications non publiées</strong><p>Des changements faits sur cet appareil attendent d’être publiés. Publiez-les pour les rendre visibles.</p>");
   }
+
   if (depot.jeton) {
+    // Un jeton est mémorisé : on se connecte seul et le panneau reste replié.
+    connecter(true);
+  } else {
+    // Rien en mémoire : le panneau s'ouvre, c'est la seule chose à faire ici.
+    $("panneau-connexion").open = true;
     afficher($("bandeau-connexion"), "info",
-      "<p>Un jeton est déjà enregistré sur cet appareil. Cliquez sur « Se connecter » pour charger le répertoire.</p>");
+      "<p>Renseignez le dépôt et collez votre jeton d’accès pour charger le répertoire.</p>");
   }
 })();

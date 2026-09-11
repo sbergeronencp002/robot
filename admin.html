@@ -24,8 +24,13 @@
 <div class="contenant">
 
   <!-- ===================== Connexion ===================== -->
-  <section class="panneau" style="margin-top:26px">
-    <h2>1 · Connexion au dépôt</h2>
+  <details class="panneau panneau--repliable" id="panneau-connexion" style="margin-top:26px">
+    <summary class="panneau__resume">
+      <span class="panneau__resume-titre">1 · Connexion au dépôt</span>
+      <span class="etiquette-etat" id="etat-connexion">non connecté</span>
+      <span class="panneau__resume-detail" id="detail-connexion"></span>
+    </summary>
+    <div class="panneau__contenu">
     <p class="panneau__aide">
       À faire une seule fois sur cet appareil. Votre jeton reste dans ce navigateur
       et n’est transmis qu’à GitHub.
@@ -58,7 +63,8 @@
       <button type="button" class="bouton bouton--primaire" id="btn-connexion">Se connecter</button>
       <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-oublier">Oublier le jeton</button>
     </div>
-  </section>
+    </div>
+  </details>
 
   <div class="disposition-admin">
 
