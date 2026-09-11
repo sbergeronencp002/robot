@@ -22,6 +22,13 @@ const UNIVERS = [
   { id: "terre",    court: "Terre et Espace", long: "Terre et Espace",   icone: "🌍" }
 ];
 
+// Trois niveaux, rendus par des pastilles pleines pour un repérage rapide.
+const DIFFICULTES = [
+  { id: "debutant",     nom: "Débutant",     points: 1 },
+  { id: "intermediaire", nom: "Intermédiaire", points: 2 },
+  { id: "expert",       nom: "Expert",       points: 3 }
+];
+
 const DUREES = [
   { id: 60,  texte: "60 min",  detail: "60 minutes (1 période)" },
   { id: 120, texte: "120 min", detail: "120 minutes (2 périodes)" },
@@ -31,6 +38,12 @@ const DUREES = [
 const cycleParId    = (id) => CYCLES.find((c) => c.id === String(id));
 const ensembleParId = (id) => ENSEMBLES.find((e) => e.id === id);
 const universParId  = (id) => UNIVERS.find((u) => u.id === id);
+const difficulteParId = (id) => DIFFICULTES.find((d) => d.id === id);
+
+/* Rend un niveau sous forme de pastilles : ●○○, ●●○, ●●●. */
+function pastilles(niveau) {
+  return "●".repeat(niveau.points) + "○".repeat(3 - niveau.points);
+}
 const dureeParId    = (id) => DUREES.find((d) => d.id === Number(id));
 
 /* Échappe le texte destiné à être inséré dans du HTML. */
@@ -87,6 +100,7 @@ function htmlTuile(projet, options = {}) {
   const ensemble = ensembleParId(projet.ensemble);
   const univers  = universParId(projet.univers);
   const duree    = dureeParId(projet.duree);
+  const niveau   = difficulteParId(projet.difficulte);
   const lien     = interactif ? lienSur(projet.lien) : "";
 
   const visuel = projet.image
@@ -110,7 +124,10 @@ function htmlTuile(projet, options = {}) {
       <h3 class="tuile__titre">${echapper(projet.titre)}</h3>
       <p class="tuile__description">${echapper(projet.description)}</p>
       <div class="tuile__pied">
-        <span class="tuile__duree">${ICONE_HORLOGE} ${echapper(duree ? duree.texte : "—")}</span>
+        <span class="tuile__meta">
+          <span class="tuile__duree">${ICONE_HORLOGE} ${echapper(duree ? duree.texte : "—")}</span>
+          ${niveau ? `<span class="tuile__niveau"><span class="pastilles" aria-hidden="true">${pastilles(niveau)}</span> ${echapper(niveau.nom)}</span>` : ""}
+        </span>
         ${action}
       </div>
     </div>`;

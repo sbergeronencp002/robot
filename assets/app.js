@@ -5,7 +5,7 @@
 (function () {
   "use strict";
 
-  const etat = { cycle: "", ensemble: "", univers: "", q: "" };
+  const etat = { cycle: "", ensemble: "", univers: "", difficulte: "", q: "" };
   let projets = [];
 
   const elGrille   = document.getElementById("grille");
@@ -43,6 +43,11 @@
     "univers",
     UNIVERS.map((u) => ({ valeur: u.id, libelle: `${u.icone} ${u.long}` }))
   );
+  construireJetons(
+    document.getElementById("filtres-difficulte"),
+    "difficulte",
+    DIFFICULTES.map((d) => ({ valeur: d.id, libelle: `${pastilles(d)} ${d.nom}` }))
+  );
 
   document.querySelectorAll(".jeton").forEach((bouton) => {
     bouton.addEventListener("click", () => {
@@ -60,7 +65,7 @@
   });
 
   boutonsReset.forEach((b) => b && b.addEventListener("click", () => {
-    etat.cycle = ""; etat.ensemble = ""; etat.univers = ""; etat.q = "";
+    etat.cycle = ""; etat.ensemble = ""; etat.univers = ""; etat.difficulte = ""; etat.q = "";
     elRecherche.value = "";
     appliquer();
     elRecherche.focus();
@@ -75,9 +80,11 @@
     const cycle = p.get("cycle") || "";
     const ensemble = p.get("ensemble") || "";
     const univers = p.get("univers") || "";
+    const difficulte = p.get("difficulte") || "";
     etat.cycle = CYCLES.some((c) => c.id === cycle) ? cycle : "";
     etat.ensemble = ENSEMBLES.some((e) => e.id === ensemble) ? ensemble : "";
     etat.univers = UNIVERS.some((u) => u.id === univers) ? univers : "";
+    etat.difficulte = DIFFICULTES.some((d) => d.id === difficulte) ? difficulte : "";
     etat.q = p.get("q") || "";
     elRecherche.value = etat.q;
   }
@@ -87,6 +94,7 @@
     if (etat.cycle) p.set("cycle", etat.cycle);
     if (etat.ensemble) p.set("ensemble", etat.ensemble);
     if (etat.univers) p.set("univers", etat.univers);
+    if (etat.difficulte) p.set("difficulte", etat.difficulte);
     if (etat.q) p.set("q", etat.q);
     const suite = p.toString();
     history.replaceState(null, "", suite ? `?${suite}` : window.location.pathname);
@@ -102,18 +110,21 @@
       if (etat.cycle && String(p.cycle) !== etat.cycle) return false;
       if (etat.ensemble && p.ensemble !== etat.ensemble) return false;
       if (etat.univers && p.univers !== etat.univers) return false;
+      if (etat.difficulte && p.difficulte !== etat.difficulte) return false;
       if (!mots.length) return true;
 
       const ensemble = ensembleParId(p.ensemble);
       const univers = universParId(p.univers);
-      const botte = normaliser(`${p.titre} ${p.description} ${ensemble ? ensemble.nom : ""} ${univers ? univers.long : ""}`);
+      const niveau = difficulteParId(p.difficulte);
+      const botte = normaliser(
+        `${p.titre} ${p.description} ${ensemble ? ensemble.nom : ""} ${univers ? univers.long : ""} ${niveau ? niveau.nom : ""}`);
       return mots.every((mot) => botte.includes(mot));
     });
   }
 
   function appliquer() {
     const visibles = filtrer();
-    const filtreActif = Boolean(etat.cycle || etat.ensemble || etat.univers || etat.q);
+    const filtreActif = Boolean(etat.cycle || etat.ensemble || etat.univers || etat.difficulte || etat.q);
 
     document.querySelectorAll(".jeton").forEach((b) => {
       b.setAttribute("aria-pressed", String(etat[b.dataset.cle] === b.dataset.valeur));

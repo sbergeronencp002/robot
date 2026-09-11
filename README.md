@@ -5,7 +5,7 @@ et enseignants, et administrable par une seule personne depuis son navigateur.
 
 | | |
 |---|---|
-| **Site public** | `index.html` — tuiles filtrables par cycle, ensemble et univers |
+| **Site public** | `index.html` — tuiles filtrables par cycle, ensemble, univers et difficulté |
 | **Administration** | `admin.html` — ajout, modification, suppression et publication |
 | **Données** | `data/projets.json` |
 | **Images** | `images/` — téléversées automatiquement par l'administration |
@@ -57,10 +57,12 @@ Ouvrez ensuite `admin.html`, collez le jeton dans le champ prévu et cliquez sur
 
 ## Ajouter un projet
 
-1. Ouvrez `admin.html` et cliquez sur **Se connecter**.
+1. Ouvrez `admin.html`. Si votre jeton est déjà enregistré sur cet appareil,
+   la connexion se fait **toute seule** : le panneau 1 reste replié et affiche
+   simplement `connecté`.
 2. Remplissez la fiche : titre, description courte, cycle, ensemble, univers,
-   durée, lien SharePoint, image. L'aperçu montre la tuile telle qu'elle
-   apparaîtra.
+   difficulté, durée, lien SharePoint, image. L'aperçu montre la tuile telle
+   qu'elle apparaîtra.
 3. Cliquez sur **Ajouter le projet**. Répétez autant de fois que voulu.
 4. Cliquez sur **Publier sur le site**.
 
@@ -94,6 +96,7 @@ Chaque projet est enregistré ainsi dans `data/projets.json` :
   "cycle": "3",
   "ensemble": "prime",
   "univers": "materiel",
+  "difficulte": "intermediaire",
   "duree": 120,
   "lien": "https://…sharepoint.com/…",
   "image": "images/2026-09-11-robot-trieur-a3f2.jpg"
@@ -105,6 +108,7 @@ Chaque projet est enregistré ainsi dans `data/projets.json` :
 | `cycle` | `"1"` · `"2"` · `"3"` |
 | `ensemble` | `"ev3"` · `"prime"` · `"essentiel"` · `"wedo"` |
 | `univers` | `"materiel"` · `"vivant"` · `"terre"` |
+| `difficulte` | `"debutant"` · `"intermediaire"` · `"expert"` |
 | `duree` | `60` · `120` · `180` |
 
 Les tuiles s'affichent du projet le plus récent au plus ancien.
@@ -120,6 +124,11 @@ Vérifiez dans l'onglet **Actions** du dépôt que la publication est terminée.
 **« Le fichier a changé sur GitHub depuis votre dernier chargement. »**
 Le répertoire a été modifié ailleurs (autre appareil, autre navigateur). Cliquez
 sur **Recharger depuis le site**, puis refaites votre modification.
+
+**L'administration me redemande de me connecter à chaque visite.**
+Elle ne devrait pas : le jeton est mémorisé et la connexion est automatique.
+Si ça se reproduit, c'est que le navigateur efface les données de site à la
+fermeture (navigation privée, ou un réglage de confidentialité strict).
 
 **J'ai changé d'ordinateur.**
 Refaites l'étape 2 : un jeton est propre à chaque navigateur. Vous pouvez
@@ -142,5 +151,6 @@ préfiltré par courriel :
 ```
 …/robot/?cycle=2&ensemble=prime
 …/robot/?univers=vivant
+…/robot/?difficulte=debutant
 …/robot/?q=capteur
 ```

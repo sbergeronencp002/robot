@@ -21,59 +21,59 @@
   </div>
 </header>
 
-<div class="contenant">
+<div class="contenant disposition-admin">
 
-  <!-- ===================== Connexion ===================== -->
-  <details class="panneau panneau--repliable" id="panneau-connexion" style="margin-top:26px">
+  <!-- ===================== 1 · Connexion ===================== -->
+  <details class="panneau panneau--repliable" id="panneau-connexion">
     <summary class="panneau__resume">
       <span class="panneau__resume-titre">1 · Connexion au dépôt</span>
       <span class="etiquette-etat" id="etat-connexion">non connecté</span>
       <span class="panneau__resume-detail" id="detail-connexion"></span>
     </summary>
+
     <div class="panneau__contenu">
-    <p class="panneau__aide">
-      À faire une seule fois sur cet appareil. Votre jeton reste dans ce navigateur
-      et n’est transmis qu’à GitHub.
-      <a href="README.md#jeton" target="_blank" rel="noopener">Comment créer un jeton ?</a>
-    </p>
+      <p class="panneau__aide">
+        À faire une seule fois sur cet appareil. Votre jeton reste dans ce navigateur
+        et n’est transmis qu’à GitHub.
+        <a href="README.md#jeton" target="_blank" rel="noopener">Comment créer un jeton ?</a>
+      </p>
 
-    <div class="bandeau bandeau--info" id="bandeau-connexion" hidden></div>
+      <div class="bandeau bandeau--info" id="bandeau-connexion" hidden></div>
 
-    <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:0 16px">
-      <div class="champ">
-        <label for="f-owner">Propriétaire du dépôt</label>
-        <input type="text" id="f-owner" autocomplete="off" spellcheck="false" placeholder="sbergeronencp002">
+      <div class="grille-champs">
+        <div class="champ">
+          <label for="f-owner">Propriétaire du dépôt</label>
+          <input type="text" id="f-owner" autocomplete="off" spellcheck="false" placeholder="sbergeronencp002">
+        </div>
+        <div class="champ">
+          <label for="f-repo">Nom du dépôt</label>
+          <input type="text" id="f-repo" autocomplete="off" spellcheck="false" placeholder="robot">
+        </div>
+        <div class="champ">
+          <label for="f-branche">Branche publiée</label>
+          <input type="text" id="f-branche" autocomplete="off" spellcheck="false" placeholder="main">
+        </div>
       </div>
-      <div class="champ">
-        <label for="f-repo">Nom du dépôt</label>
-        <input type="text" id="f-repo" autocomplete="off" spellcheck="false" placeholder="robot">
-      </div>
-      <div class="champ">
-        <label for="f-branche">Branche publiée</label>
-        <input type="text" id="f-branche" autocomplete="off" spellcheck="false" placeholder="main">
-      </div>
-    </div>
 
-    <div class="champ">
-      <label for="f-jeton">Jeton d’accès GitHub <span class="champ__note">— permission « Contents : Read and write »</span></label>
-      <input type="password" id="f-jeton" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
-    </div>
+      <div class="champ">
+        <label for="f-jeton">Jeton d’accès GitHub <span class="champ__note">— permission « Contents : Read and write »</span></label>
+        <input type="password" id="f-jeton" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
+      </div>
 
-    <div class="barre-boutons">
-      <button type="button" class="bouton bouton--primaire" id="btn-connexion">Se connecter</button>
-      <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-oublier">Oublier le jeton</button>
-    </div>
+      <div class="barre-boutons">
+        <button type="button" class="bouton bouton--primaire" id="btn-connexion">Se connecter</button>
+        <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-oublier">Oublier le jeton</button>
+      </div>
     </div>
   </details>
 
-  <div class="disposition-admin">
+  <!-- ===================== 2 · Formulaire ===================== -->
+  <section class="panneau">
+    <h2 id="titre-formulaire">2 · Nouveau projet</h2>
+    <p class="panneau__aide" id="aide-formulaire">Remplissez la fiche. Elle s’affichera telle quelle sur le site.</p>
 
-    <!-- ===================== Formulaire ===================== -->
-    <section class="panneau" style="margin-bottom:0">
-      <h2 id="titre-formulaire">2 · Nouveau projet</h2>
-      <p class="panneau__aide" id="aide-formulaire">Remplissez la fiche. Elle s’affichera telle quelle sur le site.</p>
-
-      <form id="formulaire" novalidate>
+    <form id="formulaire" novalidate class="formulaire-grille">
+      <div class="formulaire-champs">
         <input type="hidden" id="f-id">
 
         <div class="champ">
@@ -104,14 +104,18 @@
         </fieldset>
 
         <fieldset class="champ">
+          <legend class="champ__legende">Difficulté</legend>
+          <div class="choix" id="choix-difficulte"></div>
+        </fieldset>
+
+        <fieldset class="champ">
           <legend class="champ__legende">Durée approximative</legend>
           <div class="choix" id="choix-duree"></div>
         </fieldset>
 
         <div class="champ">
           <label for="f-lien">Lien vers le document (SharePoint)</label>
-          <input type="url" id="f-lien" spellcheck="false"
-                 placeholder="https://cssbf-my.sharepoint.com/…">
+          <input type="url" id="f-lien" spellcheck="false" placeholder="https://cssbf-my.sharepoint.com/…">
           <span class="compteur-car" style="text-align:left">Collez un lien de partage « Tout le monde ».</span>
         </div>
 
@@ -123,38 +127,47 @@
           </div>
         </div>
 
-        <div class="champ">
-          <span class="champ__legende">Aperçu de la tuile</span>
-          <div class="apercu-tuile" id="apercu"></div>
-        </div>
-
         <div class="bandeau bandeau--erreur" id="bandeau-formulaire" hidden></div>
 
         <div class="barre-boutons">
           <button type="submit" class="bouton bouton--primaire" id="btn-enregistrer">Ajouter le projet</button>
           <button type="button" class="bouton bouton--secondaire" id="btn-annuler" hidden>Annuler la modification</button>
         </div>
-      </form>
-    </section>
+      </div>
 
-    <!-- ===================== Liste + publication ===================== -->
-    <section class="panneau" style="margin-bottom:0">
-      <h2>3 · Projets du répertoire <span class="etiquette-etat" id="etat-publication">—</span></h2>
+      <div class="formulaire-apercu">
+        <span class="champ__legende">Aperçu de la tuile</span>
+        <div class="apercu-tuile" id="apercu"></div>
+      </div>
+    </form>
+  </section>
+
+  <!-- ===================== 3 · Liste + publication ===================== -->
+  <details class="panneau panneau--repliable" id="panneau-projets">
+    <summary class="panneau__resume">
+      <span class="panneau__resume-titre">3 · Projets du répertoire</span>
+      <span class="etiquette-etat" id="etat-publication">hors ligne</span>
+      <span class="panneau__resume-detail" id="detail-projets"></span>
+      <span class="panneau__resume-actions">
+        <button type="button" class="bouton bouton--publier bouton--petit" id="btn-publier" disabled>Publier sur le site</button>
+      </span>
+    </summary>
+
+    <div class="panneau__contenu">
       <p class="panneau__aide" id="aide-liste">Connectez-vous au dépôt pour charger les projets existants.</p>
 
       <div class="bandeau bandeau--attente" id="bandeau-publication" hidden></div>
 
       <div class="barre-boutons" style="margin-top:0; margin-bottom:16px">
-        <button type="button" class="bouton bouton--publier" id="btn-publier" disabled>Publier sur le site</button>
         <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-recharger" disabled>Recharger depuis le site</button>
       </div>
 
       <pre class="journal" id="journal" hidden></pre>
 
       <ul class="liste-projets" id="liste-projets"></ul>
-    </section>
+    </div>
+  </details>
 
-  </div>
 </div>
 
 <footer class="pied">

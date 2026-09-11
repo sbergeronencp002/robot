@@ -342,6 +342,7 @@
   construireChoix($("choix-cycle"), "cycle", CYCLES.map((c) => ({ valeur: c.id, libelle: c.long })));
   construireChoix($("choix-ensemble"), "ensemble", ENSEMBLES.map((e) => ({ valeur: e.id, libelle: e.nom })));
   construireChoix($("choix-univers"), "univers", UNIVERS.map((u) => ({ valeur: u.id, libelle: `${u.icone} ${u.long}` })));
+  construireChoix($("choix-difficulte"), "difficulte", DIFFICULTES.map((d) => ({ valeur: d.id, libelle: `${pastilles(d)} ${d.nom}` })));
   construireChoix($("choix-duree"), "duree", DUREES.map((d) => ({ valeur: String(d.id), libelle: d.detail })));
 
   const valeurChoix = (nom) => {
@@ -360,6 +361,7 @@
       cycle: valeurChoix("cycle"),
       ensemble: valeurChoix("ensemble"),
       univers: valeurChoix("univers"),
+      difficulte: valeurChoix("difficulte"),
       duree: Number(valeurChoix("duree")) || null,
       lien: champs.lien.value.trim(),
       image: imageCourante.chemin
@@ -392,7 +394,7 @@
     champs.lien.value = "";
     champs.image.value = "";
     imageCourante = { chemin: "", donnees: "" };
-    cocherChoix("cycle", ""); cocherChoix("ensemble", ""); cocherChoix("univers", ""); cocherChoix("duree", "");
+    cocherChoix("cycle", ""); cocherChoix("ensemble", ""); cocherChoix("univers", ""); cocherChoix("difficulte", ""); cocherChoix("duree", "");
     $("titre-formulaire").textContent = "2 · Nouveau projet";
     $("aide-formulaire").textContent = "Remplissez la fiche. Elle s’affichera telle quelle sur le site.";
     $("btn-enregistrer").textContent = "Ajouter le projet";
@@ -418,6 +420,7 @@
     cocherChoix("cycle", projet.cycle);
     cocherChoix("ensemble", projet.ensemble);
     cocherChoix("univers", projet.univers);
+    cocherChoix("difficulte", projet.difficulte);
     cocherChoix("duree", projet.duree);
     $("titre-formulaire").textContent = "2 · Modifier le projet";
     $("aide-formulaire").textContent = `Vous modifiez « ${projet.titre} ».`;
@@ -425,7 +428,8 @@
     $("btn-annuler").hidden = false;
     majApercu();
     rafraichirListe();
-    $("formulaire").scrollIntoView({ behavior: "smooth", block: "start" });
+    $("panneau-projets").open = false;
+    $("titre-formulaire").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   function valider(fiche) {
@@ -434,6 +438,7 @@
     if (!fiche.cycle) return "Choisissez un cycle.";
     if (!fiche.ensemble) return "Choisissez un ensemble de robotique.";
     if (!fiche.univers) return "Choisissez un univers.";
+    if (!fiche.difficulte) return "Choisissez un niveau de difficulté.";
     if (!fiche.duree) return "Choisissez une durée.";
     if (fiche.lien && !/^https?:\/\//i.test(fiche.lien)) return "Le lien doit commencer par https://";
     return null;
@@ -467,8 +472,12 @@
       imagesEnAttente[imageCourante.chemin] = imageCourante.donnees;
     }
 
+    const etaitEnEdition = Boolean(idEnEdition);
     marquerModifie();
     reinitialiserFormulaire();
+    afficher($("bandeau-formulaire"), "succes",
+      `<strong>${etaitEnEdition ? "Projet modifié" : "Projet ajouté"}</strong>` +
+      "<p>Cliquez sur « Publier sur le site », en haut du panneau 3, pour le rendre visible.</p>");
     afficher($("bandeau-publication"), "attente",
       "<strong>Modifications enregistrées sur cet appareil</strong><p>Cliquez sur « Publier sur le site » pour les rendre visibles.</p>");
   });
@@ -507,6 +516,12 @@
 
   function rafraichirEtat() {
     rafraichirEtatConnexion();
+
+    const n = projets.length;
+    $("detail-projets").textContent = n === 0
+      ? "aucun projet"
+      : `${n} projet${n > 1 ? "s" : ""}`;
+
     const etiquette = $("etat-publication");
     if (!connecte) {
       etiquette.textContent = "hors ligne";
@@ -534,6 +549,7 @@
       const cycle = cycleParId(p.cycle);
       const ensemble = ensembleParId(p.ensemble);
       const univers = universParId(p.univers);
+      const niveau = difficulteParId(p.difficulte);
       const source = imagesEnAttente[p.image] || p.image;
       const vignette = source
         ? `<span class="ligne-projet__vignette"><img src="${echapper(source)}" alt=""></span>`
@@ -543,7 +559,7 @@
           ${vignette}
           <span class="ligne-projet__infos">
             <span class="ligne-projet__titre">${echapper(p.titre)}</span>
-            <span class="ligne-projet__meta">${echapper(cycle ? cycle.court : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(univers ? univers.court : "—")} · ${echapper(p.duree || "—")} min${p.lien ? "" : " · <sans document>"}</span>
+            <span class="ligne-projet__meta">${echapper(cycle ? cycle.court : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(univers ? univers.court : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${p.lien ? "" : " · <sans document>"}</span>
           </span>
           <span class="ligne-projet__actions">
             <button type="button" class="bouton bouton--secondaire bouton--petit" data-action="editer" data-id="${echapper(p.id)}">Modifier</button>
@@ -572,6 +588,7 @@
   async function publier() {
     if (!connecte || !modifie) return;
 
+    $("panneau-projets").open = true;
     $("btn-publier").disabled = true;
     $("btn-recharger").disabled = true;
     viderJournal();
@@ -619,7 +636,11 @@
     }
   }
 
-  $("btn-publier").addEventListener("click", publier);
+  $("btn-publier").addEventListener("click", (evenement) => {
+    evenement.preventDefault();
+    evenement.stopPropagation();   // sinon le <summary> replierait le panneau
+    publier();
+  });
 
   $("btn-recharger").addEventListener("click", async () => {
     if (modifie && !window.confirm(

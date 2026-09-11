@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotique — CSS des Bois-Francs</title>
-<meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle et par univers.">
+<meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
 <link rel="stylesheet" href="assets/style.css">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 </head>
@@ -17,7 +17,7 @@
     <p class="entete__organisme">Centre de services scolaire des Bois-Francs</p>
     <h1 class="entete__titre">Robotique</h1>
     <p class="entete__sous-titre">
-      Les projets du primaire, classés par cycle, par ensemble et par univers.
+      Les projets du primaire, classés par cycle, par ensemble, par univers et par difficulté.
       Filtrez, puis ouvrez le document du projet qui vous intéresse.
     </p>
   </div>
@@ -53,6 +53,11 @@
       <div class="jetons" id="filtres-univers" role="group" aria-labelledby="titre-univers"></div>
     </div>
 
+    <div class="groupe-filtre">
+      <span class="groupe-filtre__titre" id="titre-difficulte">Difficulté</span>
+      <div class="jetons" id="filtres-difficulte" role="group" aria-labelledby="titre-difficulte"></div>
+    </div>
+
   </div>
 </nav>
 
@@ -75,7 +80,6 @@
 <footer class="pied">
   <div class="contenant">
     <p><strong>Centre de services scolaire des Bois-Francs</strong> — Service des ressources éducatives</p>
-    <p><a href="admin.html">Administration du répertoire</a></p>
   </div>
 </footer>
 
