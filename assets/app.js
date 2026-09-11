@@ -14,6 +14,9 @@
   const elVideTtr  = document.getElementById("etat-vide-titre");
   const elVideTxt  = document.getElementById("etat-vide-texte");
   const elRecherche = document.getElementById("recherche");
+  const elZoneFiltres = document.getElementById("zone-filtres");
+  const elBasculeFiltres = document.getElementById("bascule-filtres");
+  const elNombreFiltres = document.getElementById("nombre-filtres");
   const boutonsReset = [
     document.getElementById("reinitialiser"),
     document.getElementById("reinitialiser-2")
@@ -28,7 +31,7 @@
     if (!conteneur) return;
     const choix = [{ valeur: "", libelle: "Tous" }].concat(options);
     conteneur.innerHTML = choix
-      .map((c) => `<button type="button" class="jeton" data-cle="${cle}" data-valeur="${echapper(c.valeur)}" aria-pressed="false">${echapper(c.libelle)}</button>`)
+      .map((c) => `<button type="button" class="jeton" data-cle="${cle}" data-valeur="${echapper(c.valeur)}" data-libelle="${echapper(c.libelle)}" aria-pressed="false"><span>${echapper(c.libelle)}</span><span class="jeton__compte" aria-hidden="true"></span></button>`)
       .join("");
   }
 
@@ -61,6 +64,13 @@
       appliquer();
     });
   });
+
+  if (elBasculeFiltres) {
+    elBasculeFiltres.addEventListener("click", () => {
+      const ouvert = elZoneFiltres.classList.toggle("filtres--ouvert");
+      elBasculeFiltres.setAttribute("aria-expanded", String(ouvert));
+    });
+  }
 
   let minuterie;
   elRecherche.addEventListener("input", () => {
@@ -106,33 +116,66 @@
 
   /* ---------- Filtrage ---------- */
 
-  function filtrer() {
+  function correspondRecherche(p) {
     const recherche = normaliser(etat.q);
     const mots = recherche ? recherche.split(/\s+/).filter(Boolean) : [];
+    if (!mots.length) return true;
 
-    return projets.filter((p) => {
-      if (etat.cycle && String(p.cycle) !== etat.cycle) return false;
-      if (etat.ensemble && p.ensemble !== etat.ensemble) return false;
-      if (etat.univers && p.univers !== etat.univers) return false;
-      if (etat.difficulte && p.difficulte !== etat.difficulte) return false;
-      if (!mots.length) return true;
+    const ensemble = ensembleParId(p.ensemble);
+    const univers = universParId(p.univers);
+    const niveau = difficulteParId(p.difficulte);
+    const botte = normaliser(
+      `${p.titre} ${p.description} ${ensemble ? ensemble.nom : ""} ${univers ? univers.long : ""} ${niveau ? niveau.nom : ""}`);
+    return mots.every((mot) => botte.includes(mot));
+  }
 
-      const ensemble = ensembleParId(p.ensemble);
-      const univers = universParId(p.univers);
-      const niveau = difficulteParId(p.difficulte);
-      const botte = normaliser(
-        `${p.titre} ${p.description} ${ensemble ? ensemble.nom : ""} ${univers ? univers.long : ""} ${niveau ? niveau.nom : ""}`);
-      return mots.every((mot) => botte.includes(mot));
+  function correspondFiltres(p, cleIgnoree = "") {
+    if (cleIgnoree !== "cycle" && etat.cycle && String(p.cycle) !== etat.cycle) return false;
+    if (cleIgnoree !== "ensemble" && etat.ensemble && p.ensemble !== etat.ensemble) return false;
+    if (cleIgnoree !== "univers" && etat.univers && p.univers !== etat.univers) return false;
+    if (cleIgnoree !== "difficulte" && etat.difficulte && p.difficulte !== etat.difficulte) return false;
+    return correspondRecherche(p);
+  }
+
+  function filtrer() {
+    return projets.filter((p) => correspondFiltres(p));
+  }
+
+  function valeurProjet(p, cle) {
+    return cle === "cycle" ? String(p.cycle) : p[cle];
+  }
+
+  function mettreAJourFiltres() {
+    document.querySelectorAll(".jeton").forEach((bouton) => {
+      const cle = bouton.dataset.cle;
+      const valeur = bouton.dataset.valeur;
+      const actif = etat[cle] === valeur;
+      const nombre = projets.filter((p) =>
+        correspondFiltres(p, cle) && (!valeur || valeurProjet(p, cle) === valeur)
+      ).length;
+
+      bouton.setAttribute("aria-pressed", String(actif));
+      bouton.disabled = nombre === 0 && !actif;
+      bouton.querySelector(".jeton__compte").textContent = `(${nombre})`;
+      bouton.setAttribute(
+        "aria-label",
+        `${bouton.dataset.libelle}, ${nombre} projet${nombre > 1 ? "s" : ""}`
+      );
     });
+
+    const nombreActifs = ["cycle", "ensemble", "univers", "difficulte"]
+      .filter((cle) => etat[cle]).length + (etat.q ? 1 : 0);
+    if (elNombreFiltres) {
+      elNombreFiltres.hidden = nombreActifs === 0;
+      elNombreFiltres.textContent = nombreActifs;
+    }
   }
 
   function appliquer() {
     const visibles = filtrer();
     const filtreActif = Boolean(etat.cycle || etat.ensemble || etat.univers || etat.difficulte || etat.q);
 
-    document.querySelectorAll(".jeton").forEach((b) => {
-      b.setAttribute("aria-pressed", String(etat[b.dataset.cle] === b.dataset.valeur));
-    });
+    mettreAJourFiltres();
 
     elGrille.innerHTML = visibles
       .map((p) => `<li>${htmlTuile(p)}</li>`)

@@ -121,6 +121,34 @@ a { color: var(--accent); }
   z-index: 20;
 }
 
+.filtres__bascule {
+  display: none;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1px solid #b7cce1;
+  border-radius: 8px;
+  background: var(--blanc);
+  color: var(--marine);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+.filtres__nombre {
+  margin-left: auto;
+  min-width: 1.55rem;
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--marine);
+  color: var(--blanc);
+  font-size: .78rem;
+  text-align: center;
+}
+.filtres__chevron { transition: transform .15s ease; }
+.filtres--ouvert .filtres__chevron { transform: rotate(180deg); }
+
 .filtres__grille {
   display: flex;
   flex-wrap: wrap;
@@ -158,7 +186,18 @@ a { color: var(--accent); }
   cursor: pointer;
   transition: background .12s, color .12s, border-color .12s;
 }
-.jeton:hover { border-color: var(--accent); }
+.jeton:hover:not(:disabled) { border-color: var(--accent); }
+.jeton:disabled {
+  cursor: not-allowed;
+  opacity: .48;
+  background: #f4f6f9;
+}
+.jeton__compte {
+  margin-left: 5px;
+  font-size: .78em;
+  font-variant-numeric: tabular-nums;
+  opacity: .75;
+}
 .jeton .pastilles, .choix .pastilles { color: var(--accent); }
 .jeton[aria-pressed="true"] .pastilles { color: var(--accent-clair); }
 
@@ -741,5 +780,8 @@ fieldset.champ {
 /* Sur téléphone, une barre de filtres collante occuperait le tiers de l'écran :
    on la laisse défiler avec la page. */
 @media (max-width: 760px) {
-  .filtres { position: static; }
+  .filtres { position: static; padding-block: 12px; }
+  .filtres__bascule { display: flex; }
+  .filtres__grille { display: none; padding-top: 16px; }
+  .filtres--ouvert .filtres__grille { display: flex; }
 }

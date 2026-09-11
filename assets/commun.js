@@ -24,9 +24,9 @@ const UNIVERS = [
 
 // Trois niveaux, rendus par des pastilles pleines pour un repérage rapide.
 const DIFFICULTES = [
-  { id: "debutant",     nom: "Débutant",     points: 1 },
+  { id: "debutant",      nom: "Découverte",    points: 1 },
   { id: "intermediaire", nom: "Intermédiaire", points: 2 },
-  { id: "expert",       nom: "Expert",       points: 3 }
+  { id: "expert",        nom: "Avancé",        points: 3 }
 ];
 
 const DUREES = [

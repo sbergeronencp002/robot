@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotique — CSS des Bois-Francs</title>
 <meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
-<link rel="stylesheet" href="assets/style.css?v=20260911e">
+<link rel="stylesheet" href="assets/style.css?v=20260911f">
 <script>
   (() => {
-    const versionLocale = "20260911e";
+    const versionLocale = "20260911f";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -38,8 +38,16 @@
   </div>
 </header>
 
-<nav class="filtres" aria-label="Filtrer les projets">
-  <div class="contenant filtres__grille">
+<nav class="filtres" id="zone-filtres" aria-label="Filtrer les projets">
+  <div class="contenant">
+    <button type="button" class="filtres__bascule" id="bascule-filtres"
+            aria-expanded="false" aria-controls="filtres-grille">
+      <span>Filtrer les projets</span>
+      <span class="filtres__nombre" id="nombre-filtres" hidden></span>
+      <span class="filtres__chevron" aria-hidden="true">⌄</span>
+    </button>
+  </div>
+  <div class="contenant filtres__grille" id="filtres-grille">
 
     <div class="groupe-filtre champ-recherche">
       <label class="groupe-filtre__titre" for="recherche">Rechercher</label>
@@ -98,7 +106,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20260911e"></script>
-<script src="assets/app.js?v=20260911e"></script>
+<script src="assets/commun.js?v=20260911f"></script>
+<script src="assets/app.js?v=20260911f"></script>
 </body>
 </html>
