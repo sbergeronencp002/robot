@@ -419,6 +419,46 @@ a.tuile:hover .tuile__action { text-decoration: underline; }
   margin-bottom: 22px;
 }
 
+/* Panneau repliable (connexion au dépôt) */
+
+.panneau--repliable { padding: 0; }
+
+.panneau__resume {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 11px;
+  padding: 17px 22px;
+  cursor: pointer;
+  list-style: none;
+  border-radius: var(--rayon);
+}
+.panneau__resume::-webkit-details-marker { display: none; }
+
+.panneau__resume::before {
+  content: "▸";
+  color: var(--accent);
+  font-size: .9em;
+  flex: none;
+}
+.panneau--repliable[open] > .panneau__resume::before { content: "▾"; }
+
+.panneau__resume:hover { background: var(--bleu-pale-2); }
+.panneau__resume:focus-visible { outline: 3px solid var(--accent-clair); outline-offset: -3px; }
+
+.panneau__resume-titre {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--marine);
+}
+
+.panneau__resume-detail {
+  font-size: .85rem;
+  color: var(--gris);
+}
+
+.panneau__contenu { padding: 0 22px 22px; }
+
 .panneau > h2 {
   margin: 0 0 4px;
   font-size: 1.15rem;
