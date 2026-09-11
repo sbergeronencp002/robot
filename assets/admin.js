@@ -2,9 +2,9 @@
    Administration : édition des projets et publication vers GitHub.
 
    Fonctionnement : on travaille sur une copie locale du répertoire
-   (conservée dans ce navigateur), puis « Publier » envoie d'un coup les
-   images en attente et le fichier de données vers le dépôt. GitHub Pages
-   régénère le site public en une minute ou deux.
+   (conservée dans ce navigateur), puis « Publier » crée un seul commit avec
+   les images en attente et le fichier de données. GitHub Pages régénère
+   ensuite le site public en une minute ou deux.
    ========================================================================== */
 
 (function () {
@@ -13,9 +13,12 @@
   const CLE_DEPOT    = "robotique.depot";
   const CLE_BROUILLON = "robotique.brouillon";
   const CHEMIN_JSON  = "data/projets.json";
-  const LARGEUR_MAX  = 1000;   // px — suffisant pour une tuile, léger pour le dépôt
-  const QUALITE_JPEG = 0.82;
+  const LARGEUR_TUILE = 1000;
+  const HAUTEUR_TUILE = 625;
   const RATIO_TUILE  = 16 / 10; // toutes les vignettes sont recadrées à ce format
+  const TAILLE_SOURCE_MAX = 25 * 1024 * 1024;
+  const TAILLE_CIBLE = 300 * 1024;
+  const QUALITES_JPEG = [0.82, 0.74, 0.66];
 
   /* ---------- État ---------- */
 
@@ -42,16 +45,6 @@
   /* ==========================================================================
      Outils
      ========================================================================== */
-
-  function encoderBase64(texte) {
-    const octets = new TextEncoder().encode(texte);
-    let binaire = "";
-    const tranche = 0x8000;
-    for (let i = 0; i < octets.length; i += tranche) {
-      binaire += String.fromCharCode.apply(null, octets.subarray(i, i + tranche));
-    }
-    return btoa(binaire);
-  }
 
   function decoderBase64(b64) {
     const binaire = atob(String(b64).replace(/\s/g, ""));
@@ -86,6 +79,12 @@
     const j = $("journal");
     j.textContent = "";
     j.hidden = true;
+  }
+
+  function tailleLisible(octets) {
+    if (octets < 1024) return `${octets} octets`;
+    if (octets < 1024 * 1024) return `${Math.round(octets / 1024)} ko`;
+    return `${(octets / (1024 * 1024)).toFixed(1).replace(".", ",")} Mo`;
   }
 
   /* ==========================================================================
@@ -175,7 +174,10 @@
       case 403: return `Accès refusé. Le jeton doit avoir la permission « Contents : Read and write » sur ce dépôt${detail}`;
       case 404: return "Dépôt, branche ou fichier introuvable. Vérifiez le propriétaire, le nom du dépôt et la branche.";
       case 409: return "Le fichier a changé sur GitHub depuis votre dernier chargement. Utilisez « Recharger depuis le site », puis refaites vos modifications.";
-      case 422: return `GitHub a refusé l’envoi${detail}`;
+      case 422:
+        return donnees && /fast.?forward/i.test(donnees.message || "")
+          ? "Une autre publication est survenue pendant l’envoi. Rechargez les projets, puis réessayez."
+          : `GitHub a refusé l’envoi${detail}`;
       default:  return `Erreur GitHub ${statut}${detail}`;
     }
   }
@@ -190,18 +192,6 @@
       if (err.statut === 404) return null;   // fichier pas encore créé
       throw err;
     }
-  }
-
-  async function ecrireFichier(chemin, contenuBase64, message, sha) {
-    return api(racineContenu(chemin), {
-      method: "PUT",
-      corps: {
-        message,
-        content: contenuBase64,
-        branch: depot.branche,
-        ...(sha ? { sha } : {})
-      }
-    });
   }
 
   /* ==========================================================================
@@ -284,21 +274,41 @@
      Images
      ========================================================================== */
 
+  function toileVersBlob(toile, qualite) {
+    return new Promise((resoudre, rejeter) => {
+      toile.toBlob(
+        (blob) => blob ? resoudre(blob) : rejeter(new Error("La compression de l’image a échoué.")),
+        "image/jpeg",
+        qualite
+      );
+    });
+  }
+
+  function blobVersDataURL(blob) {
+    return new Promise((resoudre, rejeter) => {
+      const lecteur = new FileReader();
+      lecteur.onerror = () => rejeter(new Error("La préparation de l’image a échoué."));
+      lecteur.onload = () => resoudre(lecteur.result);
+      lecteur.readAsDataURL(blob);
+    });
+  }
+
   function redimensionner(fichier) {
     return new Promise((resoudre, rejeter) => {
+      if (fichier.size > TAILLE_SOURCE_MAX) {
+        rejeter(new Error(`L’image dépasse ${tailleLisible(TAILLE_SOURCE_MAX)}. Choisissez un fichier plus léger.`));
+        return;
+      }
       const lecteur = new FileReader();
       lecteur.onerror = () => rejeter(new Error("Lecture du fichier impossible."));
       lecteur.onload = () => {
         const img = new Image();
         img.onerror = () => rejeter(new Error("Ce fichier n’est pas une image valide."));
-        img.onload = () => {
+        img.onload = async () => {
           // Toutes les vignettes sortent au même format : on recadre la plus
           // grande zone possible de l'image d'origine, centrée, puis on
           // redimensionne. Les tuiles du site sont ainsi parfaitement alignées,
           // quelle que soit la photo fournie.
-          const largeur = Math.min(LARGEUR_MAX, img.naturalWidth);
-          const hauteur = Math.round(largeur / RATIO_TUILE);
-
           const ratioSource = img.naturalWidth / img.naturalHeight;
           let largeurSource, hauteurSource;
           if (ratioSource > RATIO_TUILE) {
@@ -312,13 +322,31 @@
           const ySource = (img.naturalHeight - hauteurSource) / 2;
 
           const toile = document.createElement("canvas");
-          toile.width = largeur;
-          toile.height = hauteur;
+          toile.width = LARGEUR_TUILE;
+          toile.height = HAUTEUR_TUILE;
           const ctx = toile.getContext("2d");
           ctx.fillStyle = "#ffffff";           // aplatit la transparence des PNG
-          ctx.fillRect(0, 0, largeur, hauteur);
-          ctx.drawImage(img, xSource, ySource, largeurSource, hauteurSource, 0, 0, largeur, hauteur);
-          resoudre(toile.toDataURL("image/jpeg", QUALITE_JPEG));
+          ctx.fillRect(0, 0, LARGEUR_TUILE, HAUTEUR_TUILE);
+          ctx.drawImage(
+            img,
+            xSource, ySource, largeurSource, hauteurSource,
+            0, 0, LARGEUR_TUILE, HAUTEUR_TUILE
+          );
+
+          try {
+            let blob;
+            for (const qualite of QUALITES_JPEG) {
+              blob = await toileVersBlob(toile, qualite);
+              if (blob.size <= TAILLE_CIBLE) break;
+            }
+            resoudre({
+              dataURL: await blobVersDataURL(blob),
+              tailleFinale: blob.size,
+              tailleOriginale: fichier.size
+            });
+          } catch (err) {
+            rejeter(err);
+          }
         };
         img.src = lecteur.result;
       };
@@ -330,20 +358,29 @@
     const fichier = champs.image.files[0];
     if (!fichier) return;
     masquer($("bandeau-formulaire"));
+    $("info-image").textContent = "Optimisation de l’image en cours…";
+    $("btn-enregistrer").disabled = true;
     try {
-      const dataURL = await redimensionner(fichier);
+      const resultat = await redimensionner(fichier);
       const nom = `${new Date().toISOString().slice(0, 10)}-${glisser(champs.titre.value || "projet")}-${Math.random().toString(36).slice(2, 6)}.jpg`;
-      imageCourante = { chemin: `images/${nom}`, donnees: dataURL };
+      imageCourante = { chemin: `images/${nom}`, donnees: resultat.dataURL };
+      $("info-image").textContent =
+        `Image optimisée : ${LARGEUR_TUILE} × ${HAUTEUR_TUILE} px · ${tailleLisible(resultat.tailleFinale)}` +
+        ` (originale : ${tailleLisible(resultat.tailleOriginale)}).`;
       majApercu();
     } catch (err) {
       afficher($("bandeau-formulaire"), "erreur", `<p>${echapper(err.message)}</p>`);
       champs.image.value = "";
+      $("info-image").textContent = "Recadrée et compressée automatiquement à 1000 × 625 px.";
+    } finally {
+      $("btn-enregistrer").disabled = false;
     }
   });
 
   $("btn-retirer-image").addEventListener("click", () => {
     imageCourante = { chemin: "", donnees: "" };
     champs.image.value = "";
+    $("info-image").textContent = "Recadrée et compressée automatiquement à 1000 × 625 px.";
     majApercu();
   });
 
@@ -396,10 +433,14 @@
     $("apercu").innerHTML = htmlTuile(apercu, { interactif: false });
     $("btn-retirer-image").hidden = !imageCourante.chemin;
 
-    const n = champs.description.value.length;
-    const compteur = $("compteur-description");
-    compteur.textContent = `${n} / 100`;
-    compteur.classList.toggle("compteur-car--limite", n >= 100);
+    [
+      [champs.titre, $("compteur-titre"), 90],
+      [champs.description, $("compteur-description"), 100]
+    ].forEach(([champ, compteur, limite]) => {
+      const n = champ.value.length;
+      compteur.textContent = `${n} / ${limite}`;
+      compteur.classList.toggle("compteur-car--limite", n >= limite);
+    });
   }
 
   champs.titre.addEventListener("input", majApercu);
@@ -414,6 +455,7 @@
     champs.lien.value = "";
     champs.image.value = "";
     imageCourante = { chemin: "", donnees: "" };
+    $("info-image").textContent = "Recadrée et compressée automatiquement à 1000 × 625 px.";
     cocherChoix("cycle", ""); cocherChoix("ensemble", ""); cocherChoix("univers", ""); cocherChoix("difficulte", ""); cocherChoix("duree", "");
     $("titre-formulaire").textContent = "2 · Nouveau projet";
     $("aide-formulaire").textContent = "Remplissez la fiche. Elle s’affichera telle quelle sur le site.";
@@ -437,6 +479,9 @@
       chemin: projet.image || "",
       donnees: imagesEnAttente[projet.image] || ""
     };
+    $("info-image").textContent = projet.image
+      ? "Image actuelle conservée. Choisissez un fichier pour la remplacer."
+      : "Recadrée et compressée automatiquement à 1000 × 625 px.";
     cocherChoix("cycle", projet.cycle);
     cocherChoix("ensemble", projet.ensemble);
     cocherChoix("univers", projet.univers);
@@ -452,9 +497,48 @@
     $("titre-formulaire").scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  function dupliquer(id) {
+    const projet = projets.find((p) => p.id === id);
+    if (!projet) return;
+
+    const suffixe = " — copie";
+    const titre = `${String(projet.titre || "").slice(0, 90 - suffixe.length).trimEnd()}${suffixe}`;
+    idEnEdition = null;
+    champs.id.value = "";
+    champs.titre.value = titre;
+    champs.description.value = projet.description || "";
+    champs.lien.value = projet.lien || "";
+    champs.image.value = "";
+    imageCourante = {
+      chemin: projet.image || "",
+      donnees: imagesEnAttente[projet.image] || ""
+    };
+    $("info-image").textContent = projet.image
+      ? "La copie réutilisera l’image actuelle. Choisissez un fichier pour la remplacer."
+      : "Recadrée et compressée automatiquement à 1000 × 625 px.";
+    cocherChoix("cycle", projet.cycle);
+    cocherChoix("ensemble", projet.ensemble);
+    cocherChoix("univers", projet.univers);
+    cocherChoix("difficulte", projet.difficulte);
+    cocherChoix("duree", projet.duree);
+    $("titre-formulaire").textContent = "2 · Dupliquer le projet";
+    $("aide-formulaire").textContent = `Vous créez une copie de « ${projet.titre} ». Vérifiez la fiche avant de l’ajouter.`;
+    $("btn-enregistrer").textContent = "Ajouter la copie";
+    $("btn-annuler").hidden = false;
+    masquer($("bandeau-formulaire"));
+    majApercu();
+    rafraichirListe();
+    $("panneau-projets").open = false;
+    $("titre-formulaire").scrollIntoView({ behavior: "smooth", block: "start" });
+    champs.titre.focus({ preventScroll: true });
+    champs.titre.select();
+  }
+
   function valider(fiche) {
     if (!fiche.titre) return "Le titre est obligatoire.";
+    if (fiche.titre.length > 90) return "Le titre doit contenir au maximum 90 caractères.";
     if (!fiche.description) return "La description courte est obligatoire.";
+    if (fiche.description.length > 100) return "La description courte doit contenir au maximum 100 caractères.";
     if (!fiche.cycle) return "Choisissez un cycle.";
     if (!fiche.ensemble) return "Choisissez un ensemble de robotique.";
     if (!fiche.univers) return "Choisissez un univers.";
@@ -582,6 +666,7 @@
             <span class="ligne-projet__meta">${echapper(cycle ? cycle.court : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(univers ? univers.court : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${p.lien ? "" : " · <sans document>"}</span>
           </span>
           <span class="ligne-projet__actions">
+            <button type="button" class="bouton bouton--secondaire bouton--petit" data-action="dupliquer" data-id="${echapper(p.id)}">Dupliquer</button>
             <button type="button" class="bouton bouton--secondaire bouton--petit" data-action="editer" data-id="${echapper(p.id)}">Modifier</button>
             <button type="button" class="bouton bouton--danger bouton--petit" data-action="supprimer" data-id="${echapper(p.id)}">Supprimer</button>
           </span>
@@ -592,8 +677,9 @@
   $("liste-projets").addEventListener("click", (evenement) => {
     const bouton = evenement.target.closest("button[data-action]");
     if (!bouton) return;
-    if (bouton.dataset.action === "editer") editer(bouton.dataset.id);
-    else supprimer(bouton.dataset.id);
+    if (bouton.dataset.action === "dupliquer") dupliquer(bouton.dataset.id);
+    else if (bouton.dataset.action === "editer") editer(bouton.dataset.id);
+    else if (bouton.dataset.action === "supprimer") supprimer(bouton.dataset.id);
   });
 
   function rafraichir() {
@@ -615,28 +701,67 @@
     afficher($("bandeau-publication"), "info", "<strong>Publication en cours…</strong><p>Ne fermez pas cette page.</p>");
 
     try {
-      // 1 · Les images d'abord : le fichier de données doit pouvoir y pointer.
-      const chemins = Object.keys(imagesEnAttente);
-      for (let i = 0; i < chemins.length; i++) {
-        const chemin = chemins[i];
-        journaliser(`Image ${i + 1}/${chemins.length} — ${chemin}`);
-        const base64 = imagesEnAttente[chemin].split(",")[1];
-        const existant = await lireFichier(chemin);
-        await ecrireFichier(chemin, base64, `Ajout de l'image ${chemin}`, existant ? existant.sha : null);
-        delete imagesEnAttente[chemin];
-        enregistrerBrouillon();
+      // Vérifie d'abord que personne n'a publié une autre version depuis le
+      // dernier chargement. La mise à jour finale de la branche protège aussi
+      // contre une modification qui surviendrait pendant la préparation.
+      journaliser("Vérification de la version publiée");
+      const fichierDistant = await lireFichier(CHEMIN_JSON);
+      const shaDistant = fichierDistant ? fichierDistant.sha : null;
+      if (shaDistant !== shaJson) {
+        const erreur = new Error("Le fichier a changé sur GitHub depuis votre dernier chargement. Utilisez « Recharger depuis le site », puis refaites vos modifications.");
+        erreur.statut = 409;
+        throw erreur;
       }
 
-      // 2 · Puis le répertoire lui-même.
-      journaliser(`Fichier ${CHEMIN_JSON} — ${projets.length} projet(s)`);
+      const brancheEncodee = depot.branche.split("/").map(encodeURIComponent).join("/");
+      const reference = await api(`/repos/${encodeURIComponent(depot.owner)}/${encodeURIComponent(depot.repo)}/git/ref/heads/${brancheEncodee}`);
+      const shaParent = reference.object.sha;
+      const commitParent = await api(`/repos/${encodeURIComponent(depot.owner)}/${encodeURIComponent(depot.repo)}/git/commits/${shaParent}`);
+
+      // Prépare tous les fichiers sans rien rendre visible sur la branche.
+      const chemins = Object.keys(imagesEnAttente);
+      const elements = [];
+      for (let i = 0; i < chemins.length; i++) {
+        const chemin = chemins[i];
+        journaliser(`Préparation de l’image ${i + 1}/${chemins.length}`);
+        const base64 = imagesEnAttente[chemin].split(",")[1];
+        const blob = await api(`/repos/${encodeURIComponent(depot.owner)}/${encodeURIComponent(depot.repo)}/git/blobs`, {
+          method: "POST",
+          corps: { content: base64, encoding: "base64" }
+        });
+        elements.push({ path: chemin, mode: "100644", type: "blob", sha: blob.sha });
+      }
+
+      journaliser(`Préparation du répertoire — ${projets.length} projet(s)`);
       const contenu = JSON.stringify(projets, null, 2) + "\n";
-      const resultat = await ecrireFichier(
-        CHEMIN_JSON,
-        encoderBase64(contenu),
-        `Mise à jour du répertoire (${projets.length} projet${projets.length > 1 ? "s" : ""})`,
-        shaJson
-      );
-      shaJson = resultat.content.sha;
+      const blobJson = await api(`/repos/${encodeURIComponent(depot.owner)}/${encodeURIComponent(depot.repo)}/git/blobs`, {
+        method: "POST",
+        corps: { content: contenu, encoding: "utf-8" }
+      });
+      elements.push({ path: CHEMIN_JSON, mode: "100644", type: "blob", sha: blobJson.sha });
+
+      journaliser("Création de la publication unique");
+      const arbre = await api(`/repos/${encodeURIComponent(depot.owner)}/${encodeURIComponent(depot.repo)}/git/trees`, {
+        method: "POST",
+        corps: { base_tree: commitParent.tree.sha, tree: elements }
+      });
+      const nouveauCommit = await api(`/repos/${encodeURIComponent(depot.owner)}/${encodeURIComponent(depot.repo)}/git/commits`, {
+        method: "POST",
+        corps: {
+          message: `Mise à jour du répertoire (${projets.length} projet${projets.length > 1 ? "s" : ""})`,
+          tree: arbre.sha,
+          parents: [shaParent]
+        }
+      });
+
+      journaliser("Mise en ligne");
+      await api(`/repos/${encodeURIComponent(depot.owner)}/${encodeURIComponent(depot.repo)}/git/refs/heads/${brancheEncodee}`, {
+        method: "PATCH",
+        corps: { sha: nouveauCommit.sha, force: false }
+      });
+
+      shaJson = blobJson.sha;
+      imagesEnAttente = {};
 
       modifie = false;
       enregistrerBrouillon();

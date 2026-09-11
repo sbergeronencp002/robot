@@ -5,7 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Administration — Robotique</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="assets/style.css?v=20260911b">
+<link rel="stylesheet" href="assets/style.css?v=20260911c">
+<script>
+  (() => {
+    const versionLocale = "20260911c";
+    fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
+      .then((reponse) => reponse.ok ? reponse.json() : null)
+      .then((info) => {
+        if (!info?.version || info.version === versionLocale) return;
+        const adresse = new URL(window.location.href);
+        if (adresse.searchParams.get("_v") === info.version) return;
+        adresse.searchParams.set("_v", info.version);
+        window.location.replace(adresse.href);
+      })
+      .catch(() => {});
+  })();
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
 </head>
 <body class="admin-corps">
@@ -79,6 +94,7 @@
         <div class="champ">
           <label for="f-titre">Titre du projet</label>
           <input type="text" id="f-titre" maxlength="90" required placeholder="Ex. : Le robot trieur de couleurs">
+          <span class="compteur-car" id="compteur-titre">0 / 90</span>
         </div>
 
         <div class="champ">
@@ -120,8 +136,9 @@
         </div>
 
         <div class="champ">
-          <label for="f-image">Image du projet <span class="champ__note">— facultative, recadrée automatiquement au format des tuiles</span></label>
+          <label for="f-image">Image du projet <span class="champ__note">— facultative</span></label>
           <input type="file" id="f-image" accept="image/*">
+          <span class="compteur-car compteur-car--gauche" id="info-image">Recadrée et compressée automatiquement à 1000 × 625 px.</span>
           <div class="barre-boutons" style="margin-top:8px">
             <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-retirer-image" hidden>Retirer l’image</button>
           </div>
@@ -176,7 +193,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20260911b"></script>
-<script src="assets/admin.js?v=20260911b"></script>
+<script src="assets/commun.js?v=20260911c"></script>
+<script src="assets/admin.js?v=20260911c"></script>
 </body>
 </html>

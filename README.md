@@ -72,6 +72,9 @@ Le site public se met à jour une à deux minutes plus tard.
 > L'étiquette en haut de la liste indique toujours où vous en êtes :
 > *à jour* ou *modifications non publiées*.
 
+Le bouton **Dupliquer** reprend une fiche existante dans le formulaire. Modifiez
+son titre ou ses paramètres, puis cliquez sur **Ajouter la copie**.
+
 ### Les liens SharePoint
 
 Dans SharePoint : **Partager** → réglez la permission sur **Tout le monde** →
@@ -124,10 +127,10 @@ La liste des projets, elle, n'est jamais mise en cache : un projet manquant
 vient toujours d'une publication encore en cours.
 
 **J'ai modifié le code du site et le navigateur affiche l'ancienne version.**
-GitHub Pages met les fichiers en cache une dizaine de minutes. Pour forcer la
-mise à jour chez tout le monde, changez le numéro de version dans les balises
-`<link>` et `<script>` de `index.html` et `admin.html` — le `?v=20260911b` à
-la fin de chaque adresse. N'importe quelle nouvelle valeur fait l'affaire.
+Le site vérifie maintenant sa version automatiquement et recharge les fichiers
+CSS et JavaScript lorsqu'une mise à jour est publiée. Lors d'une modification
+du code, il suffit de changer la valeur dans `assets/version.json` et la même
+valeur `versionLocale` dans `index.html` et `admin.html`.
 
 **« Le fichier a changé sur GitHub depuis votre dernier chargement. »**
 Le répertoire a été modifié ailleurs (autre appareil, autre navigateur). Cliquez
@@ -150,10 +153,14 @@ Sans conséquence : un fichier qu'aucune fiche ne référence n'est jamais affic
 
 ## Les images
 
-Rien à préparer : l'administration **recadre automatiquement** chaque image au
-format des tuiles (16:10), en conservant la plus grande zone possible centrée,
-puis la réduit à 1000 px de large et la compresse. Toutes les vignettes du site
-ont donc exactement les mêmes dimensions, quelle que soit la photo fournie.
+Rien à préparer : l'administration **recadre et compresse automatiquement**
+chaque image au format des tuiles (16:10), en conservant la plus grande zone
+possible centrée. Chaque nouveau fichier est enregistré en JPEG à exactement
+**1000 × 625 px**. L'administration affiche aussi le poids final avant l'ajout.
+
+La publication est **atomique** : les nouvelles images et `projets.json` sont
+mis en ligne dans un seul commit. Si une étape échoue, aucune publication
+partielle n'apparaît sur le site.
 
 Deux conseils pour un résultat flatteur :
 

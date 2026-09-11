@@ -596,6 +596,7 @@ fieldset.champ {
   margin-top: 3px;
 }
 .compteur-car--limite { color: var(--ev3); font-weight: 600; }
+.compteur-car--gauche { text-align: left; }
 
 .bouton {
   font: inherit;
@@ -696,7 +697,7 @@ fieldset.champ {
   white-space: nowrap;
 }
 .ligne-projet__meta { font-size: .8rem; color: var(--gris); }
-.ligne-projet__actions { display: flex; gap: 6px; flex: none; }
+.ligne-projet__actions { display: flex; flex-wrap: wrap; gap: 6px; flex: none; }
 
 .ligne-projet--edition { background: var(--bleu-pale-2); border-radius: 7px; padding-inline: 10px; }
 

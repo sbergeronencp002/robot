@@ -5,7 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotique — CSS des Bois-Francs</title>
 <meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
-<link rel="stylesheet" href="assets/style.css?v=20260911b">
+<link rel="stylesheet" href="assets/style.css?v=20260911c">
+<script>
+  (() => {
+    const versionLocale = "20260911c";
+    fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
+      .then((reponse) => reponse.ok ? reponse.json() : null)
+      .then((info) => {
+        if (!info?.version || info.version === versionLocale) return;
+        const adresse = new URL(window.location.href);
+        if (adresse.searchParams.get("_v") === info.version) return;
+        adresse.searchParams.set("_v", info.version);
+        window.location.replace(adresse.href);
+      })
+      .catch(() => {});
+  })();
+</script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
 </head>
 <body>
@@ -83,7 +98,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20260911b"></script>
-<script src="assets/app.js?v=20260911b"></script>
+<script src="assets/commun.js?v=20260911c"></script>
+<script src="assets/app.js?v=20260911c"></script>
 </body>
 </html>
