@@ -1,1 +1,15 @@
-[]
+[
+  {
+    "id": "pmtx879g2rnk2",
+    "cree": "2026-09-11T17:24:17.426Z",
+    "titre": "La cabane dans la forêt",
+    "description": "Activité d'initiation à la robotique et à la programmation",
+    "cycle": "1",
+    "ensemble": "essentiel",
+    "univers": "materiel",
+    "difficulte": "debutant",
+    "duree": 60,
+    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD8Qmvbjh4hTY2-jZjpdkPqAa2qfxPBASDxNhQ6GYVihag?e=LixND6",
+    "image": "images/2026-09-11-la-cabane-dans-la-foret-f6lh.jpg"
+  }
+]
