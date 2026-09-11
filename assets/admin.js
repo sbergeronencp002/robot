@@ -15,6 +15,7 @@
   const CHEMIN_JSON  = "data/projets.json";
   const LARGEUR_MAX  = 1000;   // px — suffisant pour une tuile, léger pour le dépôt
   const QUALITE_JPEG = 0.82;
+  const RATIO_TUILE  = 16 / 10; // toutes les vignettes sont recadrées à ce format
 
   /* ---------- État ---------- */
 
@@ -291,14 +292,32 @@
         const img = new Image();
         img.onerror = () => rejeter(new Error("Ce fichier n’est pas une image valide."));
         img.onload = () => {
-          const ratio = Math.min(1, LARGEUR_MAX / img.naturalWidth);
+          // Toutes les vignettes sortent au même format : on recadre la plus
+          // grande zone possible de l'image d'origine, centrée, puis on
+          // redimensionne. Les tuiles du site sont ainsi parfaitement alignées,
+          // quelle que soit la photo fournie.
+          const largeur = Math.min(LARGEUR_MAX, img.naturalWidth);
+          const hauteur = Math.round(largeur / RATIO_TUILE);
+
+          const ratioSource = img.naturalWidth / img.naturalHeight;
+          let largeurSource, hauteurSource;
+          if (ratioSource > RATIO_TUILE) {
+            hauteurSource = img.naturalHeight;                 // image trop large
+            largeurSource = hauteurSource * RATIO_TUILE;
+          } else {
+            largeurSource = img.naturalWidth;                  // image trop haute
+            hauteurSource = largeurSource / RATIO_TUILE;
+          }
+          const xSource = (img.naturalWidth - largeurSource) / 2;
+          const ySource = (img.naturalHeight - hauteurSource) / 2;
+
           const toile = document.createElement("canvas");
-          toile.width = Math.round(img.naturalWidth * ratio);
-          toile.height = Math.round(img.naturalHeight * ratio);
+          toile.width = largeur;
+          toile.height = hauteur;
           const ctx = toile.getContext("2d");
           ctx.fillStyle = "#ffffff";           // aplatit la transparence des PNG
-          ctx.fillRect(0, 0, toile.width, toile.height);
-          ctx.drawImage(img, 0, 0, toile.width, toile.height);
+          ctx.fillRect(0, 0, largeur, hauteur);
+          ctx.drawImage(img, xSource, ySource, largeurSource, hauteurSource, 0, 0, largeur, hauteur);
           resoudre(toile.toDataURL("image/jpeg", QUALITE_JPEG));
         };
         img.src = lecteur.result;
@@ -333,6 +352,7 @@
      ========================================================================== */
 
   function construireChoix(conteneur, nom, options) {
+    if (!conteneur) return;   // même prudence que sur le site public
     conteneur.innerHTML = options.map((o) => `
       <label><input type="radio" name="${nom}" value="${echapper(o.valeur)}"> ${echapper(o.libelle)}</label>
     `).join("");

@@ -22,6 +22,10 @@
   /* ---------- Construction des filtres ---------- */
 
   function construireJetons(conteneur, cle, options) {
+    // Une page servie depuis le cache peut ne pas contenir une rangée de
+    // filtres ajoutée depuis. On l'ignore plutôt que d'interrompre le script,
+    // ce qui laisserait la grille vide et les filtres inertes.
+    if (!conteneur) return;
     const choix = [{ valeur: "", libelle: "Tous" }].concat(options);
     conteneur.innerHTML = choix
       .map((c) => `<button type="button" class="jeton" data-cle="${cle}" data-valeur="${echapper(c.valeur)}" aria-pressed="false">${echapper(c.libelle)}</button>`)

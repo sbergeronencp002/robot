@@ -120,6 +120,14 @@ Les tuiles s'affichent du projet le plus récent au plus ancien.
 **Le site n'affiche pas mon nouveau projet.**
 Attendez deux minutes, puis rechargez avec `Ctrl+F5` (`Cmd+Shift+R` sur Mac).
 Vérifiez dans l'onglet **Actions** du dépôt que la publication est terminée.
+La liste des projets, elle, n'est jamais mise en cache : un projet manquant
+vient toujours d'une publication encore en cours.
+
+**J'ai modifié le code du site et le navigateur affiche l'ancienne version.**
+GitHub Pages met les fichiers en cache une dizaine de minutes. Pour forcer la
+mise à jour chez tout le monde, changez le numéro de version dans les balises
+`<link>` et `<script>` de `index.html` et `admin.html` — le `?v=20260911b` à
+la fin de chaque adresse. N'importe quelle nouvelle valeur fait l'affaire.
 
 **« Le fichier a changé sur GitHub depuis votre dernier chargement. »**
 Le répertoire a été modifié ailleurs (autre appareil, autre navigateur). Cliquez
@@ -139,7 +147,22 @@ Générez-en un nouveau (étape 2) et collez-le dans l'administration.
 
 **Une image téléversée par erreur reste dans `images/`.**
 Sans conséquence : un fichier qu'aucune fiche ne référence n'est jamais affiché.
-Les images sont redimensionnées à 1000 px de large et compressées avant l'envoi.
+
+## Les images
+
+Rien à préparer : l'administration **recadre automatiquement** chaque image au
+format des tuiles (16:10), en conservant la plus grande zone possible centrée,
+puis la réduit à 1000 px de large et la compresse. Toutes les vignettes du site
+ont donc exactement les mêmes dimensions, quelle que soit la photo fournie.
+
+Deux conseils pour un résultat flatteur :
+
+- **Choisissez une image en format paysage.** Une photo verticale perdra le
+  haut et le bas au recadrage.
+- **Placez le sujet au centre.** Le recadrage part du milieu de l'image.
+
+L'aperçu du formulaire montre le recadrage réel : si le résultat ne vous plaît
+pas, changez d'image ou recadrez-la vous-même avant de la téléverser.
 
 ---
 
