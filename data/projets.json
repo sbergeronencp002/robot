@@ -1,5 +1,22 @@
 [
   {
+    "id": "pmtxuey940p0r",
+    "cree": "2026-09-12T03:46:07.720Z",
+    "titre": "L'expédition polaire",
+    "description": "Construire une motoneige et programmer son moteur afin de simuler le déplacement.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "essentiel",
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 60,
+    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD6E5Rok0ncSZ5j5ERoMPnNAStsfv76D7YUwUZ0YjwqRB8",
+    "image": "images/2026-09-12-l-expedition-polaire-effi.jpg"
+  },
+  {
     "id": "pmtxblf0vld5b",
     "cree": "2026-09-11T18:59:16.687Z",
     "titre": "Le sous-marin",
