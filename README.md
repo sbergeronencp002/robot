@@ -114,7 +114,7 @@ Chaque projet est enregistré ainsi dans `data/projets.json` :
 | `ensemble` | `"ev3"` · `"prime"` · `"essentiel"` · `"wedo"` |
 | `univers` | Une ou plusieurs valeurs : `"materiel"` · `"vivant"` · `"terre"` |
 | `moteurs` | `0` · `1` · `2` · `3` (3 ou plus) |
-| `composants` | `"couleur"` · `"distance"` · `"force"` · `"mouvement"` · `"matrice"` · `"son"` |
+| `composants` | `"couleur"` · `"distance"` · `"force"` · `"mouvement"` · `"matrice"` |
 | `difficulte` | `"debutant"` · `"intermediaire"` · `"expert"` |
 | `duree` | `60` · `120` · `180` |
 

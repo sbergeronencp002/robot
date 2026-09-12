@@ -48,7 +48,6 @@ const COMPOSANTS = [
   { id: "force",     nom: "Capteur de force",         court: "Force",         icone: "👆" },
   { id: "mouvement", nom: "Capteur de mouvement",     court: "Mouvement",   icone: "🏃" },
   { id: "matrice",   nom: "Matrice lumineuse",        court: "Matrice",     icone: "💡" },
-  { id: "son",       nom: "Sons ou haut-parleur",     court: "Sons",        icone: "🔊" }
 ];
 
 const cycleParId    = (id) => CYCLES.find((c) => c.id === String(id));
