@@ -1,5 +1,22 @@
 [
   {
+    "id": "pmtykkvf879i0",
+    "cree": "2026-09-12T15:58:34.004Z",
+    "titre": "Le campement",
+    "description": "Programme le capteur de couleur pour interagir avec la matrice lumineuse.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "essentiel",
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 60,
+    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQAQW08uoSuYQrbMwXX1_j9OARr1cO9DiLYDYTlVSmkgk40?e=bCZoOW",
+    "image": "images/2026-09-12-le-campement-5l2h.jpg"
+  },
+  {
     "id": "pmtxuey940p0r",
     "cree": "2026-09-12T03:46:07.720Z",
     "titre": "L'expédition polaire",
