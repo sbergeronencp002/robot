@@ -1,5 +1,39 @@
 [
   {
+    "id": "pmtylootc2bti",
+    "cree": "2026-09-12T16:29:31.680Z",
+    "titre": "Le pendule",
+    "description": "Construis le pendule et programme le moteur pour le faire se balancer d’avant en arrière.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "essentiel",
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 60,
+    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBDULBUldtDQpSnyYBYcukBATFm82gRWFuxL9dizw5u99U?e=j3bmt0",
+    "image": "images/2026-09-12-le-pendule-gacl.jpg"
+  },
+  {
+    "id": "pmtylmga3376i",
+    "cree": "2026-09-12T16:27:47.307Z",
+    "titre": "Le laisser-passer",
+    "description": "Construis et programme un laisser-passer pour permettre au personnage de passer plus rapidement.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "essentiel",
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 60,
+    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQC0s8EVssljT5Sfi2z-nTqtAc8jZuhW4D-5Z8VlEXlCZ9c?e=FdEIf2",
+    "image": "images/2026-09-12-le-laisser-passer-ws70.jpg"
+  },
+  {
     "id": "pmtykon4qrk1h",
     "cree": "2026-09-12T16:01:29.882Z",
     "titre": "Le compagnon",
