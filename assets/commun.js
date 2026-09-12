@@ -45,7 +45,7 @@ const MOTEURS = [
 const COMPOSANTS = [
   { id: "couleur",   nom: "Capteur de couleur",       court: "Couleur",     icone: "🎨" },
   { id: "distance",  nom: "Capteur de distance",      court: "Distance",    icone: "📡" },
-  { id: "force",     nom: "Capteur de force/toucher", court: "Force/toucher", icone: "👆" },
+  { id: "force",     nom: "Capteur de force",         court: "Force",         icone: "👆" },
   { id: "mouvement", nom: "Capteur de mouvement",     court: "Mouvement",   icone: "🏃" },
   { id: "matrice",   nom: "Matrice lumineuse",        court: "Matrice",     icone: "💡" },
   { id: "son",       nom: "Sons ou haut-parleur",     court: "Sons",        icone: "🔊" }
