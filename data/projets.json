@@ -37,7 +37,7 @@
     "id": "pmtx879g2rnk2",
     "cree": "2026-09-11T17:24:17.426Z",
     "titre": "La cabane dans la forêt",
-    "description": "Construire une cabane animée et programmer un mouvement simple.",
+    "description": "Construire une cabane et programmer le moteur pour simuler l'ouverture du toit.",
     "cycle": [
       "1"
     ],
