@@ -98,11 +98,13 @@ Chaque projet est enregistré ainsi dans `data/projets.json` :
   "description": "Les élèves programment un bras qui distingue et classe des blocs.",
   "cycle": "3",
   "ensemble": "prime",
-  "univers": "materiel",
+  "univers": ["materiel"],
   "difficulte": "intermediaire",
   "duree": 120,
   "lien": "https://…sharepoint.com/…",
-  "image": "images/2026-09-11-robot-trieur-a3f2.jpg"
+  "moteurs": 1,
+  "composants": ["couleur"],
+  "image": "images/2026-09-11-robot-trieur-a3f2.webp"
 }
 ```
 
@@ -110,7 +112,9 @@ Chaque projet est enregistré ainsi dans `data/projets.json` :
 |---|---|
 | `cycle` | `"1"` · `"2"` · `"3"` |
 | `ensemble` | `"ev3"` · `"prime"` · `"essentiel"` · `"wedo"` |
-| `univers` | `"materiel"` · `"vivant"` · `"terre"` |
+| `univers` | Une ou plusieurs valeurs : `"materiel"` · `"vivant"` · `"terre"` |
+| `moteurs` | `0` · `1` · `2` · `3` (3 ou plus) |
+| `composants` | `"couleur"` · `"distance"` · `"force"` · `"mouvement"` · `"matrice"` · `"son"` |
 | `difficulte` | `"debutant"` · `"intermediaire"` · `"expert"` |
 | `duree` | `60` · `120` · `180` |
 
@@ -155,8 +159,9 @@ Sans conséquence : un fichier qu'aucune fiche ne référence n'est jamais affic
 
 Rien à préparer : l'administration **recadre et compresse automatiquement**
 chaque image au format des tuiles (16:10), en conservant la plus grande zone
-possible centrée. Chaque nouveau fichier est enregistré en JPEG à exactement
-**1000 × 625 px**. L'administration affiche aussi le poids final avant l'ajout.
+possible centrée. Chaque nouveau fichier est enregistré en WebP à exactement
+**1000 × 625 px** et optimisé pour le Web. L'administration affiche aussi le
+poids final avant l'ajout.
 
 La publication est **atomique** : les nouvelles images et `projets.json` sont
 mis en ligne dans un seul commit. Si une étape échoue, aucune publication
@@ -199,3 +204,13 @@ Au moment de publier, l’administration retire automatiquement du dossier
 Le bouton **Tester le lien** vérifie que l’adresse utilise HTTPS et mène vers
 SharePoint, puis ouvre le document dans un nouvel onglet afin de confirmer ses
 autorisations d’accès.
+
+## Matériel utilisé et optimisation
+
+Chaque projet peut préciser son nombre de moteurs ainsi que ses capteurs et
+composants. Ces informations apparaissent sur les tuiles, alimentent la
+recherche et peuvent être filtrées sur le site public.
+
+Les nouvelles images sont recadrées à 1000 × 625 px et enregistrées en WebP.
+Le jeton GitHub demeure maintenant uniquement dans la session du navigateur et
+n’est plus conservé durablement sur l’appareil.

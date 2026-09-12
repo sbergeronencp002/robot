@@ -35,6 +35,22 @@ const DUREES = [
   { id: 180, texte: "180 min", detail: "180 minutes (3 périodes)" }
 ];
 
+const MOTEURS = [
+  { id: "0", nom: "Aucun moteur", court: "Aucun moteur", icone: "⚙️" },
+  { id: "1", nom: "1 moteur", court: "1 moteur", icone: "⚙️" },
+  { id: "2", nom: "2 moteurs", court: "2 moteurs", icone: "⚙️" },
+  { id: "3", nom: "3 moteurs ou plus", court: "3+ moteurs", icone: "⚙️" }
+];
+
+const COMPOSANTS = [
+  { id: "couleur",   nom: "Capteur de couleur",       court: "Couleur",     icone: "🎨" },
+  { id: "distance",  nom: "Capteur de distance",      court: "Distance",    icone: "📡" },
+  { id: "force",     nom: "Capteur de force/toucher", court: "Force/toucher", icone: "👆" },
+  { id: "mouvement", nom: "Capteur de mouvement",     court: "Mouvement",   icone: "🏃" },
+  { id: "matrice",   nom: "Matrice lumineuse",        court: "Matrice",     icone: "💡" },
+  { id: "son",       nom: "Sons ou haut-parleur",     court: "Sons",        icone: "🔊" }
+];
+
 const cycleParId    = (id) => CYCLES.find((c) => c.id === String(id));
 const ensembleParId = (id) => ENSEMBLES.find((e) => e.id === id);
 const universParId  = (id) => UNIVERS.find((u) => u.id === id);
@@ -50,6 +66,27 @@ function pastilles(niveau) {
   return "●".repeat(niveau.points) + "○".repeat(3 - niveau.points);
 }
 const dureeParId    = (id) => DUREES.find((d) => d.id === Number(id));
+const moteurParId   = (id) => MOTEURS.find((m) => m.id === String(id));
+const composantParId = (id) => COMPOSANTS.find((c) => c.id === id);
+
+function valeursMateriel(projet) {
+  const valeurs = [];
+  const moteurs = Number(projet.moteurs || 0);
+  if (moteurs > 0) valeurs.push(`moteur-${Math.min(moteurs, 3)}`);
+  listeValeurs(projet.composants).forEach((id) => valeurs.push(`composant-${id}`));
+  return valeurs;
+}
+
+function libellesMateriel(projet) {
+  const resultat = [];
+  const moteur = moteurParId(projet.moteurs);
+  if (moteur && Number(moteur.id) > 0) resultat.push(`${moteur.icone} ${moteur.court}`);
+  listeValeurs(projet.composants).forEach((id) => {
+    const composant = composantParId(id);
+    if (composant) resultat.push(`${composant.icone} ${composant.court}`);
+  });
+  return resultat;
+}
 
 /* Échappe le texte destiné à être inséré dans du HTML. */
 function echapper(valeur) {
@@ -106,6 +143,7 @@ function htmlTuile(projet, options = {}) {
   const univers  = listeValeurs(projet.univers).map(universParId).filter(Boolean);
   const duree    = dureeParId(projet.duree);
   const niveau   = difficulteParId(projet.difficulte);
+  const materiel = libellesMateriel(projet);
   const lien     = interactif ? lienSur(projet.lien) : "";
 
   const visuel = projet.image
@@ -128,6 +166,7 @@ function htmlTuile(projet, options = {}) {
       <div class="tuile__etiquettes">${etiquettes}</div>
       <h3 class="tuile__titre">${echapper(projet.titre)}</h3>
       <p class="tuile__description">${echapper(projet.description)}</p>
+      ${materiel.length ? `<p class="tuile__materiel" aria-label="Matériel utilisé">${materiel.map(echapper).join(" · ")}</p>` : ""}
       <div class="tuile__pied">
         <span class="tuile__meta">
           <span class="tuile__duree">${ICONE_HORLOGE} ${echapper(duree ? duree.texte : "—")}</span>

@@ -5,7 +5,7 @@
 (function () {
   "use strict";
 
-  const etat = { cycle: "", ensemble: "", univers: "", difficulte: "", q: "" };
+  const etat = { cycle: "", ensemble: "", univers: "", difficulte: "", materiel: "", q: "" };
   let projets = [];
 
   const elGrille   = document.getElementById("grille");
@@ -55,6 +55,12 @@
     "difficulte",
     DIFFICULTES.map((d) => ({ valeur: d.id, libelle: `${pastilles(d)} ${d.nom}` }))
   );
+  construireJetons(
+    document.getElementById("filtres-materiel"),
+    "materiel",
+    MOTEURS.filter((m) => Number(m.id) > 0).map((m) => ({ valeur: `moteur-${m.id}`, libelle: `${m.icone} ${m.court}` }))
+      .concat(COMPOSANTS.map((c) => ({ valeur: `composant-${c.id}`, libelle: `${c.icone} ${c.court}` })))
+  );
 
   document.querySelectorAll(".jeton").forEach((bouton) => {
     bouton.addEventListener("click", () => {
@@ -79,7 +85,7 @@
   });
 
   boutonsReset.forEach((b) => b && b.addEventListener("click", () => {
-    etat.cycle = ""; etat.ensemble = ""; etat.univers = ""; etat.difficulte = ""; etat.q = "";
+    etat.cycle = ""; etat.ensemble = ""; etat.univers = ""; etat.difficulte = ""; etat.materiel = ""; etat.q = "";
     elRecherche.value = "";
     appliquer();
     elRecherche.focus();
@@ -95,10 +101,14 @@
     const ensemble = p.get("ensemble") || "";
     const univers = p.get("univers") || "";
     const difficulte = p.get("difficulte") || "";
+    const materiel = p.get("materiel") || "";
     etat.cycle = CYCLES.some((c) => c.id === cycle) ? cycle : "";
     etat.ensemble = ENSEMBLES.some((e) => e.id === ensemble) ? ensemble : "";
     etat.univers = UNIVERS.some((u) => u.id === univers) ? univers : "";
     etat.difficulte = DIFFICULTES.some((d) => d.id === difficulte) ? difficulte : "";
+    const optionsMateriel = MOTEURS.filter((m) => Number(m.id) > 0).map((m) => `moteur-${m.id}`)
+      .concat(COMPOSANTS.map((c) => `composant-${c.id}`));
+    etat.materiel = optionsMateriel.includes(materiel) ? materiel : "";
     etat.q = p.get("q") || "";
     elRecherche.value = etat.q;
   }
@@ -109,6 +119,7 @@
     if (etat.ensemble) p.set("ensemble", etat.ensemble);
     if (etat.univers) p.set("univers", etat.univers);
     if (etat.difficulte) p.set("difficulte", etat.difficulte);
+    if (etat.materiel) p.set("materiel", etat.materiel);
     if (etat.q) p.set("q", etat.q);
     const suite = p.toString();
     history.replaceState(null, "", suite ? `?${suite}` : window.location.pathname);
@@ -122,10 +133,11 @@
     if (!mots.length) return true;
 
     const ensemble = ensembleParId(p.ensemble);
-    const univers = universParId(p.univers);
+    const univers = listeValeurs(p.univers).map(universParId).filter(Boolean);
     const niveau = difficulteParId(p.difficulte);
+    const materiel = libellesMateriel(p);
     const botte = normaliser(
-      `${p.titre} ${p.description} ${ensemble ? ensemble.nom : ""} ${univers ? univers.long : ""} ${niveau ? niveau.nom : ""}`);
+      `${p.titre} ${p.description} ${ensemble ? ensemble.nom : ""} ${univers.map((u) => u.long).join(" ")} ${niveau ? niveau.nom : ""} ${materiel.join(" ")}`);
     return mots.every((mot) => botte.includes(mot));
   }
 
@@ -134,6 +146,7 @@
     if (cleIgnoree !== "ensemble" && etat.ensemble && p.ensemble !== etat.ensemble) return false;
     if (cleIgnoree !== "univers" && etat.univers && !listeValeurs(p.univers).includes(etat.univers)) return false;
     if (cleIgnoree !== "difficulte" && etat.difficulte && p.difficulte !== etat.difficulte) return false;
+    if (cleIgnoree !== "materiel" && etat.materiel && !valeursMateriel(p).includes(etat.materiel)) return false;
     return correspondRecherche(p);
   }
 
@@ -142,6 +155,7 @@
   }
 
   function valeursProjet(p, cle) {
+    if (cle === "materiel") return valeursMateriel(p);
     return listeValeurs(p[cle]);
   }
 
@@ -163,7 +177,7 @@
       );
     });
 
-    const nombreActifs = ["cycle", "ensemble", "univers", "difficulte"]
+    const nombreActifs = ["cycle", "ensemble", "univers", "difficulte", "materiel"]
       .filter((cle) => etat[cle]).length + (etat.q ? 1 : 0);
     if (elNombreFiltres) {
       elNombreFiltres.hidden = nombreActifs === 0;
@@ -173,7 +187,7 @@
 
   function appliquer() {
     const visibles = filtrer();
-    const filtreActif = Boolean(etat.cycle || etat.ensemble || etat.univers || etat.difficulte || etat.q);
+    const filtreActif = Boolean(etat.cycle || etat.ensemble || etat.univers || etat.difficulte || etat.materiel || etat.q);
 
     mettreAJourFiltres();
 

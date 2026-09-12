@@ -8,13 +8,15 @@
       "1"
     ],
     "ensemble": "essentiel",
+    "moteurs": 1,
+    "composants": [],
     "univers": [
       "materiel"
     ],
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBDULBUldtDQpSnyYBYcukBATFm82gRWFuxL9dizw5u99U?e=j3bmt0",
-    "image": "images/2026-09-12-le-pendule-gacl.jpg"
+    "image": "images/2026-09-12-le-pendule-gacl.webp"
   },
   {
     "id": "pmtylmga3376i",
@@ -25,13 +27,18 @@
       "1"
     ],
     "ensemble": "essentiel",
+    "moteurs": 0,
+    "composants": [
+      "couleur",
+      "matrice"
+    ],
     "univers": [
       "materiel"
     ],
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQC0s8EVssljT5Sfi2z-nTqtAc8jZuhW4D-5Z8VlEXlCZ9c?e=FdEIf2",
-    "image": "images/2026-09-12-le-laisser-passer-ws70.jpg"
+    "image": "images/2026-09-12-le-laisser-passer-ws70.webp"
   },
   {
     "id": "pmtykon4qrk1h",
@@ -42,13 +49,15 @@
       "1"
     ],
     "ensemble": "essentiel",
+    "moteurs": 2,
+    "composants": [],
     "univers": [
       "materiel"
     ],
     "difficulte": "intermediaire",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBqwQHIdsToS4RVoizduc_CAfd7bFHP8UuwjsxdTkL1gIQ?e=q9l5gg",
-    "image": "images/2026-09-12-le-compagnon-g3c6.jpg"
+    "image": "images/2026-09-12-le-compagnon-g3c6.webp"
   },
   {
     "id": "pmtykkvf879i0",
@@ -59,13 +68,18 @@
       "1"
     ],
     "ensemble": "essentiel",
+    "moteurs": 0,
+    "composants": [
+      "couleur",
+      "matrice"
+    ],
     "univers": [
       "materiel"
     ],
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQAQW08uoSuYQrbMwXX1_j9OARr1cO9DiLYDYTlVSmkgk40?e=bCZoOW",
-    "image": "images/2026-09-12-le-campement-5l2h.jpg"
+    "image": "images/2026-09-12-le-campement-5l2h.webp"
   },
   {
     "id": "pmtxuey940p0r",
@@ -76,13 +90,15 @@
       "1"
     ],
     "ensemble": "essentiel",
+    "moteurs": 1,
+    "composants": [],
     "univers": [
       "materiel"
     ],
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD6E5Rok0ncSZ5j5ERoMPnNAStsfv76D7YUwUZ0YjwqRB8",
-    "image": "images/2026-09-12-l-expedition-polaire-effi.jpg"
+    "image": "images/2026-09-12-l-expedition-polaire-effi.webp"
   },
   {
     "id": "pmtxblf0vld5b",
@@ -93,13 +109,15 @@
       "1"
     ],
     "ensemble": "essentiel",
+    "moteurs": 1,
+    "composants": [],
     "univers": [
       "materiel"
     ],
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQB3o2Q3mmhPSZzJwOkd0qqYAdzmMdjLOIIg1IIyZPhHu3k?e=CmfOkG",
-    "image": "images/2026-09-11-le-sous-marin-ld85.jpg"
+    "image": "images/2026-09-11-le-sous-marin-ld85.webp"
   },
   {
     "id": "pmtx879g2rnk2",
@@ -110,12 +128,14 @@
       "1"
     ],
     "ensemble": "essentiel",
+    "moteurs": 1,
+    "composants": [],
     "univers": [
       "materiel"
     ],
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD8Qmvbjh4hTY2-jZjpdkPqAa2qfxPBASDxNhQ6GYVihag?e=LixND6",
-    "image": "images/2026-09-11-la-cabane-dans-la-foret-vxs8.jpg"
+    "image": "images/2026-09-11-la-cabane-dans-la-foret-vxs8.webp"
   }
 ]

@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Administration — Robotique</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="assets/style.css?v=20260911f">
+<link rel="stylesheet" href="assets/style.css?v=20260912b">
 <script>
   (() => {
-    const versionLocale = "20260911f";
+    const versionLocale = "20260912b";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -115,6 +115,16 @@
         </fieldset>
 
         <fieldset class="champ">
+          <legend class="champ__legende">Nombre de moteurs</legend>
+          <div class="choix" id="choix-moteurs"></div>
+        </fieldset>
+
+        <fieldset class="champ">
+          <legend class="champ__legende">Capteurs et composants <span class="champ__note">— plusieurs choix possibles</span></legend>
+          <div class="choix" id="choix-composants"></div>
+        </fieldset>
+
+        <fieldset class="champ">
           <legend class="champ__legende">Univers <span class="champ__note">— plusieurs choix possibles</span></legend>
           <div class="choix" id="choix-univers"></div>
         </fieldset>
@@ -197,7 +207,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20260911f"></script>
-<script src="assets/admin.js?v=20260911f"></script>
+<script src="assets/commun.js?v=20260912b"></script>
+<script src="assets/admin.js?v=20260912b"></script>
 </body>
 </html>

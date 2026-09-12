@@ -11,14 +11,15 @@
   "use strict";
 
   const CLE_DEPOT    = "robotique.depot";
+  const CLE_JETON    = "robotique.jeton.session";
   const CLE_BROUILLON = "robotique.brouillon";
   const CHEMIN_JSON  = "data/projets.json";
   const LARGEUR_TUILE = 1000;
   const HAUTEUR_TUILE = 625;
   const RATIO_TUILE  = 16 / 10; // toutes les vignettes sont recadrées à ce format
   const TAILLE_SOURCE_MAX = 25 * 1024 * 1024;
-  const TAILLE_CIBLE = 300 * 1024;
-  const QUALITES_JPEG = [0.82, 0.74, 0.66];
+  const TAILLE_CIBLE = 90 * 1024;
+  const QUALITES_IMAGE = [0.78, 0.68, 0.58];
 
   /* ---------- État ---------- */
 
@@ -94,6 +95,10 @@
   function chargerDepot() {
     try {
       Object.assign(depot, JSON.parse(localStorage.getItem(CLE_DEPOT) || "{}"));
+      depot.jeton = sessionStorage.getItem(CLE_JETON) || depot.jeton || "";
+      // Retire un éventuel jeton enregistré par une ancienne version.
+      const reglagesSansJeton = { owner: depot.owner, repo: depot.repo, branche: depot.branche };
+      localStorage.setItem(CLE_DEPOT, JSON.stringify(reglagesSansJeton));
     } catch { /* réglages illisibles : on repart des valeurs par défaut */ }
 
     // Devine le dépôt à partir de l'adresse : sbergeronencp002.github.io/robot
@@ -113,7 +118,11 @@
   }
 
   function enregistrerDepot() {
-    try { localStorage.setItem(CLE_DEPOT, JSON.stringify(depot)); }
+    try {
+      localStorage.setItem(CLE_DEPOT, JSON.stringify({ owner: depot.owner, repo: depot.repo, branche: depot.branche }));
+      if (depot.jeton) sessionStorage.setItem(CLE_JETON, depot.jeton);
+      else sessionStorage.removeItem(CLE_JETON);
+    }
     catch { /* mode privé : les réglages ne survivront pas à la session */ }
   }
 
@@ -278,7 +287,7 @@
     return new Promise((resoudre, rejeter) => {
       toile.toBlob(
         (blob) => blob ? resoudre(blob) : rejeter(new Error("La compression de l’image a échoué.")),
-        "image/jpeg",
+        "image/webp",
         qualite
       );
     });
@@ -335,7 +344,7 @@
 
           try {
             let blob;
-            for (const qualite of QUALITES_JPEG) {
+            for (const qualite of QUALITES_IMAGE) {
               blob = await toileVersBlob(toile, qualite);
               if (blob.size <= TAILLE_CIBLE) break;
             }
@@ -362,7 +371,7 @@
     $("btn-enregistrer").disabled = true;
     try {
       const resultat = await redimensionner(fichier);
-      const nom = `${new Date().toISOString().slice(0, 10)}-${glisser(champs.titre.value || "projet")}-${Math.random().toString(36).slice(2, 6)}.jpg`;
+      const nom = `${new Date().toISOString().slice(0, 10)}-${glisser(champs.titre.value || "projet")}-${Math.random().toString(36).slice(2, 6)}.webp`;
       imageCourante = { chemin: `images/${nom}`, donnees: resultat.dataURL };
       $("info-image").textContent =
         `Image optimisée : ${LARGEUR_TUILE} × ${HAUTEUR_TUILE} px · ${tailleLisible(resultat.tailleFinale)}` +
@@ -399,6 +408,8 @@
 
   construireChoix($("choix-cycle"), "cycle", CYCLES.map((c) => ({ valeur: c.id, libelle: c.long })), true);
   construireChoix($("choix-ensemble"), "ensemble", ENSEMBLES.map((e) => ({ valeur: e.id, libelle: e.nom })));
+  construireChoix($("choix-moteurs"), "moteurs", MOTEURS.map((m) => ({ valeur: m.id, libelle: `${m.icone} ${m.nom}` })));
+  construireChoix($("choix-composants"), "composants", COMPOSANTS.map((c) => ({ valeur: c.id, libelle: `${c.icone} ${c.nom}` })), true);
   construireChoix($("choix-univers"), "univers", UNIVERS.map((u) => ({ valeur: u.id, libelle: `${u.icone} ${u.long}` })), true);
   construireChoix($("choix-difficulte"), "difficulte", DIFFICULTES.map((d) => ({ valeur: d.id, libelle: `${pastilles(d)} ${d.nom}` })));
   construireChoix($("choix-duree"), "duree", DUREES.map((d) => ({ valeur: String(d.id), libelle: d.detail })));
@@ -424,6 +435,8 @@
       description: champs.description.value.trim(),
       cycle: valeursChoix("cycle"),
       ensemble: valeurChoix("ensemble"),
+      moteurs: Number(valeurChoix("moteurs")),
+      composants: valeursChoix("composants"),
       univers: valeursChoix("univers"),
       difficulte: valeurChoix("difficulte"),
       duree: Number(valeurChoix("duree")) || null,
@@ -501,7 +514,7 @@
     champs.image.value = "";
     imageCourante = { chemin: "", donnees: "" };
     $("info-image").textContent = "Recadrée et compressée automatiquement à 1000 × 625 px.";
-    cocherChoix("cycle", ""); cocherChoix("ensemble", ""); cocherChoix("univers", ""); cocherChoix("difficulte", ""); cocherChoix("duree", "");
+    cocherChoix("cycle", ""); cocherChoix("ensemble", ""); cocherChoix("moteurs", "0"); cocherChoix("composants", ""); cocherChoix("univers", ""); cocherChoix("difficulte", ""); cocherChoix("duree", "");
     $("titre-formulaire").textContent = "2 · Nouveau projet";
     $("aide-formulaire").textContent = "Remplissez la fiche. Elle s’affichera telle quelle sur le site.";
     $("btn-enregistrer").textContent = "Ajouter le projet";
@@ -530,6 +543,8 @@
       : "Recadrée et compressée automatiquement à 1000 × 625 px.";
     cocherChoix("cycle", projet.cycle);
     cocherChoix("ensemble", projet.ensemble);
+    cocherChoix("moteurs", String(projet.moteurs || 0));
+    cocherChoix("composants", projet.composants);
     cocherChoix("univers", projet.univers);
     cocherChoix("difficulte", projet.difficulte);
     cocherChoix("duree", projet.duree);
@@ -564,6 +579,8 @@
       : "Recadrée et compressée automatiquement à 1000 × 625 px.";
     cocherChoix("cycle", projet.cycle);
     cocherChoix("ensemble", projet.ensemble);
+    cocherChoix("moteurs", String(projet.moteurs || 0));
+    cocherChoix("composants", projet.composants);
     cocherChoix("univers", projet.univers);
     cocherChoix("difficulte", projet.difficulte);
     cocherChoix("duree", projet.duree);
@@ -587,6 +604,7 @@
     if (fiche.description.length > 100) return "La description courte doit contenir au maximum 100 caractères.";
     if (!fiche.cycle.length) return "Choisissez au moins un cycle.";
     if (!fiche.ensemble) return "Choisissez un ensemble de robotique.";
+    if (!Number.isInteger(fiche.moteurs) || fiche.moteurs < 0 || fiche.moteurs > 3) return "Choisissez le nombre de moteurs.";
     if (!fiche.univers.length) return "Choisissez au moins un univers.";
     if (!fiche.difficulte) return "Choisissez un niveau de difficulté.";
     if (!fiche.duree) return "Choisissez une durée.";
@@ -701,6 +719,7 @@
       const ensemble = ensembleParId(p.ensemble);
       const univers = listeValeurs(p.univers).map(universParId).filter(Boolean);
       const niveau = difficulteParId(p.difficulte);
+      const materiel = libellesMateriel(p);
       const source = imagesEnAttente[p.image] || p.image;
       const vignette = source
         ? `<span class="ligne-projet__vignette"><img src="${echapper(source)}" alt=""></span>`
@@ -710,7 +729,7 @@
           ${vignette}
           <span class="ligne-projet__infos">
             <span class="ligne-projet__titre">${echapper(p.titre)}</span>
-            <span class="ligne-projet__meta">${echapper(cycles.length ? cycles.map((c) => c.court).join(", ") : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(univers.length ? univers.map((u) => u.court).join(", ") : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${p.lien ? "" : " · <sans document>"}</span>
+            <span class="ligne-projet__meta">${echapper(cycles.length ? cycles.map((c) => c.court).join(", ") : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(univers.length ? univers.map((u) => u.court).join(", ") : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${materiel.length ? ` · ${echapper(materiel.join(" · "))}` : ""}${p.lien ? "" : " · <sans document>"}</span>
           </span>
           <span class="ligne-projet__actions">
             <button type="button" class="bouton bouton--secondaire bouton--petit" data-action="dupliquer" data-id="${echapper(p.id)}">Dupliquer</button>
@@ -755,9 +774,24 @@
       const fichierDistant = await lireFichier(CHEMIN_JSON);
       const shaDistant = fichierDistant ? fichierDistant.sha : null;
       if (shaDistant !== shaJson) {
-        const erreur = new Error("Le fichier a changé sur GitHub depuis votre dernier chargement. Utilisez « Recharger depuis le site », puis refaites vos modifications.");
-        erreur.statut = 409;
-        throw erreur;
+        let projetsDistants = [];
+        try {
+          projetsDistants = fichierDistant ? JSON.parse(decoderBase64(fichierDistant.content)) : [];
+        } catch {
+          throw new Error("La version publiée a changé et son contenu ne peut pas être fusionné automatiquement.");
+        }
+        const confirmerFusion = window.confirm(
+          "Le répertoire publié a changé depuis votre dernier chargement.\n\n" +
+          "OK : fusionner les nouveaux projets publiés avec vos modifications locales.\n" +
+          "Annuler : interrompre la publication sans rien perdre."
+        );
+        if (!confirmerFusion) throw new Error("Publication annulée. Vos modifications locales sont conservées.");
+        const idsLocaux = new Set(projets.map((p) => p.id));
+        const ajoutsDistants = projetsDistants.filter((p) => !idsLocaux.has(p.id));
+        projets = projets.concat(ajoutsDistants);
+        shaJson = shaDistant;
+        enregistrerBrouillon();
+        journaliser(`Fusion terminée — ${ajoutsDistants.length} projet(s) ajouté(s) depuis le site`);
       }
 
       const brancheEncodee = depot.branche.split("/").map(encodeURIComponent).join("/");
@@ -875,6 +909,7 @@
   $("btn-oublier").addEventListener("click", () => {
     if (!window.confirm("Retirer le jeton de ce navigateur ? Vos projets non publiés sont conservés.")) return;
     depot.jeton = "";
+    sessionStorage.removeItem(CLE_JETON);
     champs.jeton.value = "";
     connecte = false;
     enregistrerDepot();

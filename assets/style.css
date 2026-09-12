@@ -374,6 +374,16 @@ a.tuile:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   flex: 1;
 }
 
+.tuile__materiel {
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 7px;
+  background: var(--bleu-pale-2);
+  color: var(--marine);
+  font-size: .82rem;
+  font-weight: 600;
+}
+
 .tuile__pied {
   display: flex;
   flex-wrap: wrap;
