@@ -1,5 +1,26 @@
 [
   {
+    "id": "pmtym6t42ficl",
+    "cree": "2026-09-12T16:43:37.058Z",
+    "titre": "La grande roue",
+    "description": "Construis la grande roue et programme le moteur pour la faire tourner.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "essentiel",
+    "moteurs": 1,
+    "composants": [
+      "matrice"
+    ],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 60,
+    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCyHmA7IByTQYRhj4XHhXRbAaXCAEyS3Bz5jNzorcNksx0?e=6nTeML",
+    "image": "images/2026-09-12-la-grande-roue-h9op.webp"
+  },
+  {
     "id": "pmtylootc2bti",
     "cree": "2026-09-12T16:29:31.680Z",
     "titre": "Le pendule",
