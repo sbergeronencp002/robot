@@ -1,5 +1,22 @@
 [
   {
+    "id": "pmtykon4qrk1h",
+    "cree": "2026-09-12T16:01:29.882Z",
+    "titre": "Le compagnon",
+    "description": "Construis le compagnon et programme ses deux moteurs pour le faire avancer, reculer et tourner.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "essentiel",
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 60,
+    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBqwQHIdsToS4RVoizduc_CAfd7bFHP8UuwjsxdTkL1gIQ?e=q9l5gg",
+    "image": "images/2026-09-12-le-compagnon-g3c6.jpg"
+  },
+  {
     "id": "pmtykkvf879i0",
     "cree": "2026-09-12T15:58:34.004Z",
     "titre": "Le campement",
