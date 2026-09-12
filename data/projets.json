@@ -4,9 +4,13 @@
     "cree": "2026-09-11T18:59:16.687Z",
     "titre": "Le sous-marin",
     "description": "Construire un sous-marin et programmer son moteur pour simuler son déplacement sous l’eau.",
-    "cycle": "1",
+    "cycle": [
+      "1"
+    ],
     "ensemble": "essentiel",
-    "univers": "materiel",
+    "univers": [
+      "materiel"
+    ],
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQB3o2Q3mmhPSZzJwOkd0qqYAdzmMdjLOIIg1IIyZPhHu3k?e=CmfOkG",
@@ -17,9 +21,13 @@
     "cree": "2026-09-11T17:24:17.426Z",
     "titre": "La cabane dans la forêt",
     "description": "Construire une cabane animée et programmer un mouvement simple.",
-    "cycle": "1",
+    "cycle": [
+      "1"
+    ],
     "ensemble": "essentiel",
-    "univers": "materiel",
+    "univers": [
+      "materiel"
+    ],
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD8Qmvbjh4hTY2-jZjpdkPqAa2qfxPBASDxNhQ6GYVihag?e=LixND6",

@@ -105,7 +105,7 @@
         </div>
 
         <fieldset class="champ">
-          <legend class="champ__legende">Cycle</legend>
+          <legend class="champ__legende">Cycles <span class="champ__note">— plusieurs choix possibles</span></legend>
           <div class="choix" id="choix-cycle"></div>
         </fieldset>
 
@@ -115,7 +115,7 @@
         </fieldset>
 
         <fieldset class="champ">
-          <legend class="champ__legende">Univers</legend>
+          <legend class="champ__legende">Univers <span class="champ__note">— plusieurs choix possibles</span></legend>
           <div class="choix" id="choix-univers"></div>
         </fieldset>
 
@@ -132,7 +132,11 @@
         <div class="champ">
           <label for="f-lien">Lien vers le document (SharePoint)</label>
           <input type="url" id="f-lien" spellcheck="false" placeholder="https://cssbf-my.sharepoint.com/…">
-          <span class="compteur-car" style="text-align:left">Collez un lien de partage « Tout le monde ».</span>
+          <span class="compteur-car compteur-car--gauche">Collez un lien de partage accessible aux membres du CSSBF.</span>
+          <div class="barre-boutons barre-boutons--compacte">
+            <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-tester-lien">Tester le lien</button>
+          </div>
+          <p class="verification-lien" id="etat-lien" hidden></p>
         </div>
 
         <div class="champ">

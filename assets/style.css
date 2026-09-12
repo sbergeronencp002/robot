@@ -785,3 +785,9 @@ fieldset.champ {
   .filtres__grille { display: none; padding-top: 16px; }
   .filtres--ouvert .filtres__grille { display: flex; }
 }
+
+/* ---------- Vérification du lien SharePoint ---------- */
+.barre-boutons--compacte { margin-top: 8px; }
+.verification-lien { margin: 8px 0 0; padding: 9px 11px; border-radius: 7px; font-size: .84rem; border: 1px solid; }
+.verification-lien--succes { color: #2c5c3c; background: #eef7f1; border-color: #bcdcc7; }
+.verification-lien--erreur { color: #8c3c1c; background: #fcf1ee; border-color: #e8c5b8; }

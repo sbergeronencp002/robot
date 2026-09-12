@@ -221,7 +221,7 @@
       const brouillonEnAttente = modifie;
       // À l'ouverture de la page, on conserve d'office le travail en cours :
       // une boîte de dialogue au chargement serait déroutante.
-      let garderLocal = automatique;
+      let garderLocal = automatique && brouillonEnAttente;
 
       if (brouillonEnAttente && !automatique) {
         garderLocal = window.confirm(
@@ -388,17 +388,18 @@
      Formulaire
      ========================================================================== */
 
-  function construireChoix(conteneur, nom, options) {
-    if (!conteneur) return;   // même prudence que sur le site public
+  function construireChoix(conteneur, nom, options, multiple = false) {
+    if (!conteneur) return;
+    const type = multiple ? "checkbox" : "radio";
     conteneur.innerHTML = options.map((o) => `
-      <label><input type="radio" name="${nom}" value="${echapper(o.valeur)}"> ${echapper(o.libelle)}</label>
+      <label><input type="${type}" name="${nom}" value="${echapper(o.valeur)}"> ${echapper(o.libelle)}</label>
     `).join("");
     conteneur.addEventListener("change", majApercu);
   }
 
-  construireChoix($("choix-cycle"), "cycle", CYCLES.map((c) => ({ valeur: c.id, libelle: c.long })));
+  construireChoix($("choix-cycle"), "cycle", CYCLES.map((c) => ({ valeur: c.id, libelle: c.long })), true);
   construireChoix($("choix-ensemble"), "ensemble", ENSEMBLES.map((e) => ({ valeur: e.id, libelle: e.nom })));
-  construireChoix($("choix-univers"), "univers", UNIVERS.map((u) => ({ valeur: u.id, libelle: `${u.icone} ${u.long}` })));
+  construireChoix($("choix-univers"), "univers", UNIVERS.map((u) => ({ valeur: u.id, libelle: `${u.icone} ${u.long}` })), true);
   construireChoix($("choix-difficulte"), "difficulte", DIFFICULTES.map((d) => ({ valeur: d.id, libelle: `${pastilles(d)} ${d.nom}` })));
   construireChoix($("choix-duree"), "duree", DUREES.map((d) => ({ valeur: String(d.id), libelle: d.detail })));
 
@@ -407,17 +408,23 @@
     return coche ? coche.value : "";
   };
 
+  const valeursChoix = (nom) =>
+    Array.from(document.querySelectorAll(`input[name="${nom}"]:checked`), (caseCochee) => caseCochee.value);
+
   const cocherChoix = (nom, valeur) => {
-    document.querySelectorAll(`input[name="${nom}"]`).forEach((r) => { r.checked = r.value === String(valeur); });
+    const valeurs = listeValeurs(valeur);
+    document.querySelectorAll(`input[name="${nom}"]`).forEach((r) => {
+      r.checked = valeurs.includes(r.value);
+    });
   };
 
   function ficheDepuisFormulaire() {
     return {
       titre: champs.titre.value.trim(),
       description: champs.description.value.trim(),
-      cycle: valeurChoix("cycle"),
+      cycle: valeursChoix("cycle"),
       ensemble: valeurChoix("ensemble"),
-      univers: valeurChoix("univers"),
+      univers: valeursChoix("univers"),
       difficulte: valeurChoix("difficulte"),
       duree: Number(valeurChoix("duree")) || null,
       lien: champs.lien.value.trim(),
@@ -445,7 +452,45 @@
 
   champs.titre.addEventListener("input", majApercu);
   champs.description.addEventListener("input", majApercu);
-  champs.lien.addEventListener("input", majApercu);
+  function verifierLienSharePoint(url) {
+    const brut = String(url || "").trim();
+    if (!brut) return { valide: true, vide: true };
+    try {
+      const adresse = new URL(brut);
+      const hoteValide = adresse.protocol === "https:" && adresse.hostname.endsWith(".sharepoint.com");
+      return hoteValide
+        ? { valide: true, adresse: adresse.href }
+        : { valide: false, message: "Utilisez un lien de partage SharePoint sécurisé (https://…sharepoint.com/…)." };
+    } catch {
+      return { valide: false, message: "Le lien SharePoint n’est pas valide." };
+    }
+  }
+
+  champs.lien.addEventListener("input", () => {
+    $("etat-lien").hidden = true;
+    majApercu();
+  });
+
+  $("btn-tester-lien").addEventListener("click", () => {
+    const verification = verifierLienSharePoint(champs.lien.value);
+    const etatLien = $("etat-lien");
+    if (verification.vide) {
+      etatLien.textContent = "Collez d’abord le lien du document.";
+      etatLien.className = "verification-lien verification-lien--erreur";
+      etatLien.hidden = false;
+      return;
+    }
+    if (!verification.valide) {
+      etatLien.textContent = verification.message;
+      etatLien.className = "verification-lien verification-lien--erreur";
+      etatLien.hidden = false;
+      return;
+    }
+    etatLien.textContent = "Le lien a le bon format. Vérifiez que le document s’ouvre sans demander d’autorisation.";
+    etatLien.className = "verification-lien verification-lien--succes";
+    etatLien.hidden = false;
+    window.open(verification.adresse, "_blank", "noopener,noreferrer");
+  });
 
   function reinitialiserFormulaire() {
     idEnEdition = null;
@@ -462,6 +507,7 @@
     $("btn-enregistrer").textContent = "Ajouter le projet";
     $("btn-annuler").hidden = true;
     masquer($("bandeau-formulaire"));
+    $("etat-lien").hidden = true;
     majApercu();
     rafraichirListe();
   }
@@ -539,12 +585,13 @@
     if (fiche.titre.length > 90) return "Le titre doit contenir au maximum 90 caractères.";
     if (!fiche.description) return "La description courte est obligatoire.";
     if (fiche.description.length > 100) return "La description courte doit contenir au maximum 100 caractères.";
-    if (!fiche.cycle) return "Choisissez un cycle.";
+    if (!fiche.cycle.length) return "Choisissez au moins un cycle.";
     if (!fiche.ensemble) return "Choisissez un ensemble de robotique.";
-    if (!fiche.univers) return "Choisissez un univers.";
+    if (!fiche.univers.length) return "Choisissez au moins un univers.";
     if (!fiche.difficulte) return "Choisissez un niveau de difficulté.";
     if (!fiche.duree) return "Choisissez une durée.";
-    if (fiche.lien && !/^https?:\/\//i.test(fiche.lien)) return "Le lien doit commencer par https://";
+    const verificationLien = verifierLienSharePoint(fiche.lien);
+    if (!verificationLien.valide) return verificationLien.message;
     return null;
   }
 
@@ -650,9 +697,9 @@
     }
 
     liste.innerHTML = tries.map((p) => {
-      const cycle = cycleParId(p.cycle);
+      const cycles = listeValeurs(p.cycle).map(cycleParId).filter(Boolean);
       const ensemble = ensembleParId(p.ensemble);
-      const univers = universParId(p.univers);
+      const univers = listeValeurs(p.univers).map(universParId).filter(Boolean);
       const niveau = difficulteParId(p.difficulte);
       const source = imagesEnAttente[p.image] || p.image;
       const vignette = source
@@ -663,7 +710,7 @@
           ${vignette}
           <span class="ligne-projet__infos">
             <span class="ligne-projet__titre">${echapper(p.titre)}</span>
-            <span class="ligne-projet__meta">${echapper(cycle ? cycle.court : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(univers ? univers.court : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${p.lien ? "" : " · <sans document>"}</span>
+            <span class="ligne-projet__meta">${echapper(cycles.length ? cycles.map((c) => c.court).join(", ") : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(univers.length ? univers.map((u) => u.court).join(", ") : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${p.lien ? "" : " · <sans document>"}</span>
           </span>
           <span class="ligne-projet__actions">
             <button type="button" class="bouton bouton--secondaire bouton--petit" data-action="dupliquer" data-id="${echapper(p.id)}">Dupliquer</button>
@@ -719,8 +766,30 @@
       const commitParent = await api(`/repos/${encodeURIComponent(depot.owner)}/${encodeURIComponent(depot.repo)}/git/commits/${shaParent}`);
 
       // Prépare tous les fichiers sans rien rendre visible sur la branche.
-      const chemins = Object.keys(imagesEnAttente);
+      const imagesUtilisees = new Set(
+        projets.map((p) => String(p.image || "")).filter((chemin) => chemin.startsWith("images/"))
+      );
+      const chemins = Object.keys(imagesEnAttente).filter((chemin) => imagesUtilisees.has(chemin));
       const elements = [];
+
+      journaliser("Recherche des images inutilisées");
+      const contenuImages = await api(
+        `/repos/${encodeURIComponent(depot.owner)}/${encodeURIComponent(depot.repo)}/contents/images?ref=${encodeURIComponent(depot.branche)}&t=${Date.now()}`
+      );
+      const imagesASupprimer = Array.isArray(contenuImages)
+        ? contenuImages.filter((fichier) =>
+            fichier.type === "file" &&
+            fichier.name !== ".gitkeep" &&
+            !imagesUtilisees.has(fichier.path)
+          )
+        : [];
+      imagesASupprimer.forEach((fichier) => {
+        elements.push({ path: fichier.path, mode: "100644", type: "blob", sha: null });
+      });
+      if (imagesASupprimer.length) {
+        journaliser(`${imagesASupprimer.length} image(s) inutilisée(s) seront retirées`);
+      }
+
       for (let i = 0; i < chemins.length; i++) {
         const chemin = chemins[i];
         journaliser(`Préparation de l’image ${i + 1}/${chemins.length}`);

@@ -130,9 +130,9 @@
   }
 
   function correspondFiltres(p, cleIgnoree = "") {
-    if (cleIgnoree !== "cycle" && etat.cycle && String(p.cycle) !== etat.cycle) return false;
+    if (cleIgnoree !== "cycle" && etat.cycle && !listeValeurs(p.cycle).includes(etat.cycle)) return false;
     if (cleIgnoree !== "ensemble" && etat.ensemble && p.ensemble !== etat.ensemble) return false;
-    if (cleIgnoree !== "univers" && etat.univers && p.univers !== etat.univers) return false;
+    if (cleIgnoree !== "univers" && etat.univers && !listeValeurs(p.univers).includes(etat.univers)) return false;
     if (cleIgnoree !== "difficulte" && etat.difficulte && p.difficulte !== etat.difficulte) return false;
     return correspondRecherche(p);
   }
@@ -141,8 +141,8 @@
     return projets.filter((p) => correspondFiltres(p));
   }
 
-  function valeurProjet(p, cle) {
-    return cle === "cycle" ? String(p.cycle) : p[cle];
+  function valeursProjet(p, cle) {
+    return listeValeurs(p[cle]);
   }
 
   function mettreAJourFiltres() {
@@ -151,7 +151,7 @@
       const valeur = bouton.dataset.valeur;
       const actif = etat[cle] === valeur;
       const nombre = projets.filter((p) =>
-        correspondFiltres(p, cle) && (!valeur || valeurProjet(p, cle) === valeur)
+        correspondFiltres(p, cle) && (!valeur || valeursProjet(p, cle).includes(valeur))
       ).length;
 
       bouton.setAttribute("aria-pressed", String(actif));

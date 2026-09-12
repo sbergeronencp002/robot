@@ -40,6 +40,11 @@ const ensembleParId = (id) => ENSEMBLES.find((e) => e.id === id);
 const universParId  = (id) => UNIVERS.find((u) => u.id === id);
 const difficulteParId = (id) => DIFFICULTES.find((d) => d.id === id);
 
+function listeValeurs(valeur) {
+  if (Array.isArray(valeur)) return valeur.map(String).filter(Boolean);
+  return valeur === undefined || valeur === null || valeur === "" ? [] : [String(valeur)];
+}
+
 /* Rend un niveau sous forme de pastilles : ●○○, ●●○, ●●●. */
 function pastilles(niveau) {
   return "●".repeat(niveau.points) + "○".repeat(3 - niveau.points);
@@ -96,9 +101,9 @@ const ICONE_DOC =
 function htmlTuile(projet, options = {}) {
   const { interactif = true } = options;
 
-  const cycle    = cycleParId(projet.cycle);
+  const cycles   = listeValeurs(projet.cycle).map(cycleParId).filter(Boolean);
   const ensemble = ensembleParId(projet.ensemble);
-  const univers  = universParId(projet.univers);
+  const univers  = listeValeurs(projet.univers).map(universParId).filter(Boolean);
   const duree    = dureeParId(projet.duree);
   const niveau   = difficulteParId(projet.difficulte);
   const lien     = interactif ? lienSur(projet.lien) : "";
@@ -108,9 +113,9 @@ function htmlTuile(projet, options = {}) {
     : `<div class="tuile__visuel tuile__visuel--vide" aria-hidden="true">🤖</div>`;
 
   const etiquettes = [
-    cycle    ? `<span class="etiquette etiquette--cycle">${echapper(cycle.court)}</span>` : "",
+    ...cycles.map((cycle) => `<span class="etiquette etiquette--cycle">${echapper(cycle.court)}</span>`),
     ensemble ? `<span class="etiquette etiquette--ensemble etiquette--${ensemble.id}">${echapper(ensemble.nom)}</span>` : "",
-    univers  ? `<span class="etiquette etiquette--univers etiquette--u-${univers.id}"><span aria-hidden="true">${univers.icone}</span> ${echapper(univers.court)}</span>` : ""
+    ...univers.map((u) => `<span class="etiquette etiquette--univers etiquette--u-${u.id}"><span aria-hidden="true">${u.icone}</span> ${echapper(u.court)}</span>`)
   ].join("");
 
   const action = lien

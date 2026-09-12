@@ -184,3 +184,18 @@ préfiltré par courriel :
 …/robot/?difficulte=debutant
 …/robot/?q=capteur
 ```
+
+---
+
+## Classement multiple et entretien des images
+
+Un projet peut appartenir à plusieurs cycles et à plusieurs univers. Les anciens
+projets qui utilisent encore une seule valeur demeurent compatibles.
+
+Au moment de publier, l’administration retire automatiquement du dossier
+`images/` les fichiers qui ne sont plus associés à aucun projet. Le fichier
+`.gitkeep` est toujours conservé.
+
+Le bouton **Tester le lien** vérifie que l’adresse utilise HTTPS et mène vers
+SharePoint, puis ouvre le document dans un nouvel onglet afin de confirmer ses
+autorisations d’accès.
