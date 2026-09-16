@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotique — CSS des Bois-Francs</title>
 <meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
-<link rel="stylesheet" href="assets/style.css?v=20260912d">
+<link rel="stylesheet" href="assets/style.css?v=20260916a">
 <script>
   (() => {
-    const versionLocale = "20260912d";
+    const versionLocale = "20260916a";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -41,7 +41,7 @@
   <div class="contenant">
     <button type="button" class="filtres__bascule" id="bascule-filtres"
             aria-expanded="false" aria-controls="filtres-grille">
-      <span>Filtrer les projets</span>
+      <span id="libelle-filtres">Filtrer les projets</span>
       <span class="filtres__nombre" id="nombre-filtres" hidden></span>
       <span class="filtres__chevron" aria-hidden="true">⌄</span>
     </button>
@@ -110,7 +110,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20260912d"></script>
-<script src="assets/app.js?v=20260912d"></script>
+<script src="assets/commun.js?v=20260916a"></script>
+<script src="assets/app.js?v=20260916a"></script>
 </body>
 </html>

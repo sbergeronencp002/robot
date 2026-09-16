@@ -17,6 +17,7 @@
   const elZoneFiltres = document.getElementById("zone-filtres");
   const elBasculeFiltres = document.getElementById("bascule-filtres");
   const elNombreFiltres = document.getElementById("nombre-filtres");
+  const elLibelleFiltres = document.getElementById("libelle-filtres");
   const boutonsReset = [
     document.getElementById("reinitialiser"),
     document.getElementById("reinitialiser-2")
@@ -75,6 +76,7 @@
     elBasculeFiltres.addEventListener("click", () => {
       const ouvert = elZoneFiltres.classList.toggle("filtres--ouvert");
       elBasculeFiltres.setAttribute("aria-expanded", String(ouvert));
+      if (elLibelleFiltres) elLibelleFiltres.textContent = ouvert ? "Réduire les filtres" : "Filtrer les projets";
     });
   }
 
