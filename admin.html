@@ -139,15 +139,29 @@
           <div class="choix" id="choix-duree"></div>
         </fieldset>
 
-        <div class="champ">
-          <label for="f-lien">Lien vers le document (SharePoint)</label>
-          <input type="url" id="f-lien" spellcheck="false" placeholder="https://cssbf-my.sharepoint.com/…">
-          <span class="compteur-car compteur-car--gauche">Collez un lien de partage accessible aux membres du CSSBF.</span>
-          <div class="barre-boutons barre-boutons--compacte">
-            <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-tester-lien">Tester le lien</button>
+        <fieldset class="champ groupe-documents">
+          <legend class="champ__legende">Documents du projet</legend>
+
+          <div class="champ">
+            <label for="f-lien-eleve">Cahier de l’élève</label>
+            <input type="url" id="f-lien-eleve" spellcheck="false" required placeholder="https://cssbf.sharepoint.com/…">
+            <span class="compteur-car compteur-car--gauche">Collez un lien de partage accessible aux membres du CSSBF.</span>
+            <div class="barre-boutons barre-boutons--compacte">
+              <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-tester-lien-eleve">Tester le cahier</button>
+            </div>
+            <p class="verification-lien" id="etat-lien-eleve" hidden></p>
           </div>
-          <p class="verification-lien" id="etat-lien" hidden></p>
-        </div>
+
+          <div class="champ">
+            <label for="f-lien-guide">Guide pédagogique <span class="champ__note">— facultatif</span></label>
+            <input type="url" id="f-lien-guide" spellcheck="false" placeholder="https://cssbf.sharepoint.com/…">
+            <span class="compteur-car compteur-car--gauche">Laissez ce champ vide si aucun guide n’est nécessaire.</span>
+            <div class="barre-boutons barre-boutons--compacte">
+              <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-tester-lien-guide">Tester le guide</button>
+            </div>
+            <p class="verification-lien" id="etat-lien-guide" hidden></p>
+          </div>
+        </fieldset>
 
         <div class="champ">
           <label for="f-image">Image du projet <span class="champ__note">— facultative</span></label>

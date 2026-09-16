@@ -131,8 +131,8 @@ const ICONE_DOC =
 
 /**
  * Construit le HTML d'une tuile de projet.
- * La tuile EST la fiche : elle porte toutes les informations et le lien
- * vers le document SharePoint.
+ * La tuile EST la fiche : elle porte toutes les informations et les liens
+ * vers le cahier de l’élève et, lorsqu’il existe, le guide pédagogique.
  */
 function htmlTuile(projet, options = {}) {
   const { interactif = true } = options;
@@ -143,7 +143,10 @@ function htmlTuile(projet, options = {}) {
   const duree    = dureeParId(projet.duree);
   const niveau   = difficulteParId(projet.difficulte);
   const materiel = libellesMateriel(projet);
-  const lien     = interactif ? lienSur(projet.lien) : "";
+  const documents = {
+    eleve: String(projet.documents?.eleve || projet.lien || "").trim(),
+    guide: String(projet.documents?.guide || "").trim()
+  };
 
   const visuel = projet.image
     ? `<div class="tuile__visuel"><img src="${echapper(projet.image)}" alt="" loading="lazy" decoding="async"></div>`
@@ -155,11 +158,23 @@ function htmlTuile(projet, options = {}) {
     ...univers.map((u) => `<span class="etiquette etiquette--univers etiquette--u-${u.id}"><span aria-hidden="true">${u.icone}</span> ${echapper(u.court)}</span>`)
   ].join("");
 
-  const action = lien
-    ? `<span class="tuile__action">${ICONE_DOC} Ouvrir le document</span>`
-    : `<span class="tuile__action tuile__action--absent">Document à venir</span>`;
+  function actionDocument(urlBrute, libelle, classe = "") {
+    const url = interactif ? lienSur(urlBrute) : "";
+    if (url) {
+      return `<a class="tuile__action ${classe}" href="${echapper(url)}" target="_blank" rel="noopener noreferrer">${ICONE_DOC} ${echapper(libelle)}</a>`;
+    }
+    if (urlBrute) {
+      return `<span class="tuile__action ${classe}">${ICONE_DOC} ${echapper(libelle)}</span>`;
+    }
+    return "";
+  }
 
-  const interieur = `
+  const actionEleve = actionDocument(documents.eleve, "Cahier de l’élève", "tuile__action--eleve")
+    || `<span class="tuile__action tuile__action--absent">Document à venir</span>`;
+  const actionGuide = actionDocument(documents.guide, "Guide pédagogique", "tuile__action--guide")
+    || `<span class="tuile__action-reserve" aria-hidden="true"></span>`;
+
+  return `<article class="tuile">
     ${visuel}
     <div class="tuile__corps">
       <div class="tuile__etiquettes">${etiquettes}</div>
@@ -171,12 +186,11 @@ function htmlTuile(projet, options = {}) {
           <span class="tuile__duree">${ICONE_HORLOGE} ${echapper(duree ? duree.texte : "—")}</span>
           ${niveau ? `<span class="tuile__niveau"><span class="pastilles" aria-hidden="true">${pastilles(niveau)}</span> ${echapper(niveau.nom)}</span>` : ""}
         </span>
-        ${action}
+        <span class="tuile__documents" aria-label="Documents du projet">
+          ${actionEleve}
+          ${actionGuide}
+        </span>
       </div>
-    </div>`;
-
-  if (lien) {
-    return `<a class="tuile" href="${echapper(lien)}" target="_blank" rel="noopener noreferrer">${interieur}</a>`;
-  }
-  return `<div class="tuile">${interieur}</div>`;
+    </div>
+  </article>`;
 }

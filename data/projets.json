@@ -15,8 +15,11 @@
     ],
     "difficulte": "debutant",
     "duree": 120,
-    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBsKvfqO9xaTYheslkPZj2jAXg3pXdQkN7pWWfzi2TjkQk?e=MpRafp",
-    "image": "images/2026-09-15-le-rhinobot-a-9k49.webp"
+    "image": "images/2026-09-15-le-rhinobot-a-9k49.webp",
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBsKvfqO9xaTYheslkPZj2jAXg3pXdQkN7pWWfzi2TjkQk?e=MpRafp",
+      "guide": ""
+    }
   },
   {
     "id": "pmtym6t42ficl",
@@ -36,8 +39,11 @@
     ],
     "difficulte": "debutant",
     "duree": 60,
-    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCyHmA7IByTQYRhj4XHhXRbAaXCAEyS3Bz5jNzorcNksx0?e=6nTeML",
-    "image": "images/2026-09-12-la-grande-roue-h9op.webp"
+    "image": "images/2026-09-12-la-grande-roue-h9op.webp",
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCyHmA7IByTQYRhj4XHhXRbAaXCAEyS3Bz5jNzorcNksx0?e=6nTeML",
+      "guide": ""
+    }
   },
   {
     "id": "pmtylootc2bti",
@@ -55,8 +61,11 @@
     ],
     "difficulte": "debutant",
     "duree": 60,
-    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBDULBUldtDQpSnyYBYcukBATFm82gRWFuxL9dizw5u99U?e=j3bmt0",
-    "image": "images/2026-09-12-le-pendule-gacl.webp"
+    "image": "images/2026-09-12-le-pendule-gacl.webp",
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBDULBUldtDQpSnyYBYcukBATFm82gRWFuxL9dizw5u99U?e=j3bmt0",
+      "guide": ""
+    }
   },
   {
     "id": "pmtylmga3376i",
@@ -77,8 +86,11 @@
     ],
     "difficulte": "debutant",
     "duree": 60,
-    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQC0s8EVssljT5Sfi2z-nTqtAc8jZuhW4D-5Z8VlEXlCZ9c?e=FdEIf2",
-    "image": "images/2026-09-12-le-laisser-passer-ws70.webp"
+    "image": "images/2026-09-12-le-laisser-passer-ws70.webp",
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQC0s8EVssljT5Sfi2z-nTqtAc8jZuhW4D-5Z8VlEXlCZ9c?e=FdEIf2",
+      "guide": ""
+    }
   },
   {
     "id": "pmtykon4qrk1h",
@@ -96,8 +108,11 @@
     ],
     "difficulte": "intermediaire",
     "duree": 60,
-    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBqwQHIdsToS4RVoizduc_CAfd7bFHP8UuwjsxdTkL1gIQ?e=q9l5gg",
-    "image": "images/2026-09-12-le-compagnon-g3c6.webp"
+    "image": "images/2026-09-12-le-compagnon-g3c6.webp",
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBqwQHIdsToS4RVoizduc_CAfd7bFHP8UuwjsxdTkL1gIQ?e=q9l5gg",
+      "guide": ""
+    }
   },
   {
     "id": "pmtykkvf879i0",
@@ -118,8 +133,11 @@
     ],
     "difficulte": "debutant",
     "duree": 60,
-    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQAQW08uoSuYQrbMwXX1_j9OARr1cO9DiLYDYTlVSmkgk40?e=bCZoOW",
-    "image": "images/2026-09-12-le-campement-5l2h.webp"
+    "image": "images/2026-09-12-le-campement-5l2h.webp",
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQAQW08uoSuYQrbMwXX1_j9OARr1cO9DiLYDYTlVSmkgk40?e=bCZoOW",
+      "guide": ""
+    }
   },
   {
     "id": "pmtxuey940p0r",
@@ -137,8 +155,11 @@
     ],
     "difficulte": "intermediaire",
     "duree": 60,
-    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD6E5Rok0ncSZ5j5ERoMPnNAStsfv76D7YUwUZ0YjwqRB8",
-    "image": "images/2026-09-12-l-expedition-polaire-effi.webp"
+    "image": "images/2026-09-12-l-expedition-polaire-effi.webp",
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD6E5Rok0ncSZ5j5ERoMPnNAStsfv76D7YUwUZ0YjwqRB8",
+      "guide": ""
+    }
   },
   {
     "id": "pmtxblf0vld5b",
@@ -156,8 +177,11 @@
     ],
     "difficulte": "debutant",
     "duree": 60,
-    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQB3o2Q3mmhPSZzJwOkd0qqYAdzmMdjLOIIg1IIyZPhHu3k?e=CmfOkG",
-    "image": "images/2026-09-11-le-sous-marin-ld85.webp"
+    "image": "images/2026-09-11-le-sous-marin-ld85.webp",
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQB3o2Q3mmhPSZzJwOkd0qqYAdzmMdjLOIIg1IIyZPhHu3k?e=CmfOkG",
+      "guide": ""
+    }
   },
   {
     "id": "pmtx879g2rnk2",
@@ -175,7 +199,10 @@
     ],
     "difficulte": "debutant",
     "duree": 60,
-    "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD8Qmvbjh4hTY2-jZjpdkPqAa2qfxPBASDxNhQ6GYVihag?e=LixND6",
-    "image": "images/2026-09-11-la-cabane-dans-la-foret-vxs8.webp"
+    "image": "images/2026-09-11-la-cabane-dans-la-foret-vxs8.webp",
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD8Qmvbjh4hTY2-jZjpdkPqAa2qfxPBASDxNhQ6GYVihag?e=LixND6",
+      "guide": ""
+    }
   }
 ]

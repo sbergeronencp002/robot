@@ -388,10 +388,9 @@ a.tuile:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 
 .tuile__pied {
   display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 6px 10px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 9px;
   padding-top: 10px;
   border-top: 1px solid var(--bordure);
   margin-top: 2px;
@@ -419,17 +418,61 @@ a.tuile:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
   color: var(--accent);
 }
 
+.tuile__documents {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 7px;
+  height: 36px;
+}
+
+.tuile__action,
+.tuile__action-reserve {
+  min-width: 0;
+  height: 36px;
+  border-radius: 6px;
+}
+
 .tuile__action {
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
-  font-size: .86rem;
-  font-weight: 600;
+  padding: 0 8px;
+  border: 1px solid #bfd3e7;
+  background: var(--bleu-pale-2);
   color: var(--accent);
+  font-size: .76rem;
+  font-weight: 700;
+  line-height: 1.15;
+  text-align: center;
+  text-decoration: none;
 }
-a.tuile:hover .tuile__action { text-decoration: underline; }
 
-.tuile__action--absent { color: var(--gris-clair); font-weight: 500; font-style: italic; }
+a.tuile__action:hover,
+a.tuile__action:focus-visible {
+  background: #dcebf7;
+  border-color: var(--accent-clair);
+  text-decoration: underline;
+}
+
+a.tuile__action:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.tuile__action--guide {
+  background: var(--blanc);
+}
+
+.tuile__action--absent {
+  justify-content: flex-start;
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  color: var(--gris-clair);
+  font-weight: 500;
+  font-style: italic;
+}
 
 .etiquette--univers {
   display: inline-flex;
@@ -800,3 +843,17 @@ fieldset.champ {
 .verification-lien { margin: 8px 0 0; padding: 9px 11px; border-radius: 7px; font-size: .84rem; border: 1px solid; }
 .verification-lien--succes { color: #2c5c3c; background: #eef7f1; border-color: #bcdcc7; }
 .verification-lien--erreur { color: #8c3c1c; background: #fcf1ee; border-color: #e8c5b8; }
+
+
+/* Les deux emplacements documentaires ont une hauteur fixe : la présence
+   facultative d’un guide ne modifie jamais les dimensions de la tuile. */
+.groupe-documents {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+.groupe-documents > .champ { margin: 0; }
+.groupe-documents > legend { grid-column: 1 / -1; }
+@media (max-width: 700px) {
+  .groupe-documents { grid-template-columns: 1fr; }
+}

@@ -61,7 +61,7 @@ Ouvrez ensuite `admin.html`, collez le jeton dans le champ prévu et cliquez sur
    la connexion se fait **toute seule** : le panneau 1 reste replié et affiche
    simplement `connecté`.
 2. Remplissez la fiche : titre, description courte, cycle, ensemble, univers,
-   difficulté, durée, lien SharePoint, image. L'aperçu montre la tuile telle
+   difficulté, durée, cahier de l’élève, guide pédagogique facultatif, image. L'aperçu montre la tuile telle
    qu'elle apparaîtra.
 3. Cliquez sur **Ajouter le projet**. Répétez autant de fois que voulu.
 4. Cliquez sur **Publier sur le site**.
@@ -78,7 +78,7 @@ son titre ou ses paramètres, puis cliquez sur **Ajouter la copie**.
 ### Les liens SharePoint
 
 Dans SharePoint : **Partager** → réglez la permission sur **Tout le monde** →
-**Copier le lien**. Collez-le dans le champ prévu.
+**Copier le lien**. Collez le cahier dans le champ obligatoire et, lorsqu’il existe, le guide dans le champ facultatif.
 
 Si votre centre de services impose une **date d'expiration** sur ces liens, elle
 apparaît dans la fenêtre de partage. Les liens expirés cesseront de fonctionner
@@ -101,7 +101,10 @@ Chaque projet est enregistré ainsi dans `data/projets.json` :
   "univers": ["materiel"],
   "difficulte": "intermediaire",
   "duree": 120,
-  "lien": "https://…sharepoint.com/…",
+  "documents": {
+    "eleve": "https://…sharepoint.com/cahier",
+    "guide": "https://…sharepoint.com/guide"
+  },
   "moteurs": 1,
   "composants": ["couleur"],
   "image": "images/2026-09-11-robot-trieur-a3f2.webp"
@@ -201,9 +204,9 @@ Au moment de publier, l’administration retire automatiquement du dossier
 `images/` les fichiers qui ne sont plus associés à aucun projet. Le fichier
 `.gitkeep` est toujours conservé.
 
-Le bouton **Tester le lien** vérifie que l’adresse utilise HTTPS et mène vers
-SharePoint, puis ouvre le document dans un nouvel onglet afin de confirmer ses
-autorisations d’accès.
+Les boutons **Tester le cahier** et **Tester le guide** vérifient que chaque adresse utilise HTTPS et mène vers SharePoint, puis ouvrent le document dans un nouvel onglet afin de confirmer ses autorisations d’accès.
+
+Le guide est facultatif. La zone des documents conserve toujours la même hauteur sur les tuiles, qu’un guide soit présent ou non.
 
 ## Matériel utilisé et optimisation
 

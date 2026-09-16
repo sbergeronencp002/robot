@@ -40,7 +40,7 @@
   const champs = {
     owner: $("f-owner"), repo: $("f-repo"), branche: $("f-branche"), jeton: $("f-jeton"),
     id: $("f-id"), titre: $("f-titre"), description: $("f-description"),
-    lien: $("f-lien"), image: $("f-image")
+    lienEleve: $("f-lien-eleve"), lienGuide: $("f-lien-guide"), image: $("f-image")
   };
 
   /* ==========================================================================
@@ -440,7 +440,10 @@
       univers: valeursChoix("univers"),
       difficulte: valeurChoix("difficulte"),
       duree: Number(valeurChoix("duree")) || null,
-      lien: champs.lien.value.trim(),
+      documents: {
+        eleve: champs.lienEleve.value.trim(),
+        guide: champs.lienGuide.value.trim()
+      },
       image: imageCourante.chemin
     };
   }
@@ -479,38 +482,44 @@
     }
   }
 
-  champs.lien.addEventListener("input", () => {
-    $("etat-lien").hidden = true;
-    majApercu();
-  });
+  function configurerLienDocument(champ, boutonId, etatId, nomDocument) {
+    champ.addEventListener("input", () => {
+      $(etatId).hidden = true;
+      majApercu();
+    });
 
-  $("btn-tester-lien").addEventListener("click", () => {
-    const verification = verifierLienSharePoint(champs.lien.value);
-    const etatLien = $("etat-lien");
-    if (verification.vide) {
-      etatLien.textContent = "Collez d’abord le lien du document.";
-      etatLien.className = "verification-lien verification-lien--erreur";
+    $(boutonId).addEventListener("click", () => {
+      const verification = verifierLienSharePoint(champ.value);
+      const etatLien = $(etatId);
+      if (verification.vide) {
+        etatLien.textContent = `Collez d’abord le lien du ${nomDocument}.`;
+        etatLien.className = "verification-lien verification-lien--erreur";
+        etatLien.hidden = false;
+        return;
+      }
+      if (!verification.valide) {
+        etatLien.textContent = verification.message;
+        etatLien.className = "verification-lien verification-lien--erreur";
+        etatLien.hidden = false;
+        return;
+      }
+      etatLien.textContent = "Le lien a le bon format. Vérifiez que le document s’ouvre sans demander d’autorisation.";
+      etatLien.className = "verification-lien verification-lien--succes";
       etatLien.hidden = false;
-      return;
-    }
-    if (!verification.valide) {
-      etatLien.textContent = verification.message;
-      etatLien.className = "verification-lien verification-lien--erreur";
-      etatLien.hidden = false;
-      return;
-    }
-    etatLien.textContent = "Le lien a le bon format. Vérifiez que le document s’ouvre sans demander d’autorisation.";
-    etatLien.className = "verification-lien verification-lien--succes";
-    etatLien.hidden = false;
-    window.open(verification.adresse, "_blank", "noopener,noreferrer");
-  });
+      window.open(verification.adresse, "_blank", "noopener,noreferrer");
+    });
+  }
+
+  configurerLienDocument(champs.lienEleve, "btn-tester-lien-eleve", "etat-lien-eleve", "cahier de l’élève");
+  configurerLienDocument(champs.lienGuide, "btn-tester-lien-guide", "etat-lien-guide", "guide pédagogique");
 
   function reinitialiserFormulaire() {
     idEnEdition = null;
     champs.id.value = "";
     champs.titre.value = "";
     champs.description.value = "";
-    champs.lien.value = "";
+    champs.lienEleve.value = "";
+    champs.lienGuide.value = "";
     champs.image.value = "";
     imageCourante = { chemin: "", donnees: "" };
     $("info-image").textContent = "Recadrée et compressée automatiquement à 1000 × 625 px.";
@@ -520,7 +529,8 @@
     $("btn-enregistrer").textContent = "Ajouter le projet";
     $("btn-annuler").hidden = true;
     masquer($("bandeau-formulaire"));
-    $("etat-lien").hidden = true;
+    $("etat-lien-eleve").hidden = true;
+    $("etat-lien-guide").hidden = true;
     majApercu();
     rafraichirListe();
   }
@@ -532,7 +542,8 @@
     champs.id.value = id;
     champs.titre.value = projet.titre || "";
     champs.description.value = projet.description || "";
-    champs.lien.value = projet.lien || "";
+    champs.lienEleve.value = projet.documents?.eleve || projet.lien || "";
+    champs.lienGuide.value = projet.documents?.guide || "";
     champs.image.value = "";
     imageCourante = {
       chemin: projet.image || "",
@@ -568,7 +579,8 @@
     champs.id.value = "";
     champs.titre.value = titre;
     champs.description.value = projet.description || "";
-    champs.lien.value = projet.lien || "";
+    champs.lienEleve.value = projet.documents?.eleve || projet.lien || "";
+    champs.lienGuide.value = projet.documents?.guide || "";
     champs.image.value = "";
     imageCourante = {
       chemin: projet.image || "",
@@ -608,8 +620,11 @@
     if (!fiche.univers.length) return "Choisissez au moins un univers.";
     if (!fiche.difficulte) return "Choisissez un niveau de difficulté.";
     if (!fiche.duree) return "Choisissez une durée.";
-    const verificationLien = verifierLienSharePoint(fiche.lien);
-    if (!verificationLien.valide) return verificationLien.message;
+    const verificationEleve = verifierLienSharePoint(fiche.documents.eleve);
+    if (verificationEleve.vide) return "Le lien vers le cahier de l’élève est obligatoire.";
+    if (!verificationEleve.valide) return `Cahier de l’élève : ${verificationEleve.message}`;
+    const verificationGuide = verifierLienSharePoint(fiche.documents.guide);
+    if (!verificationGuide.valide) return `Guide pédagogique : ${verificationGuide.message}`;
     return null;
   }
 
@@ -729,7 +744,7 @@
           ${vignette}
           <span class="ligne-projet__infos">
             <span class="ligne-projet__titre">${echapper(p.titre)}</span>
-            <span class="ligne-projet__meta">${echapper(cycles.length ? cycles.map((c) => c.court).join(", ") : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(univers.length ? univers.map((u) => u.court).join(", ") : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${materiel.length ? ` · ${echapper(materiel.join(" · "))}` : ""}${p.lien ? "" : " · <sans document>"}</span>
+            <span class="ligne-projet__meta">${echapper(cycles.length ? cycles.map((c) => c.court).join(", ") : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(univers.length ? univers.map((u) => u.court).join(", ") : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${materiel.length ? ` · ${echapper(materiel.join(" · "))}` : ""}${(p.documents?.eleve || p.lien) ? "" : " · <sans cahier>"}${p.documents?.guide ? " · guide ✓" : ""}</span>
           </span>
           <span class="ligne-projet__actions">
             <button type="button" class="bouton bouton--secondaire bouton--petit" data-action="dupliquer" data-id="${echapper(p.id)}">Dupliquer</button>
