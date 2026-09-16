@@ -48,8 +48,8 @@
 
     <div class="panneau__contenu">
       <p class="panneau__aide">
-        À faire une seule fois sur cet appareil. Votre jeton reste dans ce navigateur
-        et n’est transmis qu’à GitHub.
+        Le jeton est transmis uniquement à GitHub. Vous pouvez le conserver sur votre
+        appareil personnel afin de rester connecté.
         <a href="README.md#jeton" target="_blank" rel="noopener">Comment créer un jeton ?</a>
       </p>
 
@@ -73,6 +73,11 @@
       <div class="champ">
         <label for="f-jeton">Jeton d’accès GitHub <span class="champ__note">— permission « Contents : Read and write »</span></label>
         <input type="password" id="f-jeton" autocomplete="off" spellcheck="false" placeholder="github_pat_…">
+        <label class="option-memoire" for="f-memoriser-jeton">
+          <input type="checkbox" id="f-memoriser-jeton">
+          <span>Mémoriser le jeton sur cet appareil</span>
+        </label>
+        <span class="compteur-car compteur-car--gauche">À activer uniquement sur un appareil personnel.</span>
       </div>
 
       <div class="barre-boutons">

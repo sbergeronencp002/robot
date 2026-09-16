@@ -12,6 +12,7 @@
 
   const CLE_DEPOT    = "robotique.depot";
   const CLE_JETON    = "robotique.jeton.session";
+  const CLE_JETON_LOCAL = "robotique.jeton.local";
   const CLE_BROUILLON = "robotique.brouillon";
   const CHEMIN_JSON  = "data/projets.json";
   const LARGEUR_TUILE = 1000;
@@ -39,6 +40,7 @@
 
   const champs = {
     owner: $("f-owner"), repo: $("f-repo"), branche: $("f-branche"), jeton: $("f-jeton"),
+    memoriserJeton: $("f-memoriser-jeton"),
     id: $("f-id"), titre: $("f-titre"), description: $("f-description"),
     lienEleve: $("f-lien-eleve"), lienGuide: $("f-lien-guide"), image: $("f-image")
   };
@@ -95,8 +97,10 @@
   function chargerDepot() {
     try {
       Object.assign(depot, JSON.parse(localStorage.getItem(CLE_DEPOT) || "{}"));
-      depot.jeton = sessionStorage.getItem(CLE_JETON) || depot.jeton || "";
-      // Retire un éventuel jeton enregistré par une ancienne version.
+      const jetonLocal = localStorage.getItem(CLE_JETON_LOCAL) || "";
+      depot.jeton = jetonLocal || sessionStorage.getItem(CLE_JETON) || depot.jeton || "";
+      champs.memoriserJeton.checked = Boolean(jetonLocal);
+      // Le jeton reste séparé des réglages généraux du dépôt.
       const reglagesSansJeton = { owner: depot.owner, repo: depot.repo, branche: depot.branche };
       localStorage.setItem(CLE_DEPOT, JSON.stringify(reglagesSansJeton));
     } catch { /* réglages illisibles : on repart des valeurs par défaut */ }
@@ -120,8 +124,14 @@
   function enregistrerDepot() {
     try {
       localStorage.setItem(CLE_DEPOT, JSON.stringify({ owner: depot.owner, repo: depot.repo, branche: depot.branche }));
-      if (depot.jeton) sessionStorage.setItem(CLE_JETON, depot.jeton);
-      else sessionStorage.removeItem(CLE_JETON);
+      if (depot.jeton && champs.memoriserJeton.checked) {
+        localStorage.setItem(CLE_JETON_LOCAL, depot.jeton);
+        sessionStorage.removeItem(CLE_JETON);
+      } else {
+        localStorage.removeItem(CLE_JETON_LOCAL);
+        if (depot.jeton) sessionStorage.setItem(CLE_JETON, depot.jeton);
+        else sessionStorage.removeItem(CLE_JETON);
+      }
     }
     catch { /* mode privé : les réglages ne survivront pas à la session */ }
   }
@@ -921,10 +931,16 @@
 
   $("btn-connexion").addEventListener("click", connecter);
 
+  champs.memoriserJeton.addEventListener("change", () => {
+    if (depot.jeton) enregistrerDepot();
+  });
+
   $("btn-oublier").addEventListener("click", () => {
     if (!window.confirm("Retirer le jeton de ce navigateur ? Vos projets non publiés sont conservés.")) return;
     depot.jeton = "";
     sessionStorage.removeItem(CLE_JETON);
+    localStorage.removeItem(CLE_JETON_LOCAL);
+    champs.memoriserJeton.checked = false;
     champs.jeton.value = "";
     connecte = false;
     enregistrerDepot();

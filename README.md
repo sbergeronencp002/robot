@@ -215,5 +215,5 @@ composants. Ces informations apparaissent sur les tuiles, alimentent la
 recherche et peuvent être filtrées sur le site public.
 
 Les nouvelles images sont recadrées à 1000 × 625 px et enregistrées en WebP.
-Le jeton GitHub demeure maintenant uniquement dans la session du navigateur et
-n’est plus conservé durablement sur l’appareil.
+Par défaut, le jeton GitHub demeure uniquement dans la session du navigateur. La case
+**Mémoriser le jeton sur cet appareil** permet de le conserver sur un appareil personnel.
