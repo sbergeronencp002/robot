@@ -187,7 +187,7 @@
     "id": "pmu310uogqxq7",
     "cree": "2026-09-15T18:49:58.096Z",
     "titre": "Le Rhinobot - A",
-    "description": "Construis le Rhinobot et programme ses deux moteurs pour le faire avancer, reculer et tourner.",
+    "description": "Construis le Rhinobot et programme ses deux moteurs pour le faire déplacer.",
     "cycle": [
       "3"
     ],
