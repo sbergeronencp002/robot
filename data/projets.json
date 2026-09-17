@@ -1,5 +1,29 @@
 [
   {
+    "id": "pmu4sokv8f8pd",
+    "cree": "2026-09-17T00:32:00.932Z",
+    "titre": "Le Rhinobot - C",
+    "description": "Construis le Rhinobot et programme le capteur de couleur.",
+    "cycle": [
+      "3"
+    ],
+    "ensemble": "prime",
+    "moteurs": 2,
+    "composants": [
+      "couleur"
+    ],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQDudzgD5ZlLToReAG1uhWTpAfluRQasPMStwL1aoic4wWg?e=FKUS2o",
+      "guide": ""
+    },
+    "image": "images/2026-09-17-le-rhinobot-c-pzhe.webp"
+  },
+  {
     "id": "pmu4b3iin2rtx",
     "cree": "2026-09-16T16:19:44.639Z",
     "titre": "Le Rhinobot - B",
