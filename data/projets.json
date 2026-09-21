@@ -1,5 +1,51 @@
 [
   {
+    "id": "pmubblgsg7hxg",
+    "cree": "2026-09-21T14:08:05.440Z",
+    "titre": "Bevelbot - B",
+    "description": "Modifie et programme le Bevelbot",
+    "cycle": [
+      "2",
+      "3"
+    ],
+    "ensemble": "ev3",
+    "moteurs": 1,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBYIaRCfIXLTYtYHYGmrNMPAe7-MBFN9HQrxA1pVkB8NAk?e=zYe3DH",
+      "guide": ""
+    },
+    "image": ""
+  },
+  {
+    "id": "pmubbkgdrxben",
+    "cree": "2026-09-21T14:07:18.255Z",
+    "titre": "Bevelbot - A",
+    "description": "Construis et programme le Bevelbot",
+    "cycle": [
+      "2",
+      "3"
+    ],
+    "ensemble": "ev3",
+    "moteurs": 1,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCxPPxFEKD5Sb33ghDcxTHmARkeObp1Rnga_u3cE06O0f0?e=KItZsQ",
+      "guide": ""
+    },
+    "image": "images/2026-09-21-bevelbot-a-p366.webp"
+  },
+  {
     "id": "pmu4sokv8f8pd",
     "cree": "2026-09-17T00:32:00.932Z",
     "titre": "Le Rhinobot - C",
