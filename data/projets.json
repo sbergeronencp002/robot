@@ -3,7 +3,7 @@
     "id": "pmud2c85cd4w7",
     "cree": "2026-09-22T19:24:30.144Z",
     "titre": "Le Flipper",
-    "description": "Construis une planche de jeu style arcade et programme celle-ci.",
+    "description": "Construis un flipper, programme ses mouvements et relève des défis avec le capteur de couleur.",
     "cycle": [
       "2",
       "3"
