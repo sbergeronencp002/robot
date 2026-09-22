@@ -1,5 +1,30 @@
 [
   {
+    "id": "pmud2c85cd4w7",
+    "cree": "2026-09-22T19:24:30.144Z",
+    "titre": "Le Flipper",
+    "description": "Construis une planche de jeu style arcade et programme celle-ci.",
+    "cycle": [
+      "2",
+      "3"
+    ],
+    "ensemble": "essentiel",
+    "moteurs": 1,
+    "composants": [
+      "couleur"
+    ],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCWaFDTTX4vRoWfTqLIcS1hAZjmQB12weaJAk_9pg2Sn5Q?e=U8sNDg",
+      "guide": ""
+    },
+    "image": "images/2026-09-22-le-flipper-u55y.webp"
+  },
+  {
     "id": "pmubblgsg7hxg",
     "cree": "2026-09-21T14:08:05.440Z",
     "titre": "Bevelbot - B",
