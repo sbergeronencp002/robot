@@ -15,6 +15,11 @@ const ENSEMBLES = [
   { id: "wedo",      nom: "WeDo 2.0" }
 ];
 
+const PROGRAMMATIONS = [
+  { id: "pictos",  nom: "Pictos" },
+  { id: "scratch", nom: "Scratch" }
+];
+
 // Les trois univers du programme de science et technologie (PFEQ).
 const UNIVERS = [
   { id: "materiel", court: "Matériel",        long: "Univers matériel",  icone: "⚙️" },
@@ -52,6 +57,8 @@ const COMPOSANTS = [
 
 const cycleParId    = (id) => CYCLES.find((c) => c.id === String(id));
 const ensembleParId = (id) => ENSEMBLES.find((e) => e.id === id);
+const programmationParId = (id) => PROGRAMMATIONS.find((p) => p.id === id);
+const programmationParDefaut = (ensemble) => (ensemble === "essentiel" || ensemble === "wedo") ? "pictos" : "scratch";
 const universParId  = (id) => UNIVERS.find((u) => u.id === id);
 const difficulteParId = (id) => DIFFICULTES.find((d) => d.id === id);
 
@@ -139,6 +146,7 @@ function htmlTuile(projet, options = {}) {
 
   const cycles   = listeValeurs(projet.cycle).map(cycleParId).filter(Boolean);
   const ensemble = ensembleParId(projet.ensemble);
+  const programmation = programmationParId(projet.programmation || programmationParDefaut(projet.ensemble));
   const univers  = listeValeurs(projet.univers).map(universParId).filter(Boolean);
   const duree    = dureeParId(projet.duree);
   const niveau   = difficulteParId(projet.difficulte);
@@ -155,6 +163,7 @@ function htmlTuile(projet, options = {}) {
   const etiquettes = [
     ...cycles.map((cycle) => `<span class="etiquette etiquette--cycle">${echapper(cycle.court)}</span>`),
     ensemble ? `<span class="etiquette etiquette--ensemble etiquette--${ensemble.id}">${echapper(ensemble.nom)}</span>` : "",
+    programmation ? `<span class="etiquette etiquette--programmation">${echapper(programmation.nom)}</span>` : "",
     ...univers.map((u) => `<span class="etiquette etiquette--univers etiquette--u-${u.id}"><span aria-hidden="true">${u.icone}</span> ${echapper(u.court)}</span>`)
   ].join("");
 

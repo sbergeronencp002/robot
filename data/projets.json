@@ -22,7 +22,8 @@
       "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCWaFDTTX4vRoWfTqLIcS1hAZjmQB12weaJAk_9pg2Sn5Q?e=U8sNDg",
       "guide": ""
     },
-    "image": "images/2026-09-22-le-flipper-u55y.webp"
+    "image": "images/2026-09-22-le-flipper-u55y.webp",
+    "programmation": "pictos"
   },
   {
     "id": "pmubblgsg7hxg",
@@ -45,7 +46,8 @@
       "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBYIaRCfIXLTYtYHYGmrNMPAe7-MBFN9HQrxA1pVkB8NAk?e=zYe3DH",
       "guide": ""
     },
-    "image": "images/2026-09-21-bevelbot-b-n2po.webp"
+    "image": "images/2026-09-21-bevelbot-b-n2po.webp",
+    "programmation": "scratch"
   },
   {
     "id": "pmubbkgdrxben",
@@ -68,7 +70,8 @@
       "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCxPPxFEKD5Sb33ghDcxTHmARkeObp1Rnga_u3cE06O0f0?e=KItZsQ",
       "guide": ""
     },
-    "image": "images/2026-09-21-bevelbot-a-p366.webp"
+    "image": "images/2026-09-21-bevelbot-a-p366.webp",
+    "programmation": "scratch"
   },
   {
     "id": "pmu4sokv8f8pd",
@@ -92,7 +95,8 @@
       "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQDudzgD5ZlLToReAG1uhWTpAfluRQasPMStwL1aoic4wWg?e=FKUS2o",
       "guide": ""
     },
-    "image": "images/2026-09-17-le-rhinobot-c-r0ay.webp"
+    "image": "images/2026-09-17-le-rhinobot-c-r0ay.webp",
+    "programmation": "scratch"
   },
   {
     "id": "pmu4b3iin2rtx",
@@ -116,7 +120,8 @@
       "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQAqFM2oS0bnS5-2-D8pTDhHAQyUTyBBOMI8-_Em-DU5UN0?e=zOHUeM",
       "guide": ""
     },
-    "image": "images/2026-09-16-projet-pgao.webp"
+    "image": "images/2026-09-16-projet-pgao.webp",
+    "programmation": "scratch"
   },
   {
     "id": "pmtym6t42ficl",
@@ -137,7 +142,8 @@
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCyHmA7IByTQYRhj4XHhXRbAaXCAEyS3Bz5jNzorcNksx0?e=6nTeML",
-    "image": "images/2026-09-12-la-grande-roue-h9op.webp"
+    "image": "images/2026-09-12-la-grande-roue-h9op.webp",
+    "programmation": "pictos"
   },
   {
     "id": "pmtylootc2bti",
@@ -156,7 +162,8 @@
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBDULBUldtDQpSnyYBYcukBATFm82gRWFuxL9dizw5u99U?e=j3bmt0",
-    "image": "images/2026-09-12-le-pendule-gacl.webp"
+    "image": "images/2026-09-12-le-pendule-gacl.webp",
+    "programmation": "pictos"
   },
   {
     "id": "pmtylmga3376i",
@@ -178,7 +185,8 @@
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQC0s8EVssljT5Sfi2z-nTqtAc8jZuhW4D-5Z8VlEXlCZ9c?e=FdEIf2",
-    "image": "images/2026-09-12-le-laisser-passer-ws70.webp"
+    "image": "images/2026-09-12-le-laisser-passer-ws70.webp",
+    "programmation": "pictos"
   },
   {
     "id": "pmtykon4qrk1h",
@@ -197,7 +205,8 @@
     "difficulte": "intermediaire",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBqwQHIdsToS4RVoizduc_CAfd7bFHP8UuwjsxdTkL1gIQ?e=q9l5gg",
-    "image": "images/2026-09-12-le-compagnon-g3c6.webp"
+    "image": "images/2026-09-12-le-compagnon-g3c6.webp",
+    "programmation": "pictos"
   },
   {
     "id": "pmtykkvf879i0",
@@ -219,7 +228,8 @@
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQAQW08uoSuYQrbMwXX1_j9OARr1cO9DiLYDYTlVSmkgk40?e=bCZoOW",
-    "image": "images/2026-09-12-le-campement-5l2h.webp"
+    "image": "images/2026-09-12-le-campement-5l2h.webp",
+    "programmation": "pictos"
   },
   {
     "id": "pmtxuey940p0r",
@@ -238,7 +248,8 @@
     "difficulte": "intermediaire",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD6E5Rok0ncSZ5j5ERoMPnNAStsfv76D7YUwUZ0YjwqRB8",
-    "image": "images/2026-09-12-l-expedition-polaire-effi.webp"
+    "image": "images/2026-09-12-l-expedition-polaire-effi.webp",
+    "programmation": "pictos"
   },
   {
     "id": "pmtxblf0vld5b",
@@ -257,7 +268,8 @@
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQB3o2Q3mmhPSZzJwOkd0qqYAdzmMdjLOIIg1IIyZPhHu3k?e=CmfOkG",
-    "image": "images/2026-09-11-le-sous-marin-ld85.webp"
+    "image": "images/2026-09-11-le-sous-marin-ld85.webp",
+    "programmation": "pictos"
   },
   {
     "id": "pmtx879g2rnk2",
@@ -276,7 +288,8 @@
     "difficulte": "debutant",
     "duree": 60,
     "lien": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQD8Qmvbjh4hTY2-jZjpdkPqAa2qfxPBASDxNhQ6GYVihag?e=LixND6",
-    "image": "images/2026-09-11-la-cabane-dans-la-foret-vxs8.webp"
+    "image": "images/2026-09-11-la-cabane-dans-la-foret-vxs8.webp",
+    "programmation": "pictos"
   },
   {
     "id": "pmu310uogqxq7",
@@ -298,6 +311,7 @@
     "documents": {
       "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBsKvfqO9xaTYheslkPZj2jAXg3pXdQkN7pWWfzi2TjkQk?e=MpRafp",
       "guide": ""
-    }
+    },
+    "programmation": "scratch"
   }
 ]

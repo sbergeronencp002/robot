@@ -5,7 +5,7 @@ et enseignants, et administrable par une seule personne depuis son navigateur.
 
 | | |
 |---|---|
-| **Site public** | `index.html` — tuiles filtrables par cycle, ensemble, univers et difficulté |
+| **Site public** | `index.html` — tuiles filtrables par cycle, ensemble, programmation, univers et difficulté |
 | **Administration** | `admin.html` — ajout, modification, suppression et publication |
 | **Données** | `data/projets.json` |
 | **Images** | `images/` — téléversées automatiquement par l'administration |
@@ -60,7 +60,7 @@ Ouvrez ensuite `admin.html`, collez le jeton dans le champ prévu et cliquez sur
 1. Ouvrez `admin.html`. Si votre jeton est déjà enregistré sur cet appareil,
    la connexion se fait **toute seule** : le panneau 1 reste replié et affiche
    simplement `connecté`.
-2. Remplissez la fiche : titre, description courte, cycle, ensemble, univers,
+2. Remplissez la fiche : titre, description courte, cycle, ensemble, programmation, univers,
    difficulté, durée, cahier de l’élève, guide pédagogique facultatif, image. L'aperçu montre la tuile telle
    qu'elle apparaîtra.
 3. Cliquez sur **Ajouter le projet**. Répétez autant de fois que voulu.
@@ -98,6 +98,7 @@ Chaque projet est enregistré ainsi dans `data/projets.json` :
   "description": "Les élèves programment un bras qui distingue et classe des blocs.",
   "cycle": "3",
   "ensemble": "prime",
+  "programmation": "scratch",
   "univers": ["materiel"],
   "difficulte": "intermediaire",
   "duree": 120,
@@ -115,6 +116,7 @@ Chaque projet est enregistré ainsi dans `data/projets.json` :
 |---|---|
 | `cycle` | `"1"` · `"2"` · `"3"` |
 | `ensemble` | `"ev3"` · `"prime"` · `"essentiel"` · `"wedo"` |
+| `programmation` | `"pictos"` · `"scratch"` |
 | `univers` | Une ou plusieurs valeurs : `"materiel"` · `"vivant"` · `"terre"` |
 | `moteurs` | `0` · `1` · `2` · `3` (3 ou plus) |
 | `composants` | `"couleur"` · `"distance"` · `"force"` · `"mouvement"` · `"matrice"` |

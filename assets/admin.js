@@ -418,6 +418,7 @@
 
   construireChoix($("choix-cycle"), "cycle", CYCLES.map((c) => ({ valeur: c.id, libelle: c.long })), true);
   construireChoix($("choix-ensemble"), "ensemble", ENSEMBLES.map((e) => ({ valeur: e.id, libelle: e.nom })));
+  construireChoix($("choix-programmation"), "programmation", PROGRAMMATIONS.map((p) => ({ valeur: p.id, libelle: p.nom })));
   construireChoix($("choix-moteurs"), "moteurs", MOTEURS.map((m) => ({ valeur: m.id, libelle: `${m.icone} ${m.nom}` })));
   construireChoix($("choix-composants"), "composants", COMPOSANTS.map((c) => ({ valeur: c.id, libelle: `${c.icone} ${c.nom}` })), true);
   construireChoix($("choix-univers"), "univers", UNIVERS.map((u) => ({ valeur: u.id, libelle: `${u.icone} ${u.long}` })), true);
@@ -439,12 +440,20 @@
     });
   };
 
+  $("choix-ensemble").addEventListener("change", () => {
+    const ensemble = valeurChoix("ensemble");
+    const programmation = programmationParDefaut(ensemble);
+    cocherChoix("programmation", programmation);
+    majApercu();
+  });
+
   function ficheDepuisFormulaire() {
     return {
       titre: champs.titre.value.trim(),
       description: champs.description.value.trim(),
       cycle: valeursChoix("cycle"),
       ensemble: valeurChoix("ensemble"),
+      programmation: valeurChoix("programmation"),
       moteurs: Number(valeurChoix("moteurs")),
       composants: valeursChoix("composants"),
       univers: valeursChoix("univers"),
@@ -533,7 +542,7 @@
     champs.image.value = "";
     imageCourante = { chemin: "", donnees: "" };
     $("info-image").textContent = "Recadrée et compressée automatiquement à 1000 × 625 px.";
-    cocherChoix("cycle", ""); cocherChoix("ensemble", ""); cocherChoix("moteurs", "0"); cocherChoix("composants", ""); cocherChoix("univers", ""); cocherChoix("difficulte", ""); cocherChoix("duree", "");
+    cocherChoix("cycle", ""); cocherChoix("ensemble", ""); cocherChoix("programmation", ""); cocherChoix("moteurs", "0"); cocherChoix("composants", ""); cocherChoix("univers", ""); cocherChoix("difficulte", ""); cocherChoix("duree", "");
     $("titre-formulaire").textContent = "2 · Nouveau projet";
     $("aide-formulaire").textContent = "Remplissez la fiche. Elle s’affichera telle quelle sur le site.";
     $("btn-enregistrer").textContent = "Ajouter le projet";
@@ -564,6 +573,7 @@
       : "Recadrée et compressée automatiquement à 1000 × 625 px.";
     cocherChoix("cycle", projet.cycle);
     cocherChoix("ensemble", projet.ensemble);
+    cocherChoix("programmation", projet.programmation || programmationParDefaut(projet.ensemble));
     cocherChoix("moteurs", String(projet.moteurs || 0));
     cocherChoix("composants", projet.composants);
     cocherChoix("univers", projet.univers);
@@ -601,6 +611,7 @@
       : "Recadrée et compressée automatiquement à 1000 × 625 px.";
     cocherChoix("cycle", projet.cycle);
     cocherChoix("ensemble", projet.ensemble);
+    cocherChoix("programmation", projet.programmation || programmationParDefaut(projet.ensemble));
     cocherChoix("moteurs", String(projet.moteurs || 0));
     cocherChoix("composants", projet.composants);
     cocherChoix("univers", projet.univers);
@@ -626,6 +637,7 @@
     if (fiche.description.length > 100) return "La description courte doit contenir au maximum 100 caractères.";
     if (!fiche.cycle.length) return "Choisissez au moins un cycle.";
     if (!fiche.ensemble) return "Choisissez un ensemble de robotique.";
+    if (!fiche.programmation) return "Choisissez le type de programmation.";
     if (!Number.isInteger(fiche.moteurs) || fiche.moteurs < 0 || fiche.moteurs > 3) return "Choisissez le nombre de moteurs.";
     if (!fiche.univers.length) return "Choisissez au moins un univers.";
     if (!fiche.difficulte) return "Choisissez un niveau de difficulté.";
@@ -742,6 +754,7 @@
     liste.innerHTML = tries.map((p) => {
       const cycles = listeValeurs(p.cycle).map(cycleParId).filter(Boolean);
       const ensemble = ensembleParId(p.ensemble);
+      const programmation = programmationParId(p.programmation || programmationParDefaut(p.ensemble));
       const univers = listeValeurs(p.univers).map(universParId).filter(Boolean);
       const niveau = difficulteParId(p.difficulte);
       const materiel = libellesMateriel(p);
@@ -754,7 +767,7 @@
           ${vignette}
           <span class="ligne-projet__infos">
             <span class="ligne-projet__titre">${echapper(p.titre)}</span>
-            <span class="ligne-projet__meta">${echapper(cycles.length ? cycles.map((c) => c.court).join(", ") : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(univers.length ? univers.map((u) => u.court).join(", ") : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${materiel.length ? ` · ${echapper(materiel.join(" · "))}` : ""}${(p.documents?.eleve || p.lien) ? "" : " · <sans cahier>"}${p.documents?.guide ? " · guide ✓" : ""}</span>
+            <span class="ligne-projet__meta">${echapper(cycles.length ? cycles.map((c) => c.court).join(", ") : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(programmation ? programmation.nom : "—")} · ${echapper(univers.length ? univers.map((u) => u.court).join(", ") : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${materiel.length ? ` · ${echapper(materiel.join(" · "))}` : ""}${(p.documents?.eleve || p.lien) ? "" : " · <sans cahier>"}${p.documents?.guide ? " · guide ✓" : ""}</span>
           </span>
           <span class="ligne-projet__actions">
             <button type="button" class="bouton bouton--secondaire bouton--petit" data-action="dupliquer" data-id="${echapper(p.id)}">Dupliquer</button>
