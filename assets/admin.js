@@ -440,12 +440,6 @@
     });
   };
 
-  $("choix-ensemble").addEventListener("change", () => {
-    const ensemble = valeurChoix("ensemble");
-    const programmation = programmationParDefaut(ensemble);
-    cocherChoix("programmation", programmation);
-    majApercu();
-  });
 
   function ficheDepuisFormulaire() {
     return {
