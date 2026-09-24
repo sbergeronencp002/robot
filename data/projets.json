@@ -1,5 +1,30 @@
 [
   {
+    "id": "pmufih4anpowq",
+    "cree": "2026-09-24T12:31:44.639Z",
+    "titre": "La Grande roue",
+    "description": "Construis la grande roue et programme le moteur pour la faire tourner.",
+    "cycle": [
+      "2"
+    ],
+    "ensemble": "essentiel",
+    "programmation": "scratch",
+    "moteurs": 1,
+    "composants": [
+      "matrice"
+    ],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQDyJfa6P7HxT442D2RYfl0BAdCNzMPdRH5w3N449KDOl9s?e=TPOGcL",
+      "guide": ""
+    },
+    "image": "images/2026-09-24-la-grande-roue-i6gz.webp"
+  },
+  {
     "id": "pmud2c85cd4w7",
     "cree": "2026-09-22T19:24:30.144Z",
     "titre": "Le Flipper",
