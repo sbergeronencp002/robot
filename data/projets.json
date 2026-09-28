@@ -1,5 +1,31 @@
 [
   {
+    "id": "pmul60g5ldxhn",
+    "cree": "2026-09-28T11:29:28.521Z",
+    "titre": "Frankenstein",
+    "description": "Construis et programme le laboratoire de Frankenstein.",
+    "cycle": [
+      "3"
+    ],
+    "ensemble": "prime",
+    "programmation": "scratch",
+    "moteurs": 3,
+    "composants": [
+      "couleur",
+      "distance"
+    ],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "expert",
+    "duree": 180,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBcANz2aY09SqEjIRgKYAY5AZxW7qZDhkz8L9dK6-ZiJBU?e=FzIaLe",
+      "guide": ""
+    },
+    "image": "images/2026-09-28-frankenstein-ts9k.webp"
+  },
+  {
     "id": "pmufih4anpowq",
     "cree": "2026-09-24T12:31:44.639Z",
     "titre": "La Grande roue",
