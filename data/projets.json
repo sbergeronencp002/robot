@@ -1,5 +1,29 @@
 [
   {
+    "id": "pmulr80t5rbtj",
+    "cree": "2026-09-28T21:23:13.817Z",
+    "titre": "Le Speedbot",
+    "description": "Construis et programme le Speedbot.",
+    "cycle": [
+      "2",
+      "3"
+    ],
+    "ensemble": "ev3",
+    "programmation": "scratch",
+    "moteurs": 2,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQALqA0NLyjaSaJRaMj2x4ciAbEDC4KtpIA2KjEQa_sENzY?e=CRZKfY",
+      "guide": ""
+    },
+    "image": "images/2026-09-28-le-speedbot-vw3r.webp"
+  },
+  {
     "id": "pmul60g5ldxhn",
     "cree": "2026-09-28T11:29:28.521Z",
     "titre": "Frankenstein",
