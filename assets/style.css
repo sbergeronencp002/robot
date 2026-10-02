@@ -19,10 +19,11 @@
   --gris-clair: #8a94a3;
   --bordure: #dde3ec;
 
-  --ev3:        #b4532a;
+  --ev3:        #c62828;
   --prime:      #c00078;
   --essentiel:  #00843d;
-  --wedo:       #7a5299;
+  --wedo:       #07a02c;
+  --wedo-texte: #09233b;
 
   --rayon: 10px;
   --ombre: 0 1px 2px rgba(30, 51, 88, .06), 0 4px 12px rgba(30, 51, 88, .07);
@@ -359,7 +360,7 @@ a.tuile:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
 .etiquette--ev3       { background: var(--ev3); }
 .etiquette--prime     { background: var(--prime); }
 .etiquette--essentiel { background: var(--essentiel); }
-.etiquette--wedo      { background: var(--wedo); }
+.etiquette--wedo      { background: var(--wedo); color: var(--wedo-texte); }
 .etiquette--programmation { background: #eee8f8; color: #563d7c; border: 1px solid #d6caeb; }
 
 .tuile__titre {
