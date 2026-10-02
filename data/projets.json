@@ -1,5 +1,28 @@
 [
   {
+    "id": "pmur8a1nokaw9",
+    "cree": "2026-10-02T17:19:32.580Z",
+    "titre": "Le simulateur sismique",
+    "description": "Construis et programme le simulateur sismique",
+    "cycle": [
+      "3"
+    ],
+    "ensemble": "wedo",
+    "programmation": "pictos",
+    "moteurs": 1,
+    "composants": [],
+    "univers": [
+      "terre"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBSU2xwYmFITb8bb6thjA0NAZt-TgxGMXQTa1jqGY4VI64?e=cRbfnC",
+      "guide": ""
+    },
+    "image": "images/2026-10-02-le-simulateur-sismique-jru1.webp"
+  },
+  {
     "id": "pmur7tg3cr32l",
     "cree": "2026-10-02T17:06:38.136Z",
     "titre": "Le simulateur sismique",
