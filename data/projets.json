@@ -1,5 +1,28 @@
 [
   {
+    "id": "pmur7tg3cr32l",
+    "cree": "2026-10-02T17:06:38.136Z",
+    "titre": "Le simulateur sismique",
+    "description": "Construis et programme un simulateur sismique",
+    "cycle": [
+      "3"
+    ],
+    "ensemble": "prime",
+    "programmation": "scratch",
+    "moteurs": 1,
+    "composants": [],
+    "univers": [
+      "terre"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQDaUNlZC8jqQYeWkT20zMJhAXd8eT4XlMbHOfRJP9gtun4?e=yipFm4",
+      "guide": ""
+    },
+    "image": "images/2026-10-02-le-simulateur-sismique-ieu7.webp"
+  },
+  {
     "id": "pmulr80t5rbtj",
     "cree": "2026-09-28T21:23:13.817Z",
     "titre": "Le Speedbot",
