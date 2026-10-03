@@ -110,6 +110,124 @@ a { color: var(--accent); }
 }
 .entete__lien-admin:hover { color: var(--blanc); border-bottom-color: var(--blanc); }
 
+/* ---------- Continuum pédagogique ---------- */
+
+.continuum {
+  padding-block: 24px 26px;
+  background: var(--bleu-pale-2);
+  border-bottom: 1px solid #cbdced;
+}
+
+.continuum__entete {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.continuum__sur-titre {
+  margin: 0 0 2px;
+  color: var(--accent);
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .09em;
+  text-transform: uppercase;
+}
+
+.continuum__titre {
+  margin: 0;
+  color: var(--marine);
+  font-size: clamp(1.2rem, 2.5vw, 1.55rem);
+  line-height: 1.25;
+}
+
+.continuum__introduction {
+  max-width: 53ch;
+  margin: 0;
+  color: var(--gris);
+  font-size: .92rem;
+}
+
+.continuum__grille {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.continuum__carte {
+  --continuum-accent: var(--accent);
+  display: flex;
+  min-width: 0;
+  min-height: 174px;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 18px 19px 16px;
+  overflow: hidden;
+  border: 1px solid #cad9e8;
+  border-top: 5px solid var(--continuum-accent);
+  border-radius: var(--rayon);
+  background: var(--blanc);
+  color: var(--texte);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(30, 51, 88, .06);
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+}
+
+.continuum__carte--1 { --continuum-accent: #2f7d4a; }
+.continuum__carte--2 { --continuum-accent: #2f6fb0; }
+.continuum__carte--3 { --continuum-accent: #74519a; }
+
+.continuum__carte:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: var(--continuum-accent);
+  box-shadow: 0 6px 18px rgba(30, 51, 88, .13);
+}
+
+.continuum__carte:focus-visible {
+  outline: 3px solid var(--accent-clair);
+  outline-offset: 3px;
+}
+
+.continuum__carte[aria-pressed="true"] {
+  border-color: var(--continuum-accent);
+  box-shadow: 0 0 0 2px var(--continuum-accent), 0 6px 18px rgba(30, 51, 88, .13);
+}
+
+.continuum__carte:disabled { opacity: .55; cursor: not-allowed; }
+
+.continuum__cycle {
+  color: var(--continuum-accent);
+  font-size: .78rem;
+  font-weight: 800;
+  letter-spacing: .07em;
+  text-transform: uppercase;
+}
+
+.continuum__intention {
+  margin-top: 3px;
+  color: var(--marine);
+  font-size: 1.08rem;
+  line-height: 1.3;
+}
+
+.continuum__description {
+  margin-top: 7px;
+  color: var(--gris);
+  font-size: .88rem;
+  line-height: 1.45;
+}
+
+.continuum__action {
+  margin-top: auto;
+  padding-top: 12px;
+  color: var(--continuum-accent);
+  font-size: .84rem;
+  font-weight: 750;
+}
+
 /* ---------- Barre de filtres ---------- */
 
 .filtres {
@@ -249,6 +367,8 @@ a { color: var(--accent); }
   gap: 10px;
   padding-block: 22px 4px;
 }
+
+#resultats { scroll-margin-top: 92px; }
 
 .resultats__compte {
   margin: 0;
@@ -837,6 +957,14 @@ fieldset.champ {
    on la laisse défiler avec la page. */
 @media (max-width: 760px) {
   .filtres { position: static; padding-block: 12px; }
+  #resultats { scroll-margin-top: 12px; }
+}
+
+@media (max-width: 780px) {
+  .continuum__entete { display: block; }
+  .continuum__introduction { margin-top: 7px; }
+  .continuum__grille { grid-template-columns: 1fr; }
+  .continuum__carte { min-height: 0; }
 }
 
 /* ---------- Vérification du lien SharePoint ---------- */

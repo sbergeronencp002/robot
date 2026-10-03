@@ -18,6 +18,7 @@
   const elBasculeFiltres = document.getElementById("bascule-filtres");
   const elNombreFiltres = document.getElementById("nombre-filtres");
   const elLibelleFiltres = document.getElementById("libelle-filtres");
+  const boutonsContinuum = Array.from(document.querySelectorAll(".continuum__carte"));
   const boutonsReset = [
     document.getElementById("reinitialiser"),
     document.getElementById("reinitialiser-2")
@@ -74,6 +75,17 @@
       // Recliquer sur un filtre actif le désactive.
       etat[cle] = etat[cle] === bouton.dataset.valeur ? "" : bouton.dataset.valeur;
       appliquer();
+    });
+  });
+
+  boutonsContinuum.forEach((bouton) => {
+    bouton.addEventListener("click", () => {
+      etat.cycle = bouton.dataset.cycle;
+      appliquer();
+      document.getElementById("resultats").scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start"
+      });
     });
   });
 
@@ -198,11 +210,27 @@
     }
   }
 
+  function mettreAJourContinuum() {
+    boutonsContinuum.forEach((bouton) => {
+      const cycle = bouton.dataset.cycle;
+      const nombre = projets.filter((p) => listeValeurs(p.cycle).includes(cycle)).length;
+      const actif = etat.cycle === cycle;
+      const action = bouton.querySelector("[data-compte-cycle]");
+
+      bouton.setAttribute("aria-pressed", String(actif));
+      bouton.disabled = nombre === 0;
+      if (action) {
+        action.innerHTML = `${nombre} projet${nombre > 1 ? "s" : ""} <span aria-hidden="true">→</span>`;
+      }
+    });
+  }
+
   function appliquer() {
     const visibles = filtrer();
     const filtreActif = Boolean(etat.cycle || etat.ensemble || etat.programmation || etat.univers || etat.difficulte || etat.materiel || etat.q);
 
     mettreAJourFiltres();
+    mettreAJourContinuum();
 
     elGrille.innerHTML = visibles
       .map((p) => `<li>${htmlTuile(p)}</li>`)
