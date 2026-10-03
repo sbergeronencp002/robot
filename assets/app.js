@@ -132,7 +132,6 @@
     elBasculeFiltres.addEventListener("click", () => {
       const ouvert = elZoneFiltres.classList.toggle("filtres--ouvert");
       elBasculeFiltres.setAttribute("aria-expanded", String(ouvert));
-      if (elLibelleFiltres) elLibelleFiltres.textContent = ouvert ? "Réduire les filtres" : "Filtrer les projets";
     });
   }
 
