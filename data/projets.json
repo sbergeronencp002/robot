@@ -197,7 +197,7 @@
     "titre": "Le Rhinobot - C",
     "description": "Construis le Rhinobot et programme le capteur de couleur.",
     "cycle": [
-      "3"
+      "2"
     ],
     "ensemble": "prime",
     "moteurs": 2,
@@ -222,7 +222,7 @@
     "titre": "Le Rhinobot - B",
     "description": "Construis le Rhinobot et programme le capteur de force.",
     "cycle": [
-      "3"
+      "2"
     ],
     "ensemble": "prime",
     "moteurs": 2,
@@ -415,7 +415,7 @@
     "titre": "Le Rhinobot - A",
     "description": "Construis le Rhinobot et programme ses deux moteurs pour le faire déplacer.",
     "cycle": [
-      "3"
+      "2"
     ],
     "ensemble": "prime",
     "moteurs": 2,
