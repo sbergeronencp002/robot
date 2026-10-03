@@ -125,8 +125,7 @@
     "titre": "Le Flipper",
     "description": "Construis le Flipper, programme ses mouvements et relève des défis avec le capteur de couleur.",
     "cycle": [
-      "2",
-      "3"
+      "2"
     ],
     "ensemble": "essentiel",
     "moteurs": 1,
@@ -424,7 +423,7 @@
       "materiel"
     ],
     "difficulte": "debutant",
-    "duree": 120,
+    "duree": 180,
     "image": "images/2026-09-15-le-rhinobot-a-9k49.webp",
     "documents": {
       "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBsKvfqO9xaTYheslkPZj2jAXg3pXdQkN7pWWfzi2TjkQk?e=MpRafp",
