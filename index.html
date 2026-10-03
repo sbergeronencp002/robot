@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotique — CSS des Bois-Francs</title>
 <meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
-<link rel="stylesheet" href="assets/style.css?v=20261002g">
+<link rel="stylesheet" href="assets/style.css?v=20261003c">
 <script>
   (() => {
-    const versionLocale = "20261003b";
+    const versionLocale = "20261003c";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -87,8 +87,14 @@
     <button type="button" class="filtres__bascule" id="bascule-filtres"
             aria-expanded="false" aria-controls="filtres-grille">
       <span id="libelle-filtres">Filtrer les projets</span>
-      <span class="filtres__nombre" id="nombre-filtres" hidden></span>
-      <span class="filtres__chevron" aria-hidden="true">⌄</span>
+      <span class="filtres__droite">
+        <span class="filtres__nombre" id="nombre-filtres" hidden></span>
+        <span class="filtres__etat" aria-hidden="true">
+          <span class="filtres__etat--ferme">Afficher</span>
+          <span class="filtres__etat--ouvert">Réduire</span>
+        </span>
+        <span class="filtres__chevron" aria-hidden="true">⌄</span>
+      </span>
     </button>
   </div>
   <div class="contenant filtres__grille" id="filtres-grille">
@@ -168,6 +174,6 @@
 </footer>
 
 <script src="assets/commun.js?v=20261002g"></script>
-<script src="assets/app.js?v=20261002g"></script>
+<script src="assets/app.js?v=20261003c"></script>
 </body>
 </html>
