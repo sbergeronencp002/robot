@@ -228,6 +228,85 @@ a { color: var(--accent); }
   font-weight: 750;
 }
 
+
+.continuum__droite {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  min-width: 0;
+}
+
+.continuum__bascule {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border: 1px solid #b7cce1;
+  border-radius: 8px;
+  background: var(--blanc);
+  color: var(--marine);
+  font: inherit;
+  font-size: .84rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.continuum__bascule:hover {
+  border-color: var(--accent);
+}
+
+.continuum__bascule:focus-visible {
+  outline: 3px solid var(--accent-clair);
+  outline-offset: 2px;
+}
+
+.continuum__chevron {
+  display: inline-block;
+  transition: transform .15s ease;
+}
+
+.continuum--reduit {
+  padding-block: 11px;
+}
+
+.continuum--reduit .continuum__entete {
+  align-items: center;
+  margin-bottom: 0;
+}
+
+.continuum--reduit .continuum__sur-titre,
+.continuum--reduit .continuum__introduction,
+.continuum--reduit .continuum__grille {
+  display: none;
+}
+
+.continuum--reduit .continuum__titre {
+  font-size: 1rem;
+}
+
+.continuum--reduit .continuum__chevron {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 760px) {
+  .continuum__entete {
+    align-items: flex-start;
+  }
+
+  .continuum__droite {
+    align-items: flex-end;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .continuum--reduit .continuum__entete {
+    flex-direction: row;
+    align-items: center;
+  }
+}
+
 /* ---------- Barre de filtres ---------- */
 
 .filtres {
