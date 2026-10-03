@@ -5,7 +5,11 @@
 (function () {
   "use strict";
 
-  const etat = { cycle: "", ensemble: "", programmation: "", univers: "", difficulte: "", materiel: "", q: "" };
+  const CLES_FILTRES = ["cycle", "ensemble", "programmation", "univers", "difficulte", "duree", "materiel"];
+  const etat = {
+    cycle: [], ensemble: [], programmation: [], univers: [],
+    difficulte: [], duree: [], materiel: [], q: ""
+  };
   let projets = [];
 
   const elGrille   = document.getElementById("grille");
@@ -63,6 +67,11 @@
     DIFFICULTES.map((d) => ({ valeur: d.id, libelle: `${pastilles(d)} ${d.nom}` }))
   );
   construireJetons(
+    document.getElementById("filtres-duree"),
+    "duree",
+    DUREES.map((d) => ({ valeur: String(d.id), libelle: d.texte }))
+  );
+  construireJetons(
     document.getElementById("filtres-materiel"),
     "materiel",
     MOTEURS.filter((m) => Number(m.id) > 0).map((m) => ({ valeur: `moteur-${m.id}`, libelle: `${m.icone} ${m.court}` }))
@@ -72,15 +81,22 @@
   document.querySelectorAll(".jeton").forEach((bouton) => {
     bouton.addEventListener("click", () => {
       const cle = bouton.dataset.cle;
-      // Recliquer sur un filtre actif le désactive.
-      etat[cle] = etat[cle] === bouton.dataset.valeur ? "" : bouton.dataset.valeur;
+      const valeur = bouton.dataset.valeur;
+      if (!valeur) {
+        etat[cle] = [];
+      } else {
+        const valeurs = new Set(etat[cle]);
+        if (valeurs.has(valeur)) valeurs.delete(valeur);
+        else valeurs.add(valeur);
+        etat[cle] = Array.from(valeurs);
+      }
       appliquer();
     });
   });
 
   boutonsContinuum.forEach((bouton) => {
     bouton.addEventListener("click", () => {
-      etat.cycle = bouton.dataset.cycle;
+      etat.cycle = [bouton.dataset.cycle];
       appliquer();
       document.getElementById("resultats").scrollIntoView({
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
@@ -104,7 +120,8 @@
   });
 
   boutonsReset.forEach((b) => b && b.addEventListener("click", () => {
-    etat.cycle = ""; etat.ensemble = ""; etat.programmation = ""; etat.univers = ""; etat.difficulte = ""; etat.materiel = ""; etat.q = "";
+    CLES_FILTRES.forEach((cle) => { etat[cle] = []; });
+    etat.q = "";
     elRecherche.value = "";
     appliquer();
     elRecherche.focus();
@@ -116,32 +133,32 @@
 
   function lireAdresse() {
     const p = new URLSearchParams(window.location.search);
-    const cycle = p.get("cycle") || "";
-    const ensemble = p.get("ensemble") || "";
-    const programmation = p.get("programmation") || "";
-    const univers = p.get("univers") || "";
-    const difficulte = p.get("difficulte") || "";
-    const materiel = p.get("materiel") || "";
-    etat.cycle = CYCLES.some((c) => c.id === cycle) ? cycle : "";
-    etat.ensemble = ENSEMBLES.some((e) => e.id === ensemble) ? ensemble : "";
-    etat.programmation = PROGRAMMATIONS.some((p) => p.id === programmation) ? programmation : "";
-    etat.univers = UNIVERS.some((u) => u.id === univers) ? univers : "";
-    etat.difficulte = DIFFICULTES.some((d) => d.id === difficulte) ? difficulte : "";
+    const lireChoix = (cle, optionsValides) => {
+      const valeurs = p.getAll(cle)
+        .flatMap((valeur) => valeur.split(","))
+        .map((valeur) => valeur.trim())
+        .filter((valeur) => optionsValides.includes(valeur));
+      return Array.from(new Set(valeurs));
+    };
+
+    etat.cycle = lireChoix("cycle", CYCLES.map((c) => c.id));
+    etat.ensemble = lireChoix("ensemble", ENSEMBLES.map((e) => e.id));
+    etat.programmation = lireChoix("programmation", PROGRAMMATIONS.map((option) => option.id));
+    etat.univers = lireChoix("univers", UNIVERS.map((u) => u.id));
+    etat.difficulte = lireChoix("difficulte", DIFFICULTES.map((d) => d.id));
+    etat.duree = lireChoix("duree", DUREES.map((d) => String(d.id)));
     const optionsMateriel = MOTEURS.filter((m) => Number(m.id) > 0).map((m) => `moteur-${m.id}`)
       .concat(COMPOSANTS.map((c) => `composant-${c.id}`));
-    etat.materiel = optionsMateriel.includes(materiel) ? materiel : "";
+    etat.materiel = lireChoix("materiel", optionsMateriel);
     etat.q = p.get("q") || "";
     elRecherche.value = etat.q;
   }
 
   function ecrireAdresse() {
     const p = new URLSearchParams();
-    if (etat.cycle) p.set("cycle", etat.cycle);
-    if (etat.ensemble) p.set("ensemble", etat.ensemble);
-    if (etat.programmation) p.set("programmation", etat.programmation);
-    if (etat.univers) p.set("univers", etat.univers);
-    if (etat.difficulte) p.set("difficulte", etat.difficulte);
-    if (etat.materiel) p.set("materiel", etat.materiel);
+    CLES_FILTRES.forEach((cle) => {
+      etat[cle].forEach((valeur) => p.append(cle, valeur));
+    });
     if (etat.q) p.set("q", etat.q);
     const suite = p.toString();
     history.replaceState(null, "", suite ? `?${suite}` : window.location.pathname);
@@ -156,21 +173,24 @@
 
     const ensemble = ensembleParId(p.ensemble);
     const programmation = programmationParId(p.programmation || programmationParDefaut(p.ensemble));
+    const cycles = listeValeurs(p.cycle).map(cycleParId).filter(Boolean);
     const univers = listeValeurs(p.univers).map(universParId).filter(Boolean);
     const niveau = difficulteParId(p.difficulte);
+    const duree = dureeParId(p.duree);
     const materiel = libellesMateriel(p);
     const botte = normaliser(
-      `${p.titre} ${p.description} ${ensemble ? ensemble.nom : ""} ${programmation ? programmation.nom : ""} ${univers.map((u) => u.long).join(" ")} ${niveau ? niveau.nom : ""} ${materiel.join(" ")}`);
+      `${p.titre} ${p.description} ${cycles.map((c) => c.long).join(" ")} ${ensemble ? ensemble.nom : ""} ` +
+      `${programmation ? programmation.nom : ""} ${univers.map((u) => u.long).join(" ")} ` +
+      `${niveau ? niveau.nom : ""} ${duree ? `${duree.texte} ${duree.detail}` : ""} ${materiel.join(" ")}`);
     return mots.every((mot) => botte.includes(mot));
   }
 
   function correspondFiltres(p, cleIgnoree = "") {
-    if (cleIgnoree !== "cycle" && etat.cycle && !listeValeurs(p.cycle).includes(etat.cycle)) return false;
-    if (cleIgnoree !== "ensemble" && etat.ensemble && p.ensemble !== etat.ensemble) return false;
-    if (cleIgnoree !== "programmation" && etat.programmation && (p.programmation || programmationParDefaut(p.ensemble)) !== etat.programmation) return false;
-    if (cleIgnoree !== "univers" && etat.univers && !listeValeurs(p.univers).includes(etat.univers)) return false;
-    if (cleIgnoree !== "difficulte" && etat.difficulte && p.difficulte !== etat.difficulte) return false;
-    if (cleIgnoree !== "materiel" && etat.materiel && !valeursMateriel(p).includes(etat.materiel)) return false;
+    for (const cle of CLES_FILTRES) {
+      if (cle === cleIgnoree || etat[cle].length === 0) continue;
+      const valeurs = valeursProjet(p, cle);
+      if (!etat[cle].some((valeur) => valeurs.includes(valeur))) return false;
+    }
     return correspondRecherche(p);
   }
 
@@ -181,6 +201,7 @@
   function valeursProjet(p, cle) {
     if (cle === "materiel") return valeursMateriel(p);
     if (cle === "programmation") return [p.programmation || programmationParDefaut(p.ensemble)];
+    if (cle === "duree") return [String(p.duree || "")].filter(Boolean);
     return listeValeurs(p[cle]);
   }
 
@@ -188,7 +209,7 @@
     document.querySelectorAll(".jeton").forEach((bouton) => {
       const cle = bouton.dataset.cle;
       const valeur = bouton.dataset.valeur;
-      const actif = etat[cle] === valeur;
+      const actif = valeur ? etat[cle].includes(valeur) : etat[cle].length === 0;
       const nombre = projets.filter((p) =>
         correspondFiltres(p, cle) && (!valeur || valeursProjet(p, cle).includes(valeur))
       ).length;
@@ -198,12 +219,11 @@
       bouton.querySelector(".jeton__compte").textContent = `(${nombre})`;
       bouton.setAttribute(
         "aria-label",
-        `${bouton.dataset.libelle}, ${nombre} projet${nombre > 1 ? "s" : ""}`
+        `${bouton.dataset.libelle}, ${nombre} projet${nombre > 1 ? "s" : ""}${actif ? ", sélectionné" : ""}`
       );
     });
 
-    const nombreActifs = ["cycle", "ensemble", "programmation", "univers", "difficulte", "materiel"]
-      .filter((cle) => etat[cle]).length + (etat.q ? 1 : 0);
+    const nombreActifs = CLES_FILTRES.reduce((total, cle) => total + etat[cle].length, 0) + (etat.q ? 1 : 0);
     if (elNombreFiltres) {
       elNombreFiltres.hidden = nombreActifs === 0;
       elNombreFiltres.textContent = nombreActifs;
@@ -214,7 +234,7 @@
     boutonsContinuum.forEach((bouton) => {
       const cycle = bouton.dataset.cycle;
       const nombre = projets.filter((p) => listeValeurs(p.cycle).includes(cycle)).length;
-      const actif = etat.cycle === cycle;
+      const actif = etat.cycle.includes(cycle);
       const action = bouton.querySelector("[data-compte-cycle]");
 
       bouton.setAttribute("aria-pressed", String(actif));
@@ -227,7 +247,7 @@
 
   function appliquer() {
     const visibles = filtrer();
-    const filtreActif = Boolean(etat.cycle || etat.ensemble || etat.programmation || etat.univers || etat.difficulte || etat.materiel || etat.q);
+    const filtreActif = CLES_FILTRES.some((cle) => etat[cle].length > 0) || Boolean(etat.q);
 
     mettreAJourFiltres();
     mettreAJourContinuum();

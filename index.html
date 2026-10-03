@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotique — CSS des Bois-Francs</title>
 <meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
-<link rel="stylesheet" href="assets/style.css?v=20261002d">
+<link rel="stylesheet" href="assets/style.css?v=20261002f">
 <script>
   (() => {
-    const versionLocale = "20261002e";
+    const versionLocale = "20261002f";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -95,6 +95,8 @@
       </div>
     </div>
 
+    <p class="filtres__aide">Vous pouvez sélectionner plusieurs choix dans une même catégorie.</p>
+
     <div class="groupe-filtre">
       <span class="groupe-filtre__titre" id="titre-cycle">Cycle</span>
       <div class="jetons" id="filtres-cycle" role="group" aria-labelledby="titre-cycle"></div>
@@ -118,6 +120,11 @@
     <div class="groupe-filtre">
       <span class="groupe-filtre__titre" id="titre-difficulte">Difficulté</span>
       <div class="jetons" id="filtres-difficulte" role="group" aria-labelledby="titre-difficulte"></div>
+    </div>
+
+    <div class="groupe-filtre">
+      <span class="groupe-filtre__titre" id="titre-duree">Durée</span>
+      <div class="jetons" id="filtres-duree" role="group" aria-labelledby="titre-duree"></div>
     </div>
 
     <div class="groupe-filtre">
@@ -150,7 +157,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20261002d"></script>
-<script src="assets/app.js?v=20261002d"></script>
+<script src="assets/commun.js?v=20261002f"></script>
+<script src="assets/app.js?v=20261002f"></script>
 </body>
 </html>

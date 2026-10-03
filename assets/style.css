@@ -276,6 +276,13 @@ a { color: var(--accent); }
 }
 .filtres--ouvert .filtres__grille { display: flex; }
 
+.filtres__aide {
+  flex: 1 1 100%;
+  margin: -8px 0 -4px;
+  color: var(--gris);
+  font-size: .82rem;
+}
+
 .groupe-filtre { min-width: 0; }
 
 .groupe-filtre__titre {
@@ -874,6 +881,17 @@ fieldset.champ {
 .bandeau strong { display: block; }
 
 /* Liste des projets dans l'admin */
+
+.outils-projets {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px 18px;
+  margin-bottom: 16px;
+}
+.champ-recherche--admin { flex: 1 1 340px; max-width: 560px; }
+.barre-boutons--outils { margin: 0; }
 
 .liste-projets { list-style: none; margin: 0; padding: 0; }
 

@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Administration — Robotique</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="assets/style.css?v=20261002d">
+<link rel="stylesheet" href="assets/style.css?v=20261002f">
 <script>
   (() => {
-    const versionLocale = "20261002d";
+    const versionLocale = "20261002f";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -213,8 +213,22 @@
 
       <div class="bandeau bandeau--attente" id="bandeau-publication" hidden></div>
 
-      <div class="barre-boutons" style="margin-top:0; margin-bottom:16px">
-        <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-recharger" disabled>Recharger depuis le site</button>
+      <div class="outils-projets">
+        <div class="champ-recherche champ-recherche--admin">
+          <label class="groupe-filtre__titre" for="recherche-admin">Rechercher dans les projets</label>
+          <div class="champ-recherche__boite">
+            <svg class="champ-recherche__icone" width="17" height="17" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+              <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
+            </svg>
+            <input type="search" id="recherche-admin" autocomplete="off"
+                   placeholder="Titre, cycle, ensemble, capteur…">
+          </div>
+        </div>
+        <div class="barre-boutons barre-boutons--outils">
+          <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-effacer-recherche-admin" hidden>Effacer la recherche</button>
+          <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-recharger" disabled>Recharger depuis le site</button>
+        </div>
       </div>
 
       <pre class="journal" id="journal" hidden></pre>
@@ -231,7 +245,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20261002d"></script>
-<script src="assets/admin.js?v=20261002d"></script>
+<script src="assets/commun.js?v=20261002f"></script>
+<script src="assets/admin.js?v=20261002f"></script>
 </body>
 </html>
