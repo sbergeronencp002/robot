@@ -176,8 +176,7 @@
     "titre": "Bevelbot - A",
     "description": "Construis et programme le Bevelbot.",
     "cycle": [
-      "2",
-      "3"
+      "2"
     ],
     "ensemble": "ev3",
     "moteurs": 1,
