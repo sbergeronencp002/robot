@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotique — CSS des Bois-Francs</title>
 <meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
-<link rel="stylesheet" href="assets/style.css?v=20261002f">
+<link rel="stylesheet" href="assets/style.css?v=20261002g">
 <script>
   (() => {
-    const versionLocale = "20261002f";
+    const versionLocale = "20261002g";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -37,24 +37,25 @@
   </div>
 </header>
 
-<section class="continuum" aria-labelledby="titre-continuum">
+<section class="continuum" aria-label="Continuum pédagogique">
   <div class="contenant">
-    <div class="continuum__entete">
-      <div>
-        <p class="continuum__sur-titre">Progression pédagogique</p>
-        <h2 class="continuum__titre" id="titre-continuum">Un continuum pour tout le primaire</h2>
-      </div>
-      <div class="continuum__droite">
-        <p class="continuum__introduction">Choisissez votre cycle pour découvrir des projets qui accompagnent progressivement les élèves.</p>
-        <button type="button" class="continuum__bascule" id="bascule-continuum"
-                aria-expanded="true" aria-controls="continuum-grille">
-          <span id="libelle-continuum">Réduire</span>
-          <span class="continuum__chevron" aria-hidden="true">⌃</span>
-        </button>
-      </div>
-    </div>
+    <details class="continuum__details" open>
+      <summary class="continuum__resume">
+        <div>
+          <p class="continuum__sur-titre">Progression pédagogique</p>
+          <h2 class="continuum__titre">Un continuum pour tout le primaire</h2>
+        </div>
+        <span class="continuum__etat" aria-hidden="true">
+          <span class="continuum__etat--ouvert">Réduire</span>
+          <span class="continuum__etat--ferme">Afficher</span>
+          <span class="continuum__resume-chevron">⌃</span>
+        </span>
+      </summary>
 
-    <div class="continuum__grille" id="continuum-grille">
+      <div class="continuum__contenu">
+        <p class="continuum__introduction">Choisissez votre cycle pour découvrir des projets qui accompagnent progressivement les élèves.</p>
+
+        <div class="continuum__grille">
       <button type="button" class="continuum__carte continuum__carte--1" data-cycle="1" aria-pressed="false">
         <span class="continuum__cycle">1er cycle</span>
         <strong class="continuum__intention">Découvrir et programmer</strong>
@@ -76,6 +77,8 @@
         <span class="continuum__action" data-compte-cycle="3">Voir les projets <span aria-hidden="true">→</span></span>
       </button>
     </div>
+      </div>
+    </details>
   </div>
 </section>
 
@@ -164,7 +167,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20261002f"></script>
-<script src="assets/app.js?v=20261002f"></script>
+<script src="assets/commun.js?v=20261002g"></script>
+<script src="assets/app.js?v=20261002g"></script>
 </body>
 </html>

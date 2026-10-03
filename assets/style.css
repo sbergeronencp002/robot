@@ -1101,3 +1101,94 @@ fieldset.champ {
   margin: 0;
   accent-color: var(--accent);
 }
+
+
+/* ---------- Continuum repliable natif ---------- */
+
+.continuum__details {
+  display: block;
+}
+
+.continuum__resume {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  cursor: pointer;
+  list-style: none;
+  user-select: none;
+}
+
+.continuum__resume::-webkit-details-marker {
+  display: none;
+}
+
+.continuum__resume::marker {
+  content: "";
+}
+
+.continuum__etat {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 11px;
+  border: 1px solid #b7cce1;
+  border-radius: 8px;
+  background: var(--blanc);
+  color: var(--marine);
+  font-size: .84rem;
+  font-weight: 700;
+}
+
+.continuum__etat--ferme {
+  display: none;
+}
+
+.continuum__resume-chevron {
+  display: inline-block;
+  transition: transform .15s ease;
+}
+
+.continuum__contenu {
+  padding-top: 14px;
+}
+
+.continuum__contenu .continuum__introduction {
+  max-width: none;
+  margin: 0 0 14px;
+}
+
+.continuum__details:not([open]) .continuum__etat--ouvert {
+  display: none;
+}
+
+.continuum__details:not([open]) .continuum__etat--ferme {
+  display: inline;
+}
+
+.continuum__details:not([open]) .continuum__resume-chevron {
+  transform: rotate(180deg);
+}
+
+.continuum:has(.continuum__details:not([open])) {
+  padding-block: 11px;
+}
+
+.continuum__details:not([open]) .continuum__sur-titre {
+  display: none;
+}
+
+.continuum__details:not([open]) .continuum__titre {
+  font-size: 1rem;
+}
+
+@media (max-width: 760px) {
+  .continuum__resume {
+    align-items: center;
+  }
+
+  .continuum__etat {
+    padding: 7px 9px;
+  }
+}
