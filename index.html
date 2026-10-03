@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="assets/style.css?v=20261002d">
 <script>
   (() => {
-    const versionLocale = "20261002d";
+    const versionLocale = "20261002e";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -51,21 +51,21 @@
       <button type="button" class="continuum__carte continuum__carte--1" data-cycle="1" aria-pressed="false">
         <span class="continuum__cycle">1er cycle</span>
         <strong class="continuum__intention">Découvrir et programmer</strong>
-        <span class="continuum__description">Construire, suivre un plan et programmer des séquences simples.</span>
+        <span class="continuum__description">Construire, suivre un plan, programmer avec des pictogrammes, utiliser un moteur et créer des séquences simples.</span>
         <span class="continuum__action" data-compte-cycle="1">Voir les projets <span aria-hidden="true">→</span></span>
       </button>
 
       <button type="button" class="continuum__carte continuum__carte--2" data-cycle="2" aria-pressed="false">
         <span class="continuum__cycle">2e cycle</span>
         <strong class="continuum__intention">Expérimenter et résoudre</strong>
-        <span class="continuum__description">Utiliser des capteurs, faire des essais et ajuster une solution.</span>
+        <span class="continuum__description">Programmer avec des blocs de mots, utiliser des capteurs, faire des essais, formuler une hypothèse et une explication, puis ajuster une solution.</span>
         <span class="continuum__action" data-compte-cycle="2">Voir les projets <span aria-hidden="true">→</span></span>
       </button>
 
       <button type="button" class="continuum__carte continuum__carte--3" data-cycle="3" aria-pressed="false">
         <span class="continuum__cycle">3e cycle</span>
-        <strong class="continuum__intention">Concevoir et optimiser</strong>
-        <span class="continuum__description">Modifier, comparer et optimiser un robot, sa programmation et ses mécanismes.</span>
+        <strong class="continuum__intention">Concevoir et améliorer</strong>
+        <span class="continuum__description">Concevoir, modifier, comparer et optimiser; enregistrer des données et intégrer la programmation et les mécanismes.</span>
         <span class="continuum__action" data-compte-cycle="3">Voir les projets <span aria-hidden="true">→</span></span>
       </button>
     </div>
