@@ -44,10 +44,17 @@
         <p class="continuum__sur-titre">Progression pédagogique</p>
         <h2 class="continuum__titre" id="titre-continuum">Un continuum pour tout le primaire</h2>
       </div>
-      <p class="continuum__introduction">Choisissez votre cycle pour découvrir des projets qui accompagnent progressivement les élèves.</p>
+      <div class="continuum__droite">
+        <p class="continuum__introduction">Choisissez votre cycle pour découvrir des projets qui accompagnent progressivement les élèves.</p>
+        <button type="button" class="continuum__bascule" id="bascule-continuum"
+                aria-expanded="true" aria-controls="continuum-grille">
+          <span id="libelle-continuum">Réduire</span>
+          <span class="continuum__chevron" aria-hidden="true">⌃</span>
+        </button>
+      </div>
     </div>
 
-    <div class="continuum__grille">
+    <div class="continuum__grille" id="continuum-grille">
       <button type="button" class="continuum__carte continuum__carte--1" data-cycle="1" aria-pressed="false">
         <span class="continuum__cycle">1er cycle</span>
         <strong class="continuum__intention">Découvrir et programmer</strong>
