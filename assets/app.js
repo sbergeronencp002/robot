@@ -23,6 +23,9 @@
   const elNombreFiltres = document.getElementById("nombre-filtres");
   const elLibelleFiltres = document.getElementById("libelle-filtres");
   const boutonsContinuum = Array.from(document.querySelectorAll(".continuum__carte"));
+  const elContinuum = document.querySelector(".continuum");
+  const elBasculeContinuum = document.getElementById("bascule-continuum");
+  const elLibelleContinuum = document.getElementById("libelle-continuum");
   const boutonsReset = [
     document.getElementById("reinitialiser"),
     document.getElementById("reinitialiser-2")
@@ -93,6 +96,26 @@
       appliquer();
     });
   });
+
+  function reglerContinuumReduit(reduit, memoriser = true) {
+    if (!elContinuum || !elBasculeContinuum) return;
+    elContinuum.classList.toggle("continuum--reduit", reduit);
+    elBasculeContinuum.setAttribute("aria-expanded", String(!reduit));
+    if (elLibelleContinuum) elLibelleContinuum.textContent = reduit ? "Afficher" : "Réduire";
+    if (memoriser) {
+      try { localStorage.setItem("continuum-reduit", reduit ? "1" : "0"); } catch (_) {}
+    }
+  }
+
+  if (elContinuum && elBasculeContinuum) {
+    let continuumReduit = false;
+    try { continuumReduit = localStorage.getItem("continuum-reduit") === "1"; } catch (_) {}
+    reglerContinuumReduit(continuumReduit, false);
+
+    elBasculeContinuum.addEventListener("click", () => {
+      reglerContinuumReduit(!elContinuum.classList.contains("continuum--reduit"));
+    });
+  }
 
   boutonsContinuum.forEach((bouton) => {
     bouton.addEventListener("click", () => {
