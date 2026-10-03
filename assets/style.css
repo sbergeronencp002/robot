@@ -333,8 +333,16 @@ a { color: var(--accent); }
   font-weight: 700;
   cursor: pointer;
 }
-.filtres__nombre {
+.filtres__droite {
+  display: inline-flex;
   margin-left: auto;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 9px;
+  white-space: nowrap;
+}
+
+.filtres__nombre {
   min-width: 1.55rem;
   padding: 1px 7px;
   border-radius: 999px;
@@ -343,7 +351,25 @@ a { color: var(--accent); }
   font-size: .78rem;
   text-align: center;
 }
-.filtres__chevron { transition: transform .15s ease; }
+
+.filtres__etat {
+  min-width: 3.65rem;
+  color: var(--marine);
+  font-size: .84rem;
+  font-weight: 700;
+  text-align: right;
+}
+
+.filtres__etat--ouvert { display: none; }
+.filtres--ouvert .filtres__etat--ferme { display: none; }
+.filtres--ouvert .filtres__etat--ouvert { display: inline; }
+
+.filtres__chevron {
+  display: inline-block;
+  width: .85rem;
+  text-align: center;
+  transition: transform .15s ease;
+}
 .filtres--ouvert .filtres__chevron { transform: rotate(180deg); }
 
 .filtres__grille {
