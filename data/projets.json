@@ -48,11 +48,10 @@
   {
     "id": "pmulr80t5rbtj",
     "cree": "2026-09-28T21:23:13.817Z",
-    "titre": "Le Speedbot",
+    "titre": "Le Speedbot - A",
     "description": "Construis et programme le Speedbot.",
     "cycle": [
-      "2",
-      "3"
+      "2"
     ],
     "ensemble": "ev3",
     "programmation": "scratch",
@@ -152,8 +151,7 @@
     "titre": "Bevelbot - B",
     "description": "Modifie et programme le Bevelbot.",
     "cycle": [
-      "2",
-      "3"
+      "2"
     ],
     "ensemble": "ev3",
     "moteurs": 1,
