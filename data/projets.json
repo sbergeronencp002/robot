@@ -1,5 +1,28 @@
 [
   {
+    "id": "pmutwvud07ibe",
+    "cree": "2026-10-04T14:23:52.692Z",
+    "titre": "Milo",
+    "description": "Construis Milo et programme le moteur pour le faire avancer.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "wedo",
+    "programmation": "pictos",
+    "moteurs": 1,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 60,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCOeUzoFaKDQKE3y0EyL_1NAe_ost5opFgws2iYyj0pbwQ?e=NBHW8B",
+      "guide": ""
+    },
+    "image": "images/2026-10-04-projet-7zcw.webp"
+  },
+  {
     "id": "pmur8a1nokaw9",
     "cree": "2026-10-02T17:19:32.580Z",
     "titre": "Le simulateur sismique",
@@ -48,7 +71,7 @@
   {
     "id": "pmulr80t5rbtj",
     "cree": "2026-09-28T21:23:13.817Z",
-    "titre": "Le Speedbot - A",
+    "titre": "Speedbot - A",
     "description": "Construis et programme le Speedbot.",
     "cycle": [
       "2"
