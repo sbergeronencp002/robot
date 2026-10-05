@@ -1,5 +1,51 @@
 [
   {
+    "id": "pmuvwvpgwbf8p",
+    "cree": "2026-10-05T23:59:18.704Z",
+    "titre": "Le moulin",
+    "description": "Construis et programme le moulin.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "wedo",
+    "programmation": "pictos",
+    "moteurs": 1,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 60,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCRVwp_rxx3SYd0rDuGM2NMASujXHwgqUetiv7TEToEg-8?e=SZYt7f",
+      "guide": ""
+    },
+    "image": "images/2026-10-05-le-moulin-oxh7.webp"
+  },
+  {
+    "id": "pmuvwupexf12a",
+    "cree": "2026-10-05T23:58:31.977Z",
+    "titre": "Le satellique",
+    "description": "Construis et programme le satellite.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "wedo",
+    "programmation": "pictos",
+    "moteurs": 1,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 60,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQAVJTIKOt1GT50MMH3uAFU-AdIwLi13U4MaDwXRdHT1AzY?e=pK8TJ9",
+      "guide": ""
+    },
+    "image": "images/2026-10-05-le-satellique-ijkr.webp"
+  },
+  {
     "id": "pmuvwt7623yl2",
     "cree": "2026-10-05T23:57:21.674Z",
     "titre": "L'escargot qui brille",
