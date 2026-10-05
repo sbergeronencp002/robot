@@ -1,5 +1,28 @@
 [
   {
+    "id": "pmuvwt7623yl2",
+    "cree": "2026-10-05T23:57:21.674Z",
+    "titre": "L'escargot qui brille",
+    "description": "Construis et programme l'escargot qui brille",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "wedo",
+    "programmation": "pictos",
+    "moteurs": 0,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 60,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBXemrEmtc1QJsc2i4Imqc6Aaz7PGJKZak-CHKhw6yLyqM?e=lFrIMY",
+      "guide": ""
+    },
+    "image": "images/2026-10-05-l-escargot-qui-brille-0ces.webp"
+  },
+  {
     "id": "pmutwvud07ibe",
     "cree": "2026-10-04T14:23:52.692Z",
     "titre": "Milo",
@@ -26,7 +49,7 @@
     "id": "pmur8a1nokaw9",
     "cree": "2026-10-02T17:19:32.580Z",
     "titre": "Le simulateur sismique",
-    "description": "Construis et programme le simulateur sismique",
+    "description": "Construis et programme le simulateur sismique.",
     "cycle": [
       "3"
     ],
@@ -49,7 +72,7 @@
     "id": "pmur7tg3cr32l",
     "cree": "2026-10-02T17:06:38.136Z",
     "titre": "Le simulateur sismique",
-    "description": "Construis et programme un simulateur sismique",
+    "description": "Construis et programme un simulateur sismique.",
     "cycle": [
       "3"
     ],
