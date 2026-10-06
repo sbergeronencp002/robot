@@ -28,7 +28,7 @@
     "id": "pmuw1bauypt1m",
     "cree": "2026-10-06T02:03:24.730Z",
     "titre": "Base motrice - C",
-    "description": "Utilise un capteur de distance pour détecter et déplacer des objets.",
+    "description": "Programme le capteur de distance et le bras mécanique de la base motrice.",
     "cycle": [
       "3"
     ],
@@ -53,7 +53,7 @@
     "id": "pmuw1aiweiq0w",
     "cree": "2026-10-06T02:02:48.494Z",
     "titre": "Base motrice - B",
-    "description": "Utilise un capteur de distance pour détecter des objets.",
+    "description": "Programme le capteur de distance de la base motrice pour détecter des objets.",
     "cycle": [
       "3"
     ],
@@ -151,7 +151,7 @@
     "id": "pmuw0upi7lfdz",
     "cree": "2026-10-06T01:50:30.559Z",
     "titre": "Base motrice - D",
-    "description": "Programme le capteur de distance de la base motrice pour détecter et déplacer des objets.",
+    "description": "Programme le capteur de distance et le bras mécanique de la base motrice.",
     "cycle": [
       "3"
     ],
