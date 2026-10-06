@@ -2,7 +2,7 @@
   {
     "id": "pmuw118o93075",
     "cree": "2026-10-06T01:55:35.337Z",
-    "titre": "Base motrice - D",
+    "titre": "Base motrice - C",
     "description": "Programme le capteur de couleur de la base motrice pour détecter et réagir à des lignes.",
     "cycle": [
       "3"
@@ -52,7 +52,7 @@
   {
     "id": "pmuw0upi7lfdz",
     "cree": "2026-10-06T01:50:30.559Z",
-    "titre": "Base motrice - C",
+    "titre": "Base motrice - D",
     "description": "Utilise un capteur de distance pour détecter et déplacer des objets.",
     "cycle": [
       "3"
@@ -66,7 +66,7 @@
     "univers": [
       "materiel"
     ],
-    "difficulte": "intermediaire",
+    "difficulte": "expert",
     "duree": 120,
     "documents": {
       "eleve": "",
