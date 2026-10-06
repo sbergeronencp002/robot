@@ -240,7 +240,7 @@
     "id": "pmubblgsg7hxg",
     "cree": "2026-09-21T14:08:05.440Z",
     "titre": "Bevelbot - B",
-    "description": "Modifie et programme le Bevelbot.",
+    "description": "Modifie les engrenages, teste le robot et améliore ses performances.",
     "cycle": [
       "2"
     ],
@@ -263,7 +263,7 @@
     "id": "pmubbkgdrxben",
     "cree": "2026-09-21T14:07:18.255Z",
     "titre": "Bevelbot - A",
-    "description": "Construis et programme le Bevelbot.",
+    "description": "Construis, programme et découvre les possibilités du robot.",
     "cycle": [
       "2"
     ],
