@@ -1,5 +1,28 @@
 [
   {
+    "id": "pmuwoswz6vf7k",
+    "cree": "2026-10-06T13:00:57.714Z",
+    "titre": "Milo - A",
+    "description": "Construis et programme Milo.",
+    "cycle": [
+      "2"
+    ],
+    "ensemble": "wedo",
+    "programmation": "pictos",
+    "moteurs": 1,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQBr_UoEuUEqTJPC5y3sz_DHAVt9HONpt4SUM-2CfGVMssE?e=W2AITl",
+      "guide": ""
+    },
+    "image": "images/2026-10-06-milo-a-ncfr.webp"
+  },
+  {
     "id": "pmuw1itdlsstk",
     "cree": "2026-10-06T02:09:15.321Z",
     "titre": "Base motrice - D",
