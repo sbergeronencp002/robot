@@ -52,7 +52,6 @@ const COMPOSANTS = [
   { id: "distance",  nom: "Capteur de distance",      court: "Distance",    icone: "📡" },
   { id: "force",     nom: "Capteur de force",         court: "Force",         icone: "👆" },
   { id: "gyroscope", nom: "Capteur gyroscopique",     court: "Gyroscope",   icone: "🧭" },
-  { id: "mouvement", nom: "Capteur de mouvement",     court: "Mouvement",   icone: "🏃" },
   { id: "matrice",   nom: "Matrice lumineuse",        court: "Matrice",     icone: "💡" },
 ];
 
