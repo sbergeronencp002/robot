@@ -710,11 +710,9 @@
     if (!fiche.univers.length) return "Choisissez au moins un univers.";
     if (!fiche.difficulte) return "Choisissez un niveau de difficulté.";
     if (!fiche.duree) return "Choisissez une durée.";
-    const verificationEleve = verifierLienSharePoint(fiche.documents.eleve);
-    if (verificationEleve.vide) return "Le lien vers le cahier de l’élève est obligatoire.";
-    if (!verificationEleve.valide) return `Cahier de l’élève : ${verificationEleve.message}`;
-    const verificationGuide = verifierLienSharePoint(fiche.documents.guide);
-    if (!verificationGuide.valide) return `Guide pédagogique : ${verificationGuide.message}`;
+    // Les liens documentaires sont temporairement facultatifs et ne bloquent
+    // ni l'enregistrement ni la publication. Les boutons « Tester » restent
+    // disponibles pour une vérification manuelle au besoin.
     return null;
   }
 

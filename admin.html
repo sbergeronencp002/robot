@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Administration — Robotique</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="assets/style.css?v=20261002f">
+<link rel="stylesheet" href="assets/style.css?v=20261005a">
 <script>
   (() => {
-    const versionLocale = "20261002f";
+    const versionLocale = "20261005a";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -150,12 +150,12 @@
         </fieldset>
 
         <fieldset class="champ groupe-documents">
-          <legend class="champ__legende">Documents du projet</legend>
+          <legend class="champ__legende">Documents du projet <span class="champ__note">— facultatifs pour le moment</span></legend>
 
           <div class="champ">
-            <label for="f-lien-eleve">Cahier de l’élève</label>
-            <input type="url" id="f-lien-eleve" spellcheck="false" required placeholder="https://cssbf.sharepoint.com/…">
-            <span class="compteur-car compteur-car--gauche">Collez un lien de partage accessible aux membres du CSSBF.</span>
+            <label for="f-lien-eleve">Cahier de l’élève <span class="champ__note">— facultatif</span></label>
+            <input type="url" id="f-lien-eleve" spellcheck="false" placeholder="https://cssbf.sharepoint.com/…">
+            <span class="compteur-car compteur-car--gauche">Le lien ne sera pas validé automatiquement.</span>
             <div class="barre-boutons barre-boutons--compacte">
               <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-tester-lien-eleve">Tester le cahier</button>
             </div>
@@ -165,7 +165,7 @@
           <div class="champ">
             <label for="f-lien-guide">Guide pédagogique <span class="champ__note">— facultatif</span></label>
             <input type="url" id="f-lien-guide" spellcheck="false" placeholder="https://cssbf.sharepoint.com/…">
-            <span class="compteur-car compteur-car--gauche">Laissez ce champ vide si aucun guide n’est nécessaire.</span>
+            <span class="compteur-car compteur-car--gauche">Le lien ne sera pas validé automatiquement.</span>
             <div class="barre-boutons barre-boutons--compacte">
               <button type="button" class="bouton bouton--secondaire bouton--petit" id="btn-tester-lien-guide">Tester le guide</button>
             </div>
@@ -245,7 +245,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20261002f"></script>
-<script src="assets/admin.js?v=20261002f"></script>
+<script src="assets/commun.js?v=20261005a"></script>
+<script src="assets/admin.js?v=20261005a"></script>
 </body>
 </html>
