@@ -1,5 +1,28 @@
 [
   {
+    "id": "pmuw0ysnq0nh0",
+    "cree": "2026-10-06T01:53:41.270Z",
+    "titre": "Base motrice - B",
+    "description": "Programme le capteur gyroscopique de la base motrice pour réaliser des déplacements précis.",
+    "cycle": [
+      "3"
+    ],
+    "ensemble": "prime",
+    "programmation": "scratch",
+    "moteurs": 2,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "",
+      "guide": ""
+    },
+    "image": "images/2026-10-06-base-motrice-b-2d9k.webp"
+  },
+  {
     "id": "pmuw0upi7lfdz",
     "cree": "2026-10-06T01:50:30.559Z",
     "titre": "Base motrice - C",
