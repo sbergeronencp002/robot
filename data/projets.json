@@ -35,7 +35,9 @@
     "ensemble": "prime",
     "programmation": "scratch",
     "moteurs": 2,
-    "composants": [],
+    "composants": [
+      "gyroscope"
+    ],
     "univers": [
       "materiel"
     ],
