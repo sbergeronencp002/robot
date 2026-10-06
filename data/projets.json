@@ -95,7 +95,7 @@
     "id": "pmur8a1nokaw9",
     "cree": "2026-10-02T17:19:32.580Z",
     "titre": "Le simulateur sismique",
-    "description": "Construis et programme le simulateur sismique.",
+    "description": "Construis, programme et teste la résistance de ton bâtiment aux séismes !",
     "cycle": [
       "3"
     ],
@@ -118,7 +118,7 @@
     "id": "pmur7tg3cr32l",
     "cree": "2026-10-02T17:06:38.136Z",
     "titre": "Le simulateur sismique",
-    "description": "Construis et programme un simulateur sismique.",
+    "description": "Construis, programme et teste la résistance de ton bâtiment aux séismes !",
     "cycle": [
       "3"
     ],
