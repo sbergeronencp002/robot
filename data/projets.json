@@ -1,5 +1,53 @@
 [
   {
+    "id": "pmuw0upi7lfdz",
+    "cree": "2026-10-06T01:50:30.559Z",
+    "titre": "Base motrice - C",
+    "description": "Utilise un capteur de distance pour détecter et déplacer des objets.",
+    "cycle": [
+      "3"
+    ],
+    "ensemble": "prime",
+    "programmation": "scratch",
+    "moteurs": 3,
+    "composants": [
+      "distance"
+    ],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "",
+      "guide": ""
+    },
+    "image": "images/2026-10-06-base-motrice-c-j4n2.webp"
+  },
+  {
+    "id": "pmuw0bdy3pqsu",
+    "cree": "2026-10-06T01:35:29.115Z",
+    "titre": "Base motrice - A",
+    "description": "Construis une base motrice et programme ses déplacements avec précision.",
+    "cycle": [
+      "3"
+    ],
+    "ensemble": "prime",
+    "programmation": "scratch",
+    "moteurs": 2,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 180,
+    "documents": {
+      "eleve": "",
+      "guide": ""
+    },
+    "image": "images/2026-10-06-la-base-motrice-a-5q1f.webp"
+  },
+  {
     "id": "pmuvwvpgwbf8p",
     "cree": "2026-10-05T23:59:18.704Z",
     "titre": "Le moulin",
