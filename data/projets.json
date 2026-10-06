@@ -1,5 +1,30 @@
 [
   {
+    "id": "pmuwrpft7alar",
+    "cree": "2026-10-06T14:22:14.347Z",
+    "titre": "La grande roue",
+    "description": "Construire, programmer et expérimenter avec une grande roue.",
+    "cycle": [
+      "2"
+    ],
+    "ensemble": "essentiel",
+    "programmation": "scratch",
+    "moteurs": 1,
+    "composants": [
+      "matrice"
+    ],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQATkVcb28HhTYQ6ix3SNm4VAR7MtLI8agkTL4_jeerzuzk",
+      "guide": ""
+    },
+    "image": "images/2026-10-06-la-grande-vk8x.webp"
+  },
+  {
     "id": "pmuwoswz6vf7k",
     "cree": "2026-10-06T13:00:57.714Z",
     "titre": "Milo - A",
