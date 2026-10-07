@@ -1,5 +1,30 @@
 [
   {
+    "id": "pmuy9ufktnoa5",
+    "cree": "2026-10-07T15:37:46.589Z",
+    "titre": "Le bolide de course - A",
+    "description": "Construis, programme et expérimente le bolide de course.",
+    "cycle": [
+      "2"
+    ],
+    "ensemble": "wedo",
+    "programmation": "pictos",
+    "moteurs": 1,
+    "composants": [
+      "distance"
+    ],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQDQIfKTUcmtTKLq3GAvGQ80AX-XF8pAN2A1BarEpZRZcyM?e=UzcN4l",
+      "guide": ""
+    },
+    "image": "images/2026-10-07-le-bolide-de-course-a-rjfv.webp"
+  },
+  {
     "id": "pmuy55l3opiep",
     "cree": "2026-10-07T13:26:28.884Z",
     "titre": "Le bolide de course",
@@ -412,7 +437,7 @@
     "titre": "Speedbot - A",
     "description": "Construis et programme le Speedbot.",
     "cycle": [
-      "2"
+      "3"
     ],
     "ensemble": "ev3",
     "programmation": "scratch",
