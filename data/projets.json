@@ -1,5 +1,30 @@
 [
   {
+    "id": "pmuy55l3opiep",
+    "cree": "2026-10-07T13:26:28.884Z",
+    "titre": "Le bolide de course",
+    "description": "Construis et programme le bolide de course.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "wedo",
+    "programmation": "pictos",
+    "moteurs": 1,
+    "composants": [
+      "distance"
+    ],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQCkjLXZPjs2S7TnuagATCugAXqd_jCq_n_uI7JA6jPG-EE?e=L0jwhq",
+      "guide": ""
+    },
+    "image": "images/2026-10-07-le-bolide-de-course-4oob.webp"
+  },
+  {
     "id": "pmuwrpft7alar",
     "cree": "2026-10-06T14:22:14.347Z",
     "titre": "La grande roue",
@@ -28,7 +53,7 @@
     "id": "pmuwoswz6vf7k",
     "cree": "2026-10-06T13:00:57.714Z",
     "titre": "Milo - A",
-    "description": "Construis et programme Milo.",
+    "description": "Construis, programme et expérimente avec Milo l'astromobile.",
     "cycle": [
       "2"
     ],
