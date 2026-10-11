@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotique — CSS des Bois-Francs</title>
 <meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
-<link rel="stylesheet" href="assets/style.css?v=20261011b">
+<link rel="stylesheet" href="assets/style.css?v=20261011c">
 <script>
   (() => {
-    const versionLocale = "20261011b";
+    const versionLocale = "20261011c";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -35,6 +35,24 @@ posthog.init("phc_uAGEECfde4E5EoHMWWRrLFvAFDUbyccgM3nds8Ttdtcc", {
 });
 </script>
 <!-- Fin PostHog -->
+
+<style>
+.entete .contenant { position: relative; }
+.reservation-ouvrir { float: right; margin: 12px 0 12px 24px; background: var(--blanc); color: var(--marine); border-color: #b7cce1; }
+.reservation-ouvrir:hover { background: var(--bleu-pale); }
+.reservation-dialogue { width: min(460px, calc(100% - 32px)); max-height: calc(100dvh - 40px); overflow: auto; padding: 28px; border: 1px solid var(--bordure); border-radius: 14px; color: var(--texte); background: var(--blanc); box-shadow: var(--ombre-forte); }
+.reservation-dialogue::backdrop { background: rgba(22,39,74,.55); }
+.reservation-dialogue h2 { margin: 0 36px 10px 0; color: var(--marine); font-size: 1.35rem; line-height: 1.3; }
+.reservation-dialogue p { color: var(--gris); font-size: .92rem; }
+.reservation-fermer { position: absolute; top: 12px; right: 12px; padding: 6px 12px; font-size: 1.4rem; }
+.reservation-choix { display: grid; gap: 10px; margin: 20px 0; }
+.reservation-personne { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--bordure); border-radius: 8px; cursor: pointer; }
+.reservation-personne:has(:checked) { border-color: var(--accent); background: var(--bleu-pale-2); }
+.reservation-personne input { accent-color: var(--accent); width: 18px; height: 18px; }
+.reservation-personne strong { color: var(--marine); }
+.reservation-suite { width: 100%; justify-content: center; text-decoration: none; }
+@media(max-width: 760px) { .reservation-ouvrir { float: none; margin: 0 0 18px; } }
+</style>
 </head>
 <body>
 
@@ -42,6 +60,7 @@ posthog.init("phc_uAGEECfde4E5EoHMWWRrLFvAFDUbyccgM3nds8Ttdtcc", {
 
 <header class="entete">
   <div class="contenant">
+    <button type="button" class="bouton reservation-ouvrir" id="reservation-ouvrir" aria-haspopup="dialog" aria-controls="reservation-dialogue">Réserver un accompagnement</button>
     <p class="entete__organisme">Centre de services scolaire des Bois-Francs</p>
     <h1 class="entete__titre">Robotique</h1>
     <p class="entete__sous-titre">
@@ -186,8 +205,48 @@ posthog.init("phc_uAGEECfde4E5EoHMWWRrLFvAFDUbyccgM3nds8Ttdtcc", {
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20261011b"></script>
-<script src="assets/app.js?v=20261011b"></script>
+<dialog class="reservation-dialogue" id="reservation-dialogue" aria-labelledby="reservation-titre" aria-describedby="reservation-description">
+  <button type="button" class="bouton bouton--secondaire reservation-fermer" id="reservation-fermer" aria-label="Fermer la fenêtre">×</button>
+  <h2 id="reservation-titre">Réserver un accompagnement</h2>
+  <p id="reservation-description">Choisissez un animateur pour un accompagnement en classe.</p>
+  <div class="reservation-choix" id="reservation-choix" role="group" aria-label="Animateur"></div>
+  <a class="bouton bouton--primaire reservation-suite" id="reservation-suite" target="_blank" rel="noopener noreferrer" hidden>Réserver</a>
+  <p>Les disponibilités s’affichent dans Microsoft Bookings, dans un nouvel onglet.</p>
+  <p id="reservation-erreur" role="status" hidden>Les réservations sont temporairement indisponibles. Réessayez plus tard.</p>
+</dialog>
+<script>
+(() => {
+  const dialogue = document.getElementById("reservation-dialogue");
+  const ouvrir = document.getElementById("reservation-ouvrir");
+  const suite = document.getElementById("reservation-suite");
+  const choix = document.getElementById("reservation-choix");
+  ouvrir.addEventListener("click", () => dialogue.showModal());
+  document.getElementById("reservation-fermer").addEventListener("click", () => dialogue.close());
+  dialogue.addEventListener("click", (event) => {
+    const rect = dialogue.getBoundingClientRect();
+    if (event.target === dialogue && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialogue.close();
+  });
+  dialogue.addEventListener("close", () => ouvrir.focus());
+  fetch("data/animateurs.json?t=" + Date.now(), {cache:"no-store"})
+    .then(r => { if (!r.ok) throw new Error(); return r.json(); })
+    .then(liste => {
+      if (!Array.isArray(liste) || !liste.length) throw new Error();
+      liste.forEach((personne, index) => {
+        const url = new URL(personne.url);
+        if (url.protocol !== "https:" || url.hostname !== "bookings.cloud.microsoft" || !personne.nom) throw new Error();
+        const label = document.createElement("label");
+        label.className = "reservation-personne";
+        const input = document.createElement("input");
+        input.type = "radio"; input.name = "animateur"; input.value = String(index);
+        const nom = document.createElement("strong"); nom.textContent = personne.nom;
+        label.append(input, nom); choix.append(label);
+        input.addEventListener("change", () => { suite.href = url.href; suite.hidden = false; suite.textContent = "Réserver avec " + personne.nom; });
+      });
+    }).catch(() => { choix.replaceChildren(); suite.hidden = true; document.getElementById("reservation-erreur").hidden = false; });
+})();
+</script>
+<script src="assets/commun.js?v=20261011c"></script>
+<script src="assets/app.js?v=20261011c"></script>
 <!-- Cloudflare Web Analytics -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"cddf0e13b4ca4887b4f29ca86d311882"}'></script>
 <!-- End Cloudflare Web Analytics -->
