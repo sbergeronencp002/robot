@@ -170,7 +170,7 @@ function htmlTuile(projet, options = {}) {
   function actionDocument(urlBrute, libelle, classe = "") {
     const url = interactif ? lienSur(urlBrute) : "";
     if (url) {
-      return `<a class="tuile__action ${classe}" href="${echapper(url)}" target="_blank" rel="noopener noreferrer">${ICONE_DOC} ${echapper(libelle)}</a>`;
+      return `<a class="tuile__action ${classe}" href="${echapper(url)}" target="_blank" rel="noopener noreferrer" data-projet-titre="${echapper(projet.titre)}" data-projet-ensemble="${echapper(projet.ensemble)}" data-projet-cycle="${echapper(listeValeurs(projet.cycle).join(","))}" data-document-type="${classe === "tuile__action--guide" ? "guide" : "cahier"}">${ICONE_DOC} ${echapper(libelle)}</a>`;
     }
     if (urlBrute) {
       return `<span class="tuile__action ${classe}">${ICONE_DOC} ${echapper(libelle)}</span>`;
