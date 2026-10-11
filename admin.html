@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Administration — Robotique</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="assets/style.css?v=20261005c">
+<link rel="stylesheet" href="assets/style.css?v=20261011c">
 <script>
   (() => {
-    const versionLocale = "20261005c";
+    const versionLocale = "20261011c";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -87,6 +87,18 @@
     </div>
   </details>
 
+<section class="panneau" id="panneau-animateurs">
+<h2>4 · Animateurs et réservations</h2>
+<p class="panneau__aide">Modifiez les noms et les liens Microsoft Bookings. Ces réservations se publient séparément des projets.</p>
+<form id="form-animateurs">
+<div id="champs-animateurs"></div>
+<div class="barre-boutons">
+<button type="button" class="bouton bouton--secondaire" id="ajouter-animateur">Ajouter un animateur</button>
+<button type="submit" class="bouton bouton--publier" id="publier-animateurs">Publier les réservations</button>
+</div>
+<p id="etat-animateurs" role="status"></p>
+</form>
+</section>
   <!-- ===================== 2 · Formulaire ===================== -->
   <section class="panneau">
     <h2 id="titre-formulaire">2 · Nouveau projet</h2>
@@ -245,7 +257,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20261005c"></script>
-<script src="assets/admin.js?v=20261005c"></script>
+<script src="assets/commun.js?v=20261011c"></script>
+<script src="assets/admin.js?v=20261011c"></script>
 </body>
 </html>
