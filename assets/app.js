@@ -31,6 +31,26 @@
     document.getElementById("reinitialiser-2")
   ];
 
+
+  /* ---------- Mesure des usages pédagogiques (PostHog) ---------- */
+  function mesurer(evenement, proprietes) {
+    if (window.posthog && typeof window.posthog.capture === "function") {
+      window.posthog.capture(evenement, proprietes);
+    }
+  }
+
+  // Délégation : fonctionne aussi après le rechargement des tuiles par les filtres.
+  elGrille.addEventListener("click", (evenement) => {
+    const lien = evenement.target.closest("a[data-document-type]");
+    if (!lien || !elGrille.contains(lien)) return;
+    mesurer("document_ouvert", {
+      type_document: lien.dataset.documentType,
+      projet: lien.dataset.projetTitre,
+      ensemble: lien.dataset.projetEnsemble,
+      cycles: lien.dataset.projetCycle
+    });
+  });
+
   /* ---------- Construction des filtres ---------- */
 
   function construireJetons(conteneur, cle, options) {
@@ -93,6 +113,7 @@
         else valeurs.add(valeur);
         etat[cle] = Array.from(valeurs);
       }
+      mesurer("filtre_utilise", { categorie: cle, choix: valeur || "tous", actif: !valeur || etat[cle].includes(valeur) });
       appliquer();
     });
   });
@@ -120,6 +141,7 @@
   boutonsContinuum.forEach((bouton) => {
     bouton.addEventListener("click", () => {
       etat.cycle = [bouton.dataset.cycle];
+      mesurer("continuum_selectionne", { cycle: bouton.dataset.cycle });
       appliquer();
       document.getElementById("resultats").scrollIntoView({
         behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
