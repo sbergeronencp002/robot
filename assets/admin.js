@@ -287,6 +287,7 @@
       }
       enregistrerDepot();
       connecte = true;
+      chargerAnimateurs().catch(err => { $("etat-animateurs").textContent = err.message; });
 
       const brouillonEnAttente = modifie;
       // À l'ouverture de la page, on conserve d'office le travail en cours :
@@ -1240,6 +1241,58 @@
     evenement.preventDefault();
     evenement.returnValue = "";
   });
+
+
+  /* Réservations : édition indépendante, contrôle des conflits par SHA. */
+  let animateursSha = null;
+  let animateursCible = null;
+  function ajouterAnimateur(personne = {nom:"", url:""}) {
+    const ligne = document.createElement("div");
+    ligne.className = "panneau";
+    const nom = document.createElement("input");
+    nom.type = "text"; nom.required = true; nom.maxLength = 60; nom.value = personne.nom;
+    const lien = document.createElement("input");
+    lien.type = "url"; lien.required = true; lien.value = personne.url;
+    [ ["Nom", nom], ["Lien Microsoft Bookings", lien] ].forEach(([texte, input]) => {
+      const bloc = document.createElement("div"); bloc.className = "champ";
+      const label = document.createElement("label"); label.textContent = texte; label.append(input);
+      bloc.append(label); ligne.append(bloc);
+    });
+    const retirer = document.createElement("button"); retirer.type = "button"; retirer.className = "bouton bouton--danger bouton--petit"; retirer.textContent = "Retirer";
+    retirer.addEventListener("click", () => ligne.remove()); ligne.append(retirer);
+    $("champs-animateurs").append(ligne);
+  }
+  async function chargerAnimateurs() {
+    if (!connecte) return;
+    const cible = cibleActuelle();
+    const fichier = await lireFichier("data/animateurs.json");
+    if (!memeCible(cible, cibleActuelle())) return;
+    const liste = JSON.parse(decoderBase64(fichier.content));
+    $("champs-animateurs").replaceChildren();
+    liste.forEach(ajouterAnimateur); animateursSha = fichier.sha; animateursCible = cible;
+  }
+  $("ajouter-animateur").addEventListener("click", () => ajouterAnimateur());
+  $("form-animateurs").addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const etat = $("etat-animateurs");
+    if (!connecte || !animateursSha || !memeCible(animateursCible, cibleActuelle())) { etat.textContent = "Connectez-vous au dépôt et rechargez les réservations avant de publier."; return; }
+    const liste = Array.from($("champs-animateurs").children).map(ligne => ({nom: ligne.querySelector('input[type="text"]').value.trim(), url: ligne.querySelector('input[type="url"]').value.trim()}));
+    if (!liste.length || liste.some(p => { try { const u = new URL(p.url); return !p.nom || u.protocol !== "https:" || u.hostname !== "bookings.cloud.microsoft"; } catch { return true; } })) {
+      etat.textContent = "Chaque animateur doit avoir un nom et un lien HTTPS Microsoft Bookings valide."; return;
+    }
+    $("publier-animateurs").disabled = true;
+    try {
+      const octets = new TextEncoder().encode(JSON.stringify(liste, null, 2) + "\n");
+      const content = btoa(Array.from(octets, b => String.fromCharCode(b)).join(""));
+      const resultat = await api(racineContenu("data/animateurs.json"), {method:"PUT", corps:{message:"Mise à jour des réservations d’accompagnement",content,sha:animateursSha,branch:depot.branche}});
+      animateursSha = resultat.content.sha; etat.textContent = "Réservations publiées. Le site se met à jour dans une minute ou deux.";
+    } catch (err) { etat.textContent = err.message; } finally { $("publier-animateurs").disabled = false; }
+  });
+  const rechargerReservations = document.createElement("button");
+  rechargerReservations.type = "button"; rechargerReservations.className = "bouton bouton--secondaire";
+  rechargerReservations.textContent = "Recharger les réservations";
+  rechargerReservations.addEventListener("click", () => chargerAnimateurs().then(() => { $("etat-animateurs").textContent = connecte ? "Réservations chargées." : "Connectez-vous au dépôt."; }).catch(err => { $("etat-animateurs").textContent = err.message; }));
+  $("panneau-animateurs").querySelector(".barre-boutons").prepend(rechargerReservations);
 
   /* ==========================================================================
      Démarrage
