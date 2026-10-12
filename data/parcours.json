@@ -24,24 +24,12 @@
     ],
     "essentiel": [
       {
-        "projet": "pmtym6t42ficl",
-        "intention": "Construis la grande roue et programme le moteur pour la faire tourner."
-      },
-      {
-        "projet": "pmtylootc2bti",
-        "intention": "Construis le pendule et programme le moteur pour le faire se balancer d’avant en arrière."
-      },
-      {
-        "projet": "pmtylmga3376i",
-        "intention": "Construis et programme un laisser-passer pour permettre au personnage de passer plus rapidement."
-      },
-      {
         "projet": "pmtx879g2rnk2",
         "intention": "Construis une cabane et programme le moteur pour simuler l'ouverture du toit."
       },
       {
-        "projet": "pmtykon4qrk1h",
-        "intention": "Construis le compagnon et programme ses deux moteurs pour le faire avancer, reculer et tourner."
+        "projet": "pmtxblf0vld5b",
+        "intention": "Construis un sous-marin et programme son moteur pour simuler son déplacement sous l’eau."
       },
       {
         "projet": "pmtykkvf879i0",
@@ -52,8 +40,20 @@
         "intention": "Construis une motoneige et programme son moteur afin de simuler le déplacement sur le sol arctique."
       },
       {
-        "projet": "pmtxblf0vld5b",
-        "intention": "Construis un sous-marin et programme son moteur pour simuler son déplacement sous l’eau."
+        "projet": "pmtylootc2bti",
+        "intention": "Construis le pendule et programme le moteur pour le faire se balancer d’avant en arrière."
+      },
+      {
+        "projet": "pmtym6t42ficl",
+        "intention": "Construis la grande roue et programme le moteur pour la faire tourner."
+      },
+      {
+        "projet": "pmtylmga3376i",
+        "intention": "Construis et programme un laisser-passer pour permettre au personnage de passer plus rapidement."
+      },
+      {
+        "projet": "pmtykon4qrk1h",
+        "intention": "Construis le compagnon et programme ses deux moteurs pour le faire avancer, reculer et tourner."
       }
     ]
   },
