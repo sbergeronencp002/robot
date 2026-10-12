@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotique — CSS des Bois-Francs</title>
 <meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
-<link rel="stylesheet" href="assets/style.css?v=20261011f">
+<link rel="stylesheet" href="assets/style.css?v=20261011g">
 <script>
   (() => {
-    const versionLocale = "20261011f";
+    const versionLocale = "20261011g";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -53,7 +53,7 @@ posthog.init("phc_uAGEECfde4E5EoHMVWRrLFvAFDUbyccgM3nds8Ttdtcc", {
 .reservation-suite { width: 100%; justify-content: center; text-decoration: none; }
 @media(max-width: 760px) { .reservation-ouvrir { float: none; margin: 0 0 18px; } }
 </style>
-<link rel="stylesheet" href="assets/parcours.css?v=20261011f">
+<link rel="stylesheet" href="assets/parcours.css?v=20261011g">
 </head>
 <body>
 
@@ -247,10 +247,19 @@ posthog.init("phc_uAGEECfde4E5EoHMVWRrLFvAFDUbyccgM3nds8Ttdtcc", {
     }).catch(() => { choix.replaceChildren(); suite.hidden = true; document.getElementById("reservation-erreur").hidden = false; });
 })();
 </script>
-<script src="assets/commun.js?v=20261011f"></script>
-<script src="assets/app.js?v=20261011f"></script>
+<dialog class="reservation-dialogue" id="parcours-dialogue" aria-labelledby="parcours-dialogue-titre" aria-describedby="parcours-dialogue-description">
+  <button type="button" class="bouton bouton--secondaire reservation-fermer" id="parcours-dialogue-fermer" aria-label="Fermer la fenêtre">×</button>
+  <p class="continuum__sur-titre" id="parcours-dialogue-cycle"></p>
+  <h2 id="parcours-dialogue-titre">Choisir votre ensemble de robotique</h2>
+  <p id="parcours-dialogue-description">Quel ensemble utilisez-vous en classe ? Votre parcours sera adapté à ce matériel.</p>
+  <div class="reservation-choix" id="parcours-choix" role="group" aria-label="Ensemble de robotique"></div>
+  <button type="button" class="bouton bouton--primaire reservation-suite" id="parcours-confirmer" disabled>Afficher mon parcours</button>
+</dialog>
+<script src="assets/commun.js?v=20261011g"></script>
+<script src="assets/app.js?v=20261011g"></script>
 <!-- Cloudflare Web Analytics -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"cddf0e13b4ca4887b4f29ca86d311882"}'></script>
 <!-- End Cloudflare Web Analytics -->
+
 </body>
 </html>

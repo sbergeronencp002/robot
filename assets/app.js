@@ -140,18 +140,49 @@
     });
   }
 
+  const dialogueEnsemble = document.getElementById("parcours-dialogue");
+  const choixEnsemble = document.getElementById("parcours-choix");
+  const confirmerEnsemble = document.getElementById("parcours-confirmer");
+  let cycleChoisi = "1";
+  let ensembleChoisi = "";
+  function choisirEnsemble(cycle, selection = "") {
+    cycleChoisi = cycle;
+    ensembleChoisi = selection;
+    document.getElementById("parcours-dialogue-cycle").textContent = CYCLES.find(c => c.id === cycle)?.court || "";
+    choixEnsemble.replaceChildren();
+    const disponibles = ENSEMBLES.filter(e => projets.some(p => listeValeurs(p.cycle).includes(cycle) && p.ensemble === e.id));
+    confirmerEnsemble.disabled = !disponibles.some(e => e.id === selection);
+    disponibles.forEach(e => {
+      const label = document.createElement("label");
+      label.className = "reservation-personne";
+      const radio = document.createElement("input");
+      radio.type = "radio"; radio.name = "parcours-ensemble"; radio.value = e.id; radio.checked = e.id === selection;
+      const nom = document.createElement("strong"); nom.textContent = e.nom;
+      radio.addEventListener("change", () => { ensembleChoisi = e.id; confirmerEnsemble.disabled = false; });
+      label.append(radio, nom); choixEnsemble.append(label);
+    });
+    dialogueEnsemble.showModal();
+  }
+  document.getElementById("parcours-dialogue-fermer").onclick = () => dialogueEnsemble.close();
+  dialogueEnsemble.addEventListener("click", e => { if (e.target === dialogueEnsemble) { const r = dialogueEnsemble.getBoundingClientRect(); if(e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) dialogueEnsemble.close(); } });
+  confirmerEnsemble.onclick = () => {
+    if (!ensembleChoisi || confirmerEnsemble.disabled) return;
+    dialogueEnsemble.close();
+    ouvrirParcours(cycleChoisi, ensembleChoisi);
+  };
+
   function ouvrirParcours(cycle = "1", ensemble = "") {
     const zone = document.getElementById("parcours");
     if (!projets.length) return;
     const choix = ENSEMBLES.filter(e => projets.some(p => listeValeurs(p.cycle).includes(cycle) && p.ensemble === e.id));
-    const selection = `<fieldset class="parcours-ensembles"><legend>Quel ensemble de robotique utilisez-vous ?</legend><div class="parcours-docs">${choix.map(e => `<button type="button" class="bouton" data-parcours-ensemble="${e.id}" aria-pressed="${ensemble === e.id}">${e.nom}</button>`).join("")}</div></fieldset>`;
+
     let configuration = parcoursConfiguration;
 
     const etapes = (configuration[cycle]?.[ensemble] || []).map((e, i) => [e.projet, `Étape ${i + 1}`, e.intention]);
     const nomCycle = CYCLES.find(c => c.id === cycle)?.court || "";
     const modes = [...new Set(etapes.map(([id]) => projets.find(p => p.id === id)?.programmation).filter(Boolean))].map(id => PROGRAMMATIONS.find(p => p.id === id)?.nom || id).join(" / ");
     const nomEnsemble = choix.find(e => e.id === ensemble)?.nom;
-    zone.innerHTML = `<div class="parcours-entete"><div><p class="continuum__sur-titre">${nomEnsemble ? nomEnsemble + (modes ? " · " + modes : "") : "Votre matériel, votre parcours"}</p><h3 id="parcours-titre" tabindex="-1">Mon parcours au ${nomCycle}</h3><p>${ensemble ? `${etapes.length} activités pour avancer progressivement. Suivez l’ordre proposé ou choisissez votre prochaine étape.` : "Choisissez d’abord votre ensemble pour découvrir une progression adaptée à votre matériel."}</p></div><button type="button" class="lien-bouton" id="fermer-parcours">Réduire le parcours ↑</button></div>${selection}${ensemble ? `<ol class="parcours-etapes">` : ""}` + etapes.map(([id, titre, intention], i) => {
+    zone.innerHTML = `<div class="parcours-entete"><div><p class="continuum__sur-titre">${nomEnsemble ? nomEnsemble + (modes ? " · " + modes : "") : "Votre matériel, votre parcours"}</p><h3 id="parcours-titre" tabindex="-1">Mon parcours au ${nomCycle}</h3><p>${ensemble ? `${etapes.length} activités pour avancer progressivement. Suivez l’ordre proposé ou choisissez votre prochaine étape.` : "Choisissez d’abord votre ensemble pour découvrir une progression adaptée à votre matériel."}</p></div><button type="button" class="lien-bouton" id="fermer-parcours">Réduire le parcours ↑</button></div><button type="button" class="bouton" id="parcours-changer-ensemble">Changer d’ensemble</button>${ensemble ? `<ol class="parcours-etapes">` : ""}` + etapes.map(([id, titre, intention], i) => {
       const p = projets.find(p => p.id === id);
       if (!p || p.ensemble !== ensemble || !listeValeurs(p.cycle).includes(cycle)) return "";
       return `<li><span class="parcours-numero">${i+1}</span><img src="${p.image}" alt="" loading="lazy"><div><p class="parcours-repere">${titre} · ${p.duree} min</p><h4>${p.titre}</h4><p>${echapper(p.description || "")}</p><div class="parcours-docs">${!p.documents?.eleve && !p.lien && !p.documents?.guide ? `<span>Documents à venir</span>` : ""}${(p.documents?.eleve || p.lien) ? `<a class="bouton" href="${p.documents?.eleve || p.lien}" target="_blank" rel="noopener noreferrer">Cahier de l’élève ↗</a>` : ""}${p.documents?.guide ? `<a class="bouton" href="${p.documents.guide}" target="_blank" rel="noopener noreferrer">Guide de l’enseignant ↗</a>` : ""}</div></div></li>`;
@@ -159,7 +190,7 @@
     zone.hidden = false;
     boutonsContinuum.forEach(b => b.setAttribute("aria-expanded", String(b.dataset.cycle === cycle)));
     document.getElementById("fermer-parcours").onclick = () => { zone.hidden = true; const b = boutonsContinuum.find(b => b.dataset.cycle === cycle); b.setAttribute("aria-expanded", "false"); b.focus(); };
-    zone.querySelectorAll("[data-parcours-ensemble]").forEach(b => { b.onclick = () => ouvrirParcours(cycle, b.dataset.parcoursEnsemble); });
+    document.getElementById("parcours-changer-ensemble").onclick = () => choisirEnsemble(cycle, ensemble);
     const explorer = document.getElementById("explorer-cycle");
     if (explorer) explorer.onclick = () => { etat.cycle = [cycle]; etat.ensemble = [ensemble]; appliquer(); document.getElementById("resultats").scrollIntoView({behavior:"smooth"}); };
     document.getElementById("parcours-titre").focus({preventScroll:true});
@@ -168,7 +199,7 @@
 
   boutonsContinuum.forEach((bouton) => {
     bouton.addEventListener("click", () => {
-      if (["1", "2", "3"].includes(bouton.dataset.cycle)) { ouvrirParcours(bouton.dataset.cycle); return; }
+      if (["1", "2", "3"].includes(bouton.dataset.cycle)) { choisirEnsemble(bouton.dataset.cycle); return; }
       document.getElementById("parcours").hidden = true;
       etat.cycle = [bouton.dataset.cycle];
       mesurer("continuum_selectionne", { cycle: bouton.dataset.cycle });
