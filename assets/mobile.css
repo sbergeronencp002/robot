@@ -1,0 +1,51 @@
+/* Téléphones et tablettes : lecture et commandes tactiles. */
+@media screen and (max-width:760px){
+  .contenant{width:100%;padding-inline:16px}
+  .entete{padding-block:24px}
+  .entete__titre{font-size:2.2rem}
+  .entete__sous-titre{font-size:1rem}
+  .entete-actions{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;margin-top:18px}
+  .entete-actions .reservation-ouvrir{float:none;margin:0;width:100%;justify-content:center;min-height:48px}
+  .bouton,.lien-bouton,.jeton{min-height:44px}
+  input,select,textarea{font-size:16px!important}
+  .continuum__resume{gap:12px;align-items:flex-start}
+  .continuum__titre{font-size:1.3rem}
+  .continuum__etat{flex-shrink:0}
+  .continuum__carte{padding:18px}
+  .grille{grid-template-columns:repeat(auto-fit,minmax(min(100%,268px),1fr));gap:16px}
+  .tuile__corps,.tuile__pied,.parcours-entete>div,.mon-parcours-ligne>div{min-width:0}
+  .tuile__titre,.parcours h4,.mon-parcours-ligne strong{overflow-wrap:anywhere}
+  .reservation-dialogue,.reservation-dialogue.mon-parcours-dialogue{width:calc(100% - 20px);max-width:none;max-height:calc(100dvh - 24px);padding:20px 16px;margin:auto;border-radius:14px}
+  .reservation-dialogue h2{font-size:1.2rem;margin-right:48px}
+  .reservation-fermer{min-width:44px;min-height:44px;top:8px;right:8px;padding:4px}
+  .reservation-personne{min-height:56px;padding:14px 12px}
+  .reservation-suite,#mon-parcours-pdf{width:100%;min-height:48px;justify-content:center;white-space:normal}
+  .mon-parcours-ligne{grid-template-columns:44px minmax(0,1fr);gap:10px;padding:12px}
+  .mon-parcours-poignee{min-width:44px;min-height:48px}
+  .mon-parcours-actions{grid-column:2;display:flex;gap:8px}
+  .mon-parcours-actions button{min-width:44px;min-height:44px}
+  #mon-parcours-liste{margin:16px 0}
+  .parcours{padding:16px;margin-top:18px}
+  .parcours-entete,.parcours-bas{flex-direction:column;gap:12px;align-items:stretch}
+  .parcours h3{font-size:1.35rem}
+  .parcours-commandes{display:grid;grid-template-columns:1fr;gap:8px}
+  .parcours-commandes button{width:100%;justify-content:center;white-space:normal}
+  #parcours-changer-ensemble,#parcours-ajouter-personnel,#explorer-cycle{width:100%;justify-content:center;margin-top:10px;white-space:normal}
+  .parcours-etapes li{grid-template-columns:32px minmax(0,1fr);gap:12px;padding:14px}
+  .parcours-etapes img{width:100%;height:100px;object-fit:contain}
+  .parcours-etapes li>div{grid-column:1/-1;min-width:0}
+  .parcours-docs{display:grid;grid-template-columns:1fr}
+  .parcours-docs a{justify-content:center;min-height:44px;white-space:normal}
+  .panneau__contenu{padding:0 14px 18px}
+  .panneau__resume{padding:16px;flex-wrap:wrap}
+  .grille-champs{grid-template-columns:minmax(0,1fr)}
+  .parcours-admin-ligne{grid-template-columns:44px minmax(0,1fr);gap:10px}
+  .parcours-admin-ligne label,.parcours-admin-ligne .barre-boutons{grid-column:2;min-width:0}
+  .parcours-admin-ligne .barre-boutons{flex-wrap:wrap;gap:8px}
+  .parcours-admin-ligne .bouton,.parcours-poignee{min-width:44px;min-height:44px}
+}
+@media screen and (min-width:761px){
+ .entete-actions{float:right;display:flex;gap:12px;margin-left:24px}
+ .entete-actions .reservation-ouvrir{float:none;margin:12px 0}
+}
+@media screen and (max-width:380px){.contenant{padding-inline:12px}.reservation-dialogue,.reservation-dialogue.mon-parcours-dialogue{padding-inline:12px}.filtres__bascule{padding-inline:10px;font-size:.9rem}.filtres__droite{gap:5px}}
