@@ -183,7 +183,7 @@
     const nomCycle = CYCLES.find(c => c.id === cycle)?.court || "";
     const modes = [...new Set(etapes.map(([id]) => projets.find(p => p.id === id)?.programmation).filter(Boolean))].map(id => PROGRAMMATIONS.find(p => p.id === id)?.nom || id).join(" / ");
     const nomEnsemble = choix.find(e => e.id === ensemble)?.nom;
-    zone.innerHTML = `<div class="parcours-entete"><div><p class="continuum__sur-titre">${nomEnsemble ? nomEnsemble + (modes ? " · " + modes : "") : "Votre matériel, votre parcours"}</p><h3 id="parcours-titre" tabindex="-1">Mon parcours au ${nomCycle}</h3><p>${ensemble ? `${etapes.length} activités pour avancer progressivement. Suivez l’ordre proposé ou choisissez votre prochaine étape.` : "Choisissez d’abord votre ensemble pour découvrir une progression adaptée à votre matériel."}</p></div><div class="parcours-commandes"><button type="button" class="lien-bouton" id="fermer-parcours" aria-expanded="true" aria-controls="parcours-contenu">Réduire</button><button type="button" class="bouton" id="parcours-imprimer">Imprimer mon parcours</button></div></div><div id="parcours-contenu"><button type="button" class="bouton" id="parcours-changer-ensemble">Changer d’ensemble</button>${ensemble ? `<ol class="parcours-etapes">` : ""}` + etapes.map(([id, titre, intention], i) => {
+    zone.innerHTML = `<div class="parcours-entete"><div><p class="continuum__sur-titre">${nomEnsemble ? nomEnsemble + (modes ? " · " + modes : "") : "Votre matériel, votre parcours"}</p><h3 id="parcours-titre" tabindex="-1">Mon parcours au ${nomCycle}</h3><p>${ensemble ? `${etapes.length} activités pour avancer progressivement. Suivez l’ordre proposé ou choisissez votre prochaine étape.` : "Choisissez d’abord votre ensemble pour découvrir une progression adaptée à votre matériel."}</p></div><div class="parcours-commandes"><button type="button" class="lien-bouton" id="fermer-parcours" aria-expanded="true" aria-controls="parcours-contenu">Réduire</button><button type="button" class="bouton" id="parcours-imprimer">Télécharger mon parcours</button></div></div><div id="parcours-contenu"><button type="button" class="bouton" id="parcours-changer-ensemble">Changer d’ensemble</button>${ensemble ? `<ol class="parcours-etapes">` : ""}` + etapes.map(([id, titre, intention], i) => {
       const p = projets.find(p => p.id === id);
       if (!p || p.ensemble !== ensemble || !listeValeurs(p.cycle).includes(cycle)) return "";
       return `<li><span class="parcours-numero">${i+1}</span><img src="${p.image}" alt="" loading="lazy"><div><p class="parcours-repere">${titre} · ${p.duree} min</p><h4>${p.titre}</h4><p>${echapper(p.description || "")}</p><div class="parcours-docs">${!p.documents?.eleve && !p.lien && !p.documents?.guide ? `<span>Documents à venir</span>` : ""}${(p.documents?.eleve || p.lien) ? `<a class="bouton" href="${p.documents?.eleve || p.lien}" target="_blank" rel="noopener noreferrer">Cahier de l’élève ↗</a>` : ""}${p.documents?.guide ? `<a class="bouton" href="${p.documents.guide}" target="_blank" rel="noopener noreferrer">Guide de l’enseignant ↗</a>` : ""}</div></div></li>`;
@@ -193,9 +193,13 @@
     const bascule = document.getElementById("fermer-parcours");
     bascule.onclick = () => { const contenu = document.getElementById("parcours-contenu"); contenu.hidden = !contenu.hidden; bascule.setAttribute("aria-expanded", String(!contenu.hidden)); bascule.textContent = contenu.hidden ? "Afficher" : "Réduire"; };
     document.getElementById("parcours-imprimer").onclick = async () => {
-      const bouton=document.getElementById("parcours-imprimer");bouton.disabled=true;
-      try { await Promise.all(Array.from(zone.querySelectorAll("img")).map(img=>{img.loading="eager";return img.decode().catch(()=>{});})); document.body.classList.add("impression-parcours"); window.print(); }
-      finally {bouton.disabled=false;}
+      const bouton=document.getElementById("parcours-imprimer");bouton.disabled=true;bouton.textContent="Génération du PDF…";
+      let message=document.getElementById("parcours-pdf-etat");
+      if(!message){message=document.createElement("p");message.id="parcours-pdf-etat";message.setAttribute("role","status");zone.querySelector(".parcours-commandes").append(message);}
+      message.textContent="";
+      try {const selection=etapes.map(([id])=>projets.find(p=>p.id===id)).filter(p=>p && p.ensemble===ensemble && listeValeurs(p.cycle).includes(cycle));await window.telechargerPDFParcours(nomCycle,nomEnsemble,selection);}
+      catch(err){message.textContent=err.message || "Le PDF n’a pas pu être généré. Réessayez.";}
+      finally {bouton.disabled=false;bouton.textContent="Télécharger mon parcours";}
     };
 
     document.getElementById("parcours-changer-ensemble").onclick = () => choisirEnsemble(cycle, ensemble);
