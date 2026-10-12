@@ -10,6 +10,7 @@
     $("mon-parcours-ouvrir").textContent="Mon parcours · "+ids.length;
     document.querySelectorAll("[data-mon-parcours-ajouter]").forEach(b=>{const dedans=ids.includes(b.dataset.monParcoursAjouter);b.textContent=dedans?"Ajouté à mon parcours ✓":"Ajouter à mon parcours";b.disabled=dedans;});
     $("mon-parcours-pdf").disabled=!selection().length;
+    $("mon-parcours-vider").disabled=!ids.length;
   }
   function deplacer(depart,cible){if(depart===cible)return;const [id]=ids.splice(depart,1);ids.splice(cible,0,id);sauver();rendre();liste.children[cible]?.querySelector("button").focus();}
   function rendre(){
@@ -34,6 +35,7 @@
   }
   $("mon-parcours-ouvrir").onclick=()=>{rendre();dialogue.showModal();};
   $("mon-parcours-fermer").onclick=()=>dialogue.close();
+  $("mon-parcours-vider").onclick=()=>{if(!ids.length || !window.confirm("Retirer tous les projets de votre parcours ?"))return;ids=[];sauver();rendre();etat.textContent="Votre parcours est vide.";};
   dialogue.addEventListener("click",e=>{if(e.target===dialogue){const r=dialogue.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialogue.close();}});
   document.addEventListener("click",e=>{const b=e.target.closest("[data-mon-parcours-ajouter]");if(b)ajouter([b.dataset.monParcoursAjouter]);});
   function ajouter(nouveaux){ids=[...new Set([...ids,...nouveaux.filter(id=>catalogue.some(p=>p.id===id))])];sauver();etat.textContent="Projets ajoutés à votre parcours.";rendre();}
