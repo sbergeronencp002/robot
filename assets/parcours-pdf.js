@@ -12,15 +12,26 @@
     });
     return chargement;
   }
+  async function chargerImagePDF(projet) {
+    if (!projet.image) return projet;
+    const img = new Image();img.crossOrigin="anonymous";
+    await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(new Error("L’image du projet « "+projet.titre+" » n’a pas pu être chargée. Réessayez."));img.src=new URL(projet.image,window.location.href).href;});
+    const ratio=img.naturalWidth/img.naturalHeight;
+    const canvas=document.createElement("canvas");
+    canvas.width=Math.min(900,img.naturalWidth);canvas.height=Math.max(1,Math.round(canvas.width/ratio));
+    canvas.getContext("2d").drawImage(img,0,0,canvas.width,canvas.height);
+    return {...projet,imagePDF:{data:canvas.toDataURL("image/png"),ratio}};
+  }
   window.creerPDFParcours = function(jsPDF, cycle, ensemble, projets) {
     const doc=new jsPDF({unit:"mm",format:"a4"});
-    const marge=18, largeur=174, limite=274;
+    const marge=18, limite=274;
+    let largeur=174, x=marge;
     let y=20;
     const texte=(valeur,taille=11,gras=false,couleur=[32,44,63])=>{
       doc.setFont("helvetica",gras?"bold":"normal");doc.setFontSize(taille);doc.setTextColor(...couleur);
       const lignes=doc.splitTextToSize(String(valeur),largeur);
       const pas=taille*0.3528*1.4;
-      for(const ligne of lignes){if(y+pas>limite){doc.addPage();y=20;}doc.text(ligne,marge,y);y+=pas;}
+      for(const ligne of lignes){if(y+pas>limite){doc.addPage();y=20;}doc.text(ligne,x,y);y+=pas;}
     };
     doc.setProperties({title:"Parcours robotique — "+cycle+" — "+ensemble,author:"Centre de services scolaire des Bois-Francs"});
     texte("Centre de services scolaire des Bois-Francs",10,false,[85,100,120]);y+=3;
@@ -28,12 +39,15 @@
     texte(cycle+" · "+ensemble,13,true);y+=4;
     texte("Une progression proposée à adapter au rythme de votre classe.",10);y+=7;
     projets.forEach((p,i)=>{
+      x=p.imagePDF ? 70 : marge;largeur=192-x;
       doc.setFont("helvetica","bold");doc.setFontSize(13);
       const titre=doc.splitTextToSize((i+1)+". "+p.titre,largeur);
       doc.setFont("helvetica","normal");doc.setFontSize(11);
       const description=doc.splitTextToSize(p.description||"",largeur);
-      const hauteur=titre.length*6.5+description.length*5.5+27;
+      const hauteur=Math.max(p.imagePDF ? 46 : 0,titre.length*6.5+description.length*5.5+27);
       if(y+hauteur>limite && hauteur<limite-20){doc.addPage();y=20;}
+      const debut=y;
+      if(p.imagePDF){const ratio=p.imagePDF.ratio;let w=44,h=w/ratio;if(h>40){h=40;w=h*ratio;}doc.addImage(p.imagePDF.data,"PNG",marge+(44-w)/2,y-4+(40-h)/2,w,h,undefined,"FAST");}
       texte((i+1)+". "+p.titre,13,true,[22,39,74]);
       if(p.duree)texte(p.duree+" min",9,false,[85,100,120]);
       y+=2;texte(p.description||"",11);y+=3;
@@ -41,8 +55,9 @@
       if(!liens.length)texte("Documents à venir",10,false,[85,100,120]);
       liens.forEach(([libelle,url])=>{
         if(y+6>limite){doc.addPage();y=20;}
-        doc.setFontSize(10);doc.setTextColor(28,91,150);doc.textWithLink(libelle,marge,y,{url});y+=6;
+        doc.setFontSize(10);doc.setTextColor(28,91,150);doc.textWithLink(libelle,x,y,{url});y+=6;
       });
+      y=Math.max(y,debut+(p.imagePDF?40:0));x=marge;largeur=174;
       y+=5;doc.setDrawColor(219,226,233);doc.line(marge,y,192,y);y+=8;
     });
     const total=doc.getNumberOfPages();
@@ -55,7 +70,8 @@
   };
   window.telechargerPDFParcours = async (cycle,ensemble,projets) => {
     const jsPDF=await chargerPDF();
-    const doc=window.creerPDFParcours(jsPDF,cycle,ensemble,projets);
+    const avecImages=await Promise.all(projets.map(chargerImagePDF));
+    const doc=window.creerPDFParcours(jsPDF,cycle,ensemble,avecImages);
     const nom=("parcours-"+cycle+"-"+ensemble).normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9]+/g,"-").toLowerCase();
     doc.save(nom+".pdf");
   };
