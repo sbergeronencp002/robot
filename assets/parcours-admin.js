@@ -24,7 +24,7 @@
         [[-1,'↑ Monter'],[1,'↓ Descendre']].forEach(([delta,nom]) => { const b=document.createElement('button');b.type='button';b.className='bouton';b.textContent=nom;b.disabled=i+delta<0 || i+delta>=lignes.length;b.onclick=()=>{lignes=lire();[lignes[i],lignes[i+delta]]=[lignes[i+delta],lignes[i]];rendre();$('parcours-lignes').children[i+delta].querySelector('select').focus();};actions.append(b); });ligne.append(actions);$('parcours-lignes').append(ligne);
       });
     }
-    function charger() { lignes = Array.from({length:Math.min(5, disponibles().length)},(_,i)=>configuration[$('parcours-cycle').value]?.[$('parcours-kit').value]?.[i] || {projet:'',intention:''});rendre();status.textContent=''; }
+    function charger() { lignes = Array.from({length:Math.min(10, disponibles().length)},(_,i)=>configuration[$('parcours-cycle').value]?.[$('parcours-kit').value]?.[i] || {projet:'',intention:''});rendre();status.textContent=''; }
     function kits() { const avant=$('parcours-kit').value;$('parcours-kit').replaceChildren();ENSEMBLES.filter(e=>projets.some(p=>listeValeurs(p.cycle).includes($('parcours-cycle').value)&&p.ensemble===e.id)).forEach(e=>$('parcours-kit').add(new Option(e.nom,e.id)));if(Array.from($('parcours-kit').options).some(o=>o.value===avant))$('parcours-kit').value=avant;charger(); }
     function enregistrer() {
       const selection=lire();const autorises=new Set(disponibles().map(p=>p.id));
@@ -50,7 +50,7 @@
         if (!baseDepot) throw new Error("Rechargez les parcours depuis le dépôt avant de publier.");
         if (!enregistrer()) return;
         for (const [cycle, ensembles] of Object.entries(configuration)) for (const [kit, etapes] of Object.entries(ensembles)) {
-          if (!Array.isArray(etapes) || etapes.length > 5 || new Set(etapes.map(e=>e.projet)).size !== etapes.length || etapes.some(e=>!projets.some(p=>p.id===e.projet && p.ensemble===kit && listeValeurs(p.cycle).includes(cycle)))) throw new Error("Un parcours contient un projet incompatible ou supprimé. Corrigez-le avant de publier.");
+          if (!Array.isArray(etapes) || etapes.length > 10 || new Set(etapes.map(e=>e.projet)).size !== etapes.length || etapes.some(e=>!projets.some(p=>p.id===e.projet && p.ensemble===kit && listeValeurs(p.cycle).includes(cycle)))) throw new Error("Un parcours contient un projet incompatible ou supprimé. Corrigez-le avant de publier.");
         }
         bouton.disabled = true;
         baseDepot = await window.robotiqueParcoursDepot.publier(configuration,baseDepot);

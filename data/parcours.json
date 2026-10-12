@@ -42,6 +42,18 @@
       {
         "projet": "pmtykon4qrk1h",
         "intention": "Construis le compagnon et programme ses deux moteurs pour le faire avancer, reculer et tourner."
+      },
+      {
+        "projet": "pmtykkvf879i0",
+        "intention": "Construis le campement et programme le capteur de couleur pour interagir avec la matrice lumineuse."
+      },
+      {
+        "projet": "pmtxuey940p0r",
+        "intention": "Construis une motoneige et programme son moteur afin de simuler le déplacement sur le sol arctique."
+      },
+      {
+        "projet": "pmtxblf0vld5b",
+        "intention": "Construis un sous-marin et programme son moteur pour simuler son déplacement sous l’eau."
       }
     ]
   },
@@ -116,6 +128,10 @@
       {
         "projet": "pmur7tg3cr32l",
         "intention": "Construis, programme et teste la résistance de ton bâtiment aux séismes !"
+      },
+      {
+        "projet": "pmul60g5ldxhn",
+        "intention": "Construis et programme le laboratoire de Frankenstein."
       }
     ],
     "ev3": [
