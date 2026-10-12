@@ -9,7 +9,7 @@
 
     let lignes = [];
     const disponibles = () => projets.filter(p => listeValeurs(p.cycle).includes($('parcours-cycle').value) && p.ensemble === $('parcours-kit').value);
-    const lire = () => Array.from($('parcours-lignes').children).map(l => ({projet:l.querySelector('select').value,intention:l.querySelector('textarea').value.trim()}));
+    const lire = () => Array.from($('parcours-lignes').children).map(l => ({projet:l.querySelector('select').value,intention:disponibles().find(p=>p.id===l.querySelector('select').value)?.description || ''}));
     function rendre() {
       $('parcours-lignes').replaceChildren();
       const choix = disponibles();
@@ -18,8 +18,8 @@
         const titre = document.createElement('h3'); titre.textContent=`Étape ${i+1}`; ligne.append(titre);
         const label = document.createElement('label'); label.textContent='Projet';
         const select = document.createElement('select'); select.add(new Option('Choisir un projet','')); choix.forEach(p=>select.add(new Option(p.titre,p.id))); select.value=e.projet; label.append(select); ligne.append(label);
-        const intention = document.createElement('label'); intention.textContent='Intention pédagogique';
-        const texte = document.createElement('textarea'); texte.rows=2; texte.maxLength=300; texte.value=e.intention; intention.append(texte); ligne.append(intention);
+        const intention = document.createElement('label'); intention.textContent='Description du projet (depuis Admin)';
+        const texte = document.createElement('textarea'); texte.rows=2; texte.readOnly=true; texte.value=choix.find(p=>p.id===e.projet)?.description || ''; select.onchange=()=>{texte.value=choix.find(p=>p.id===select.value)?.description || '';}; intention.append(texte); ligne.append(intention);
         const actions = document.createElement('div'); actions.className='barre-boutons';
         [[-1,'↑ Monter'],[1,'↓ Descendre']].forEach(([delta,nom]) => { const b=document.createElement('button');b.type='button';b.className='bouton';b.textContent=nom;b.disabled=i+delta<0 || i+delta>=lignes.length;b.onclick=()=>{lignes=lire();[lignes[i],lignes[i+delta]]=[lignes[i+delta],lignes[i]];rendre();$('parcours-lignes').children[i+delta].querySelector('select').focus();};actions.append(b); });ligne.append(actions);$('parcours-lignes').append(ligne);
       });
@@ -28,7 +28,7 @@
     function kits() { const avant=$('parcours-kit').value;$('parcours-kit').replaceChildren();ENSEMBLES.filter(e=>projets.some(p=>listeValeurs(p.cycle).includes($('parcours-cycle').value)&&p.ensemble===e.id)).forEach(e=>$('parcours-kit').add(new Option(e.nom,e.id)));if(Array.from($('parcours-kit').options).some(o=>o.value===avant))$('parcours-kit').value=avant;charger(); }
     function enregistrer() {
       const selection=lire();const autorises=new Set(disponibles().map(p=>p.id));
-      if(selection.some(e=>!autorises.has(e.projet)||!e.intention)){status.textContent='Choisissez un projet et une intention pédagogique pour chaque étape.';return false;}
+      if(selection.some(e=>!autorises.has(e.projet))){status.textContent='Choisissez un projet pour chaque étape.';return false;}
       if(new Set(selection.map(e=>e.projet)).size!==selection.length){status.textContent='Choisissez des projets différents.';return false;}
       configuration[$('parcours-cycle').value] ||= {};configuration[$('parcours-cycle').value][$('parcours-kit').value]=selection;
       try {localStorage.setItem(cleBrouillon,JSON.stringify(configuration));status.textContent='Brouillon enregistré. Publiez les parcours pour mettre à jour le site.';return true;}catch(_){status.textContent='Impossible d’enregistrer dans ce navigateur.';return false;}
@@ -50,7 +50,7 @@
         if (!baseDepot) throw new Error("Rechargez les parcours depuis le dépôt avant de publier.");
         if (!enregistrer()) return;
         for (const [cycle, ensembles] of Object.entries(configuration)) for (const [kit, etapes] of Object.entries(ensembles)) {
-          if (!Array.isArray(etapes) || etapes.length > 5 || new Set(etapes.map(e=>e.projet)).size !== etapes.length || etapes.some(e=>!e.intention || !projets.some(p=>p.id===e.projet && p.ensemble===kit && listeValeurs(p.cycle).includes(cycle)))) throw new Error("Un parcours contient un projet incompatible ou supprimé. Corrigez-le avant de publier.");
+          if (!Array.isArray(etapes) || etapes.length > 5 || new Set(etapes.map(e=>e.projet)).size !== etapes.length || etapes.some(e=>!projets.some(p=>p.id===e.projet && p.ensemble===kit && listeValeurs(p.cycle).includes(cycle)))) throw new Error("Un parcours contient un projet incompatible ou supprimé. Corrigez-le avant de publier.");
         }
         bouton.disabled = true;
         baseDepot = await window.robotiqueParcoursDepot.publier(configuration,baseDepot);

@@ -3,45 +3,45 @@
     "wedo": [
       {
         "projet": "pmuvwt7623yl2",
-        "intention": "Construire et programmer l’escargot qui brille."
+        "intention": "Construis et programme l'escargot qui brille."
       },
       {
         "projet": "pmuvwvpgwbf8p",
-        "intention": "Commander le mouvement du moulin."
+        "intention": "Construis et programme le moulin."
       },
       {
         "projet": "pmuvwupexf12a",
-        "intention": "Expérimenter avec le satellite."
+        "intention": "Construis et programme le satellite."
       },
       {
         "projet": "pmutwvud07ibe",
-        "intention": "Programmer les déplacements de Milo."
+        "intention": "Construis Milo et programme le moteur pour le faire avancer."
       },
       {
         "projet": "pmuy55l3opiep",
-        "intention": "Réinvestir ses apprentissages avec le bolide de course."
+        "intention": "Construis et programme le bolide de course."
       }
     ],
     "essentiel": [
       {
         "projet": "pmtym6t42ficl",
-        "intention": "Commander la rotation d’un moteur."
+        "intention": "Construis la grande roue et programme le moteur pour la faire tourner."
       },
       {
         "projet": "pmtylootc2bti",
-        "intention": "Observer et programmer un mouvement de va-et-vient."
+        "intention": "Construis le pendule et programme le moteur pour le faire se balancer d’avant en arrière."
       },
       {
         "projet": "pmtylmga3376i",
-        "intention": "Programmer l’ouverture et la fermeture d’un passage."
+        "intention": "Construis et programme un laisser-passer pour permettre au personnage de passer plus rapidement."
       },
       {
         "projet": "pmtx879g2rnk2",
-        "intention": "Réinvestir la commande d’un moteur pour ouvrir un toit."
+        "intention": "Construis une cabane et programme le moteur pour simuler l'ouverture du toit."
       },
       {
         "projet": "pmtykon4qrk1h",
-        "intention": "Coordonner deux moteurs pour avancer, reculer et tourner."
+        "intention": "Construis le compagnon et programme ses deux moteurs pour le faire avancer, reculer et tourner."
       }
     ]
   },
@@ -49,49 +49,49 @@
     "wedo": [
       {
         "projet": "pmuwoswz6vf7k",
-        "intention": "Programmer Milo, formuler des hypothèses et ajuster son fonctionnement."
+        "intention": "Construis, programme et expérimente avec Milo l'astromobile."
       },
       {
         "projet": "pmuy9ufktnoa5",
-        "intention": "Programmer le bolide, réaliser des essais et expliquer les résultats."
+        "intention": "Construis, programme et expérimente le bolide de course."
       }
     ],
     "essentiel": [
       {
         "projet": "pmufih4anpowq",
-        "intention": "Programmer la rotation de la grande roue avec des blocs de mots."
+        "intention": "Construis la grande roue et programme le moteur pour la faire tourner."
       },
       {
         "projet": "pmuwrpft7alar",
-        "intention": "Expérimenter différents réglages et expliquer leur effet sur la grande roue."
+        "intention": "Construis, programme et expérimente avec une grande roue."
       },
       {
         "projet": "pmud2c85cd4w7",
-        "intention": "Programmer les mouvements du flipper et relever des défis avec le capteur de couleur."
+        "intention": "Construis le Flipper, programme ses mouvements et relève des défis avec le capteur de couleur."
       }
     ],
     "prime": [
       {
         "projet": "pmu310uogqxq7",
-        "intention": "Coordonner deux moteurs pour programmer les déplacements du Rhinobot."
+        "intention": "Construis le Rhinobot et programme ses deux moteurs pour le faire déplacer."
       },
       {
         "projet": "pmu4b3iin2rtx",
-        "intention": "Utiliser le capteur de force pour commander une réaction du robot."
+        "intention": "Construis le Rhinobot et programme le capteur de force."
       },
       {
         "projet": "pmu4sokv8f8pd",
-        "intention": "Programmer une réaction avec le capteur de couleur et ajuster sa solution."
+        "intention": "Construis le Rhinobot et programme le capteur de couleur."
       }
     ],
     "ev3": [
       {
         "projet": "pmubbkgdrxben",
-        "intention": "Construire et programmer Bevelbot pour explorer ses possibilités."
+        "intention": "Construis, programme et découvre les possibilités du robot."
       },
       {
         "projet": "pmubblgsg7hxg",
-        "intention": "Modifier les engrenages, comparer les essais et améliorer les performances."
+        "intention": "Modifie les engrenages, teste le robot et améliore ses performances."
       }
     ]
   },
@@ -99,51 +99,51 @@
     "prime": [
       {
         "projet": "pmuw0bdy3pqsu",
-        "intention": "Construire la base motrice et programmer ses déplacements avec précision."
+        "intention": "Construis la base motrice et programme ses déplacements avec précision."
       },
       {
         "projet": "pmuw0ysnq0nh0",
-        "intention": "Utiliser le capteur gyroscopique pour ajuster la précision des déplacements."
+        "intention": "Programme le capteur gyroscopique de la base motrice pour réaliser des déplacements précis."
       },
       {
         "projet": "pmuw118o93075",
-        "intention": "Détecter des lignes avec le capteur de couleur et programmer une réaction."
+        "intention": "Programme le capteur de couleur de la base motrice pour détecter et réagir à des lignes."
       },
       {
         "projet": "pmuw0upi7lfdz",
-        "intention": "Combiner le capteur de distance et le bras mécanique pour interagir avec l’environnement."
+        "intention": "Programme le capteur de distance et le bras mécanique de la base motrice."
       },
       {
         "projet": "pmur7tg3cr32l",
-        "intention": "Tester la résistance d’un bâtiment aux séismes et améliorer sa construction à partir des observations."
+        "intention": "Construis, programme et teste la résistance de ton bâtiment aux séismes !"
       }
     ],
     "ev3": [
       {
         "projet": "pmulr80t5rbtj",
-        "intention": "Construire et programmer le Speedbot pour réinvestir la commande des moteurs."
+        "intention": "Construis et programme le Speedbot."
       },
       {
         "projet": "pmuw18w8vvnsg",
-        "intention": "Programmer des déplacements précis avec la base motrice."
+        "intention": "Construis la base motrice et programme ses déplacements avec précision."
       },
       {
         "projet": "pmuw1aiweiq0w",
-        "intention": "Détecter des objets avec le capteur de distance et programmer une réaction."
+        "intention": "Programme le capteur de distance de la base motrice pour détecter des objets."
       },
       {
         "projet": "pmuw1bauypt1m",
-        "intention": "Associer la détection de distance et le bras mécanique pour interagir avec un objet."
+        "intention": "Programme le capteur de distance et le bras mécanique de la base motrice."
       },
       {
         "projet": "pmuw1itdlsstk",
-        "intention": "Détecter des lignes avec le capteur de couleur et ajuster la réaction du robot."
+        "intention": "Programme le capteur de couleur de la base motrice pour détecter et réagir à des lignes."
       }
     ],
     "wedo": [
       {
         "projet": "pmur8a1nokaw9",
-        "intention": "Construire et programmer un simulateur sismique, tester un bâtiment et améliorer sa résistance."
+        "intention": "Construis, programme et teste la résistance de ton bâtiment aux séismes !"
       }
     ]
   }
