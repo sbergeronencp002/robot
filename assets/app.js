@@ -171,6 +171,7 @@
     ouvrirParcours(cycleChoisi, ensembleChoisi);
   };
 
+  window.addEventListener("afterprint", () => document.body.classList.remove("impression-parcours"));
   function ouvrirParcours(cycle = "1", ensemble = "") {
     const zone = document.getElementById("parcours");
     if (!projets.length) return;
@@ -182,14 +183,21 @@
     const nomCycle = CYCLES.find(c => c.id === cycle)?.court || "";
     const modes = [...new Set(etapes.map(([id]) => projets.find(p => p.id === id)?.programmation).filter(Boolean))].map(id => PROGRAMMATIONS.find(p => p.id === id)?.nom || id).join(" / ");
     const nomEnsemble = choix.find(e => e.id === ensemble)?.nom;
-    zone.innerHTML = `<div class="parcours-entete"><div><p class="continuum__sur-titre">${nomEnsemble ? nomEnsemble + (modes ? " · " + modes : "") : "Votre matériel, votre parcours"}</p><h3 id="parcours-titre" tabindex="-1">Mon parcours au ${nomCycle}</h3><p>${ensemble ? `${etapes.length} activités pour avancer progressivement. Suivez l’ordre proposé ou choisissez votre prochaine étape.` : "Choisissez d’abord votre ensemble pour découvrir une progression adaptée à votre matériel."}</p></div><button type="button" class="lien-bouton" id="fermer-parcours">Réduire le parcours ↑</button></div><button type="button" class="bouton" id="parcours-changer-ensemble">Changer d’ensemble</button>${ensemble ? `<ol class="parcours-etapes">` : ""}` + etapes.map(([id, titre, intention], i) => {
+    zone.innerHTML = `<div class="parcours-entete"><div><p class="continuum__sur-titre">${nomEnsemble ? nomEnsemble + (modes ? " · " + modes : "") : "Votre matériel, votre parcours"}</p><h3 id="parcours-titre" tabindex="-1">Mon parcours au ${nomCycle}</h3><p>${ensemble ? `${etapes.length} activités pour avancer progressivement. Suivez l’ordre proposé ou choisissez votre prochaine étape.` : "Choisissez d’abord votre ensemble pour découvrir une progression adaptée à votre matériel."}</p></div><div class="parcours-commandes"><button type="button" class="lien-bouton" id="fermer-parcours" aria-expanded="true" aria-controls="parcours-contenu">Réduire</button><button type="button" class="bouton" id="parcours-imprimer">Imprimer mon parcours</button></div></div><div id="parcours-contenu"><button type="button" class="bouton" id="parcours-changer-ensemble">Changer d’ensemble</button>${ensemble ? `<ol class="parcours-etapes">` : ""}` + etapes.map(([id, titre, intention], i) => {
       const p = projets.find(p => p.id === id);
       if (!p || p.ensemble !== ensemble || !listeValeurs(p.cycle).includes(cycle)) return "";
       return `<li><span class="parcours-numero">${i+1}</span><img src="${p.image}" alt="" loading="lazy"><div><p class="parcours-repere">${titre} · ${p.duree} min</p><h4>${p.titre}</h4><p>${echapper(p.description || "")}</p><div class="parcours-docs">${!p.documents?.eleve && !p.lien && !p.documents?.guide ? `<span>Documents à venir</span>` : ""}${(p.documents?.eleve || p.lien) ? `<a class="bouton" href="${p.documents?.eleve || p.lien}" target="_blank" rel="noopener noreferrer">Cahier de l’élève ↗</a>` : ""}${p.documents?.guide ? `<a class="bouton" href="${p.documents.guide}" target="_blank" rel="noopener noreferrer">Guide de l’enseignant ↗</a>` : ""}</div></div></li>`;
-    }).join("") + (ensemble ? `</ol><div class="parcours-bas"><p>Une progression proposée à adapter au rythme de votre classe.</p><button type="button" class="bouton" id="explorer-cycle">Explorer les projets de cet ensemble →</button></div>` : `<p>Les ensembles proposés correspondent aux projets actuellement disponibles pour le ${nomCycle}.</p>`);
+    }).join("") + (ensemble ? `</ol><div class="parcours-bas"><p>Une progression proposée à adapter au rythme de votre classe.</p><button type="button" class="bouton" id="explorer-cycle">Explorer les projets de cet ensemble →</button></div>` : `<p>Les ensembles proposés correspondent aux projets actuellement disponibles pour le ${nomCycle}.</p>`) + "</div>";
     zone.hidden = false;
     boutonsContinuum.forEach(b => b.setAttribute("aria-expanded", String(b.dataset.cycle === cycle)));
-    document.getElementById("fermer-parcours").onclick = () => { zone.hidden = true; const b = boutonsContinuum.find(b => b.dataset.cycle === cycle); b.setAttribute("aria-expanded", "false"); b.focus(); };
+    const bascule = document.getElementById("fermer-parcours");
+    bascule.onclick = () => { const contenu = document.getElementById("parcours-contenu"); contenu.hidden = !contenu.hidden; bascule.setAttribute("aria-expanded", String(!contenu.hidden)); bascule.textContent = contenu.hidden ? "Afficher" : "Réduire"; };
+    document.getElementById("parcours-imprimer").onclick = async () => {
+      const bouton=document.getElementById("parcours-imprimer");bouton.disabled=true;
+      try { await Promise.all(Array.from(zone.querySelectorAll("img")).map(img=>{img.loading="eager";return img.decode().catch(()=>{});})); document.body.classList.add("impression-parcours"); window.print(); }
+      finally {bouton.disabled=false;}
+    };
+
     document.getElementById("parcours-changer-ensemble").onclick = () => choisirEnsemble(cycle, ensemble);
     const explorer = document.getElementById("explorer-cycle");
     if (explorer) explorer.onclick = () => { etat.cycle = [cycle]; etat.ensemble = [ensemble]; appliquer(); document.getElementById("resultats").scrollIntoView({behavior:"smooth"}); };

@@ -1318,6 +1318,7 @@
       "<p>Renseignez le dépôt et collez votre jeton d’accès pour charger le répertoire.</p>");
   }
   window.robotiqueParcoursDepot = {
+    cible: () => cibleActuelle(),
     async charger() {
       if (!connecte) throw new Error("Connectez-vous au dépôt avant de charger les parcours.");
       const cible = cibleActuelle();

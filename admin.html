@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Administration — Robotique</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="assets/style.css?v=20261011k">
+<link rel="stylesheet" href="assets/style.css?v=20261012a">
 <script>
   (() => {
-    const versionLocale = "20261011k";
+    const versionLocale = "20261012a";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -238,7 +238,7 @@
     </div>
   </details>
 
-<details class="panneau panneau--repliable" id="admin-parcours"><summary class="panneau__resume"><span class="panneau__resume-titre">4 · Parcours pédagogiques</span><span class="admin-etat"><span class="admin-afficher">Afficher</span><span class="admin-reduire">Réduire</span></span></summary><div class="panneau__contenu"><p>Sélectionnez jusqu’à dix projets, ajustez leur ordre. La description affichée reprend exactement celle de la fiche du projet. Enregistrez votre brouillon, puis publiez les parcours pour les rendre visibles sur le site.</p><div class="grille-champs"><label>Cycle<select id="parcours-cycle"><option value="1">1er cycle</option><option value="2">2e cycle</option><option value="3">3e cycle</option></select></label><label>Ensemble<select id="parcours-kit"></select></label></div><div id="parcours-lignes"></div><button type="button" class="bouton" id="parcours-ajouter">Ajouter un projet</button><div class="barre-boutons"><button class="bouton bouton--primaire" id="parcours-enregistrer">Enregistrer le brouillon</button><button class="bouton" id="parcours-recharger">Recharger depuis le dépôt</button><button class="bouton bouton--publier" id="parcours-publier">Publier les parcours</button><button class="bouton" id="parcours-exporter">Exporter les parcours</button><a class="bouton" href="index.html">Voir le site</a></div><p role="status" id="parcours-etat"></p><p>Les parcours sont disponibles pour les trois cycles. Si moins de dix projets sont disponibles, le parcours présente les activités existantes.</p></div></details>
+<details class="panneau panneau--repliable" id="admin-parcours"><summary class="panneau__resume"><span class="panneau__resume-titre">4 · Parcours pédagogiques</span><span class="etiquette-etat" id="parcours-modifications" hidden>Modifications non publiées</span><span class="admin-etat"><span class="admin-afficher">Afficher</span><span class="admin-reduire">Réduire</span></span></summary><div class="panneau__contenu"><p>Sélectionnez jusqu’à dix projets, ajustez leur ordre. La description affichée reprend exactement celle de la fiche du projet. Enregistrez votre brouillon, puis publiez les parcours pour les rendre visibles sur le site.</p><div class="grille-champs"><label>Cycle<select id="parcours-cycle"><option value="1">1er cycle</option><option value="2">2e cycle</option><option value="3">3e cycle</option></select></label><label>Ensemble<select id="parcours-kit"></select></label></div><div id="parcours-lignes"></div><button type="button" class="bouton" id="parcours-ajouter">Ajouter un projet</button><div class="barre-boutons"><button class="bouton bouton--primaire" id="parcours-enregistrer">Enregistrer le brouillon</button><button class="bouton" id="parcours-recharger">Recharger depuis le dépôt</button><button class="bouton bouton--publier" id="parcours-publier">Publier les parcours</button><button class="bouton" id="parcours-exporter">Exporter les parcours</button><a class="bouton" href="index.html">Voir le site</a></div><p role="status" id="parcours-etat"></p><p>Les parcours sont disponibles pour les trois cycles. Si moins de dix projets sont disponibles, le parcours présente les activités existantes.</p></div></details>
 <details class="panneau panneau--repliable" id="panneau-animateurs">
 <summary class="panneau__resume"><span class="panneau__resume-titre">5 · Animateurs et réservations</span><span class="admin-etat"><span class="admin-afficher">Afficher</span><span class="admin-reduire">Réduire</span></span></summary><div class="panneau__contenu">
 <p class="panneau__aide">Modifiez les noms et les liens Microsoft Bookings. Ces réservations se publient séparément des projets.</p>
@@ -259,7 +259,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20261011k"></script>
-<script src="assets/admin.js?v=20261011k"></script>
-<script src="assets/parcours-admin.js?v=20261011k"></script></body>
+<script src="assets/commun.js?v=20261012a"></script>
+<script src="assets/admin.js?v=20261012a"></script>
+<script src="assets/parcours-admin.js?v=20261012a"></script></body>
 </html>

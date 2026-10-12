@@ -1,2 +1,21 @@
 [hidden]{display:none!important}.parcours{margin-top:24px;padding:28px;border:1px solid var(--bordure);border-radius:14px;background:var(--blanc)}.parcours-entete,.parcours-bas{display:flex;justify-content:space-between;align-items:flex-start;gap:20px}.parcours h3{font-size:1.6rem;color:var(--marine);margin:8px 0}.parcours p{line-height:1.6}.parcours-etapes{list-style:none;padding:0;display:grid;gap:16px;margin:24px 0}.parcours-etapes li{display:grid;grid-template-columns:36px 150px 1fr;align-items:center;gap:20px;border:1px solid var(--bordure);padding:20px;border-radius:12px}.parcours-numero{display:grid;place-items:center;width:36px;height:36px;border-radius:50%;background:#e4f3ee;color:#17664e;font-weight:700}.parcours-etapes img{width:150px;height:115px;object-fit:contain}.parcours-repere{color:#17664e;font-weight:600;margin:0}.parcours h4{font-size:1.2rem;margin:5px 0;color:var(--marine)}.parcours-docs{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.parcours-docs a{text-decoration:none;font-size:.9rem}.parcours-bas{border-top:1px solid var(--bordure);padding-top:20px;align-items:center}@media(max-width:650px){.parcours{padding:18px}.parcours-entete,.parcours-bas{flex-direction:column}.parcours-etapes li{grid-template-columns:32px 1fr;gap:12px}.parcours-etapes img{width:100%;height:130px}.parcours-etapes li>div{grid-column:1/-1}}
 .parcours-ensembles{border:0;padding:0;margin:22px 0}.parcours-ensembles legend{font-weight:700;color:var(--marine)}.parcours-ensembles [aria-pressed="true"]{background:var(--marine);color:white;border-color:var(--marine)}
+
+.parcours-commandes{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+@media print {
+  @page {size:A4;margin:15mm}
+  body.impression-parcours{background:white;color:#000}
+  body.impression-parcours > :not(.continuum){display:none!important}
+  body.impression-parcours .continuum{padding:0;background:white}
+  body.impression-parcours .continuum__resume,body.impression-parcours .continuum__introduction,body.impression-parcours .continuum__grille{display:none!important}
+  body.impression-parcours .continuum__details:not([open]) > .continuum__contenu{display:block!important}
+  body.impression-parcours #parcours{display:block!important;border:0;margin:0;padding:0;box-shadow:none}
+  body.impression-parcours #parcours-contenu[hidden]{display:block!important}
+  body.impression-parcours .parcours-commandes,body.impression-parcours #parcours-changer-ensemble,body.impression-parcours #explorer-cycle{display:none!important}
+  body.impression-parcours .contenant{max-width:none;width:100%;padding:0}
+  body.impression-parcours .parcours-etapes li{break-inside:avoid;padding:10px;grid-template-columns:28px 85px 1fr;gap:12px}
+  body.impression-parcours .parcours-etapes img{width:85px;height:75px}
+  body.impression-parcours .parcours-docs a{color:#000;border:0;padding:0;display:block;overflow-wrap:anywhere}
+  body.impression-parcours .parcours-docs a:after{content:" — " attr(href);font-size:8pt;font-weight:normal}
+  body.impression-parcours .parcours-docs{display:block}
+}

@@ -5,11 +5,23 @@
     let [projets, initial] = await Promise.all(['projets','parcours'].map(async nom => { const r = await fetch(`data/${nom}.json`, {cache:'no-store'}); if (!r.ok) throw new Error('Chargement impossible.'); return r.json(); }));
     let configuration = initial;
     let baseDepot = null;
-    let cleBrouillon = "robotique.parcours.brouillon";
+    const cibleInitiale = window.robotiqueParcoursDepot.cible();
+    const clePour = cible => "robotique.parcours.brouillon." + [cible.owner || "sbergeronencp002",cible.repo || "robot",cible.branche || "main"].join("/");
+    let cleBrouillon = clePour(cibleInitiale);
+    let nonPublie = false;
+    let shaBrouillon;
+    function signaler() { $('parcours-modifications').hidden = !nonPublie; }
+    function restaurer() {
+      try { const brut=localStorage.getItem(cleBrouillon);if(!brut)return false;const b=JSON.parse(brut);configuration=b.configuration||b;shaBrouillon=b.sha;nonPublie=true;signaler();return true; }
+      catch (_) {status.textContent="Le brouillon ne peut pas être restauré.";return false;}
+    }
+    restaurer();
+    function sauver(){nonPublie=true;signaler();localStorage.setItem(cleBrouillon,JSON.stringify({configuration,sha:baseDepot?.sha ?? shaBrouillon}));}
+
 
     let lignes = [];
     let cycleActif='',kitActif='';
-    function conserver(){if(!cycleActif||!kitActif)return;configuration[cycleActif] ||= {};configuration[cycleActif][kitActif]=lignes;try{localStorage.setItem(cleBrouillon,JSON.stringify(configuration));status.textContent='Brouillon enregistré.';}catch(_){status.textContent='Enregistrement impossible.'}}
+    function conserver(){if(!cycleActif||!kitActif)return;configuration[cycleActif] ||= {};configuration[cycleActif][kitActif]=lignes;try{sauver();status.textContent='Brouillon enregistré — modifications non publiées.';}catch(_){status.textContent='Enregistrement impossible.'}}
     const disponibles = () => projets.filter(p => listeValeurs(p.cycle).includes($('parcours-cycle').value) && p.ensemble === $('parcours-kit').value);
     const lire = () => Array.from($('parcours-lignes').children).map(l => ({projet:l.querySelector('select').value,intention:disponibles().find(p=>p.id===l.querySelector('select').value)?.description || ''}));
     function deplacer(depart, position) {
@@ -55,7 +67,7 @@
         [[-1,'↑ Monter'],[1,'↓ Descendre']].forEach(([delta,nom]) => { const b=document.createElement('button');b.type='button';b.className='bouton';b.textContent=nom;b.disabled=i+delta<0 || i+delta>=lignes.length;b.onclick=()=>{lignes=lire();[lignes[i],lignes[i+delta]]=[lignes[i+delta],lignes[i]];conserver();rendre();$('parcours-lignes').children[i+delta].querySelector('select').focus();};actions.append(b); });const retirer=document.createElement('button');retirer.type='button';retirer.className='bouton';retirer.textContent='×';retirer.setAttribute('aria-label','Retirer le projet '+(i+1));retirer.onclick=()=>{lignes.splice(i,1);conserver();rendre();};actions.append(retirer);ligne.append(actions);$('parcours-lignes').append(ligne);
       });
     }
-    function charger(){cycleActif=$('parcours-cycle').value;kitActif=$('parcours-kit').value;lignes=(configuration[cycleActif]?.[kitActif]||[]).map(e=>({...e}));rendre();status.textContent='';}
+    function charger(){cycleActif=$('parcours-cycle').value;kitActif=$('parcours-kit').value;lignes=(configuration[cycleActif]?.[kitActif]||[]).map(e=>({...e}));rendre();status.textContent=nonPublie ? 'Brouillon restauré — modifications non publiées.' : '';}
     $('parcours-ajouter').onclick=()=>{const p=disponibles().find(p=>!lignes.some(e=>e.projet===p.id));if(!p||lignes.length>=10)return;lignes.push({projet:p.id,intention:p.description||''});conserver();rendre();};
 
     function kits() { const avant=$('parcours-kit').value;$('parcours-kit').replaceChildren();ENSEMBLES.filter(e=>projets.some(p=>listeValeurs(p.cycle).includes($('parcours-cycle').value)&&p.ensemble===e.id)).forEach(e=>$('parcours-kit').add(new Option(e.nom,e.id)));if(Array.from($('parcours-kit').options).some(o=>o.value===avant))$('parcours-kit').value=avant;charger(); }
@@ -64,17 +76,19 @@
       if(selection.some(e=>!autorises.has(e.projet))){status.textContent='Choisissez un projet pour chaque étape.';return false;}
       if(new Set(selection.map(e=>e.projet)).size!==selection.length){status.textContent='Choisissez des projets différents.';return false;}
       configuration[$('parcours-cycle').value] ||= {};configuration[$('parcours-cycle').value][$('parcours-kit').value]=selection;
-      try {localStorage.setItem(cleBrouillon,JSON.stringify(configuration));status.textContent='Brouillon enregistré. Publiez les parcours pour mettre à jour le site.';return true;}catch(_){status.textContent='Impossible d’enregistrer dans ce navigateur.';return false;}
+      try {sauver();status.textContent='Brouillon enregistré. Publiez les parcours pour mettre à jour le site.';return true;}catch(_){status.textContent='Impossible d’enregistrer dans ce navigateur.';return false;}
     }
     $('parcours-recharger').onclick = async () => {
       try {
-        baseDepot = await window.robotiqueParcoursDepot.charger();
-        projets = baseDepot.projets;
-        configuration = baseDepot.configuration;
-        cleBrouillon = "robotique.parcours.brouillon." + [baseDepot.cible.owner,baseDepot.cible.repo,baseDepot.cible.branche].join("/");
-        const local = localStorage.getItem(cleBrouillon);
-        if (local) configuration = JSON.parse(local);
-        kits(); status.textContent = local ? "Brouillon restauré. Publiez pour l’appliquer au site." : "Parcours chargés depuis le dépôt.";
+        const distant=await window.robotiqueParcoursDepot.charger();
+        const nouvelleCle=clePour(distant.cible);
+        if(nonPublie && nouvelleCle!==cleBrouillon)throw new Error("Publiez ou exportez le brouillon du dépôt actuel avant de changer de dépôt.");
+        baseDepot=distant;projets=distant.projets;cleBrouillon=nouvelleCle;
+        const local=restaurer();
+        if(!local && !nonPublie)configuration=distant.configuration;
+        if(local && shaBrouillon && shaBrouillon!==distant.sha){baseDepot.sha=shaBrouillon;kits();status.textContent="Le dépôt a changé depuis le brouillon. Vos choix sont conservés; exportez-les avant de résoudre le conflit.";return;}
+        kits();status.textContent=nonPublie ? "Brouillon conservé — modifications non publiées." : "Parcours chargés depuis le dépôt.";
+
       } catch(e) {status.textContent=e.message;}
     };
     $('parcours-publier').onclick = async () => {
@@ -88,6 +102,7 @@
         bouton.disabled = true;
         baseDepot = await window.robotiqueParcoursDepot.publier(configuration,baseDepot);
         localStorage.removeItem(cleBrouillon);
+        nonPublie=false;shaBrouillon=baseDepot.sha;signaler();
         status.textContent = "Parcours publiés. Le site se mettra à jour dans une minute ou deux.";
       } catch(e) { status.textContent=e.message; } finally {bouton.disabled=false;}
     };
