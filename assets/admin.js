@@ -1317,4 +1317,21 @@
     afficher($("bandeau-connexion"), "info",
       "<p>Renseignez le dépôt et collez votre jeton d’accès pour charger le répertoire.</p>");
   }
+  window.robotiqueParcoursDepot = {
+    async charger() {
+      if (!connecte) throw new Error("Connectez-vous au dépôt avant de charger les parcours.");
+      const cible = cibleActuelle();
+      const fichier = await lireFichier("data/parcours.json");
+      const catalogue = await lireFichier(CHEMIN_JSON);
+      if (!memeCible(cible, cibleActuelle())) throw new Error("Le dépôt a changé. Rechargez les parcours.");
+      return {configuration:fichier ? JSON.parse(decoderBase64(fichier.content)) : {}, projets:JSON.parse(decoderBase64(catalogue.content)), sha:fichier?.sha, cible};
+    },
+    async publier(configuration, base) {
+      if (!connecte || !base || !memeCible(base.cible, cibleActuelle())) throw new Error("Rechargez les parcours depuis le dépôt avant de publier.");
+      const octets = new TextEncoder().encode(JSON.stringify(configuration, null, 2) + "\n");
+      const content = btoa(Array.from(octets,b=>String.fromCharCode(b)).join(""));
+      const resultat = await api(racineContenu("data/parcours.json"), {method:"PUT",corps:{message:"Mise à jour des parcours pédagogiques",content,...(base.sha ? {sha:base.sha} : {}),branch:depot.branche}});
+      return {...base,sha:resultat.content.sha};
+    }
+  };
 })();

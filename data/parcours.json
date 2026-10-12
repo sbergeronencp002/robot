@@ -1,0 +1,150 @@
+{
+  "1": {
+    "wedo": [
+      {
+        "projet": "pmuvwt7623yl2",
+        "intention": "Construire et programmer l’escargot qui brille."
+      },
+      {
+        "projet": "pmuvwvpgwbf8p",
+        "intention": "Commander le mouvement du moulin."
+      },
+      {
+        "projet": "pmuvwupexf12a",
+        "intention": "Expérimenter avec le satellite."
+      },
+      {
+        "projet": "pmutwvud07ibe",
+        "intention": "Programmer les déplacements de Milo."
+      },
+      {
+        "projet": "pmuy55l3opiep",
+        "intention": "Réinvestir ses apprentissages avec le bolide de course."
+      }
+    ],
+    "essentiel": [
+      {
+        "projet": "pmtym6t42ficl",
+        "intention": "Commander la rotation d’un moteur."
+      },
+      {
+        "projet": "pmtylootc2bti",
+        "intention": "Observer et programmer un mouvement de va-et-vient."
+      },
+      {
+        "projet": "pmtylmga3376i",
+        "intention": "Programmer l’ouverture et la fermeture d’un passage."
+      },
+      {
+        "projet": "pmtx879g2rnk2",
+        "intention": "Réinvestir la commande d’un moteur pour ouvrir un toit."
+      },
+      {
+        "projet": "pmtykon4qrk1h",
+        "intention": "Coordonner deux moteurs pour avancer, reculer et tourner."
+      }
+    ]
+  },
+  "2": {
+    "wedo": [
+      {
+        "projet": "pmuwoswz6vf7k",
+        "intention": "Programmer Milo, formuler des hypothèses et ajuster son fonctionnement."
+      },
+      {
+        "projet": "pmuy9ufktnoa5",
+        "intention": "Programmer le bolide, réaliser des essais et expliquer les résultats."
+      }
+    ],
+    "essentiel": [
+      {
+        "projet": "pmufih4anpowq",
+        "intention": "Programmer la rotation de la grande roue avec des blocs de mots."
+      },
+      {
+        "projet": "pmuwrpft7alar",
+        "intention": "Expérimenter différents réglages et expliquer leur effet sur la grande roue."
+      },
+      {
+        "projet": "pmud2c85cd4w7",
+        "intention": "Programmer les mouvements du flipper et relever des défis avec le capteur de couleur."
+      }
+    ],
+    "prime": [
+      {
+        "projet": "pmu310uogqxq7",
+        "intention": "Coordonner deux moteurs pour programmer les déplacements du Rhinobot."
+      },
+      {
+        "projet": "pmu4b3iin2rtx",
+        "intention": "Utiliser le capteur de force pour commander une réaction du robot."
+      },
+      {
+        "projet": "pmu4sokv8f8pd",
+        "intention": "Programmer une réaction avec le capteur de couleur et ajuster sa solution."
+      }
+    ],
+    "ev3": [
+      {
+        "projet": "pmubbkgdrxben",
+        "intention": "Construire et programmer Bevelbot pour explorer ses possibilités."
+      },
+      {
+        "projet": "pmubblgsg7hxg",
+        "intention": "Modifier les engrenages, comparer les essais et améliorer les performances."
+      }
+    ]
+  },
+  "3": {
+    "prime": [
+      {
+        "projet": "pmuw0bdy3pqsu",
+        "intention": "Construire la base motrice et programmer ses déplacements avec précision."
+      },
+      {
+        "projet": "pmuw0ysnq0nh0",
+        "intention": "Utiliser le capteur gyroscopique pour ajuster la précision des déplacements."
+      },
+      {
+        "projet": "pmuw118o93075",
+        "intention": "Détecter des lignes avec le capteur de couleur et programmer une réaction."
+      },
+      {
+        "projet": "pmuw0upi7lfdz",
+        "intention": "Combiner le capteur de distance et le bras mécanique pour interagir avec l’environnement."
+      },
+      {
+        "projet": "pmur7tg3cr32l",
+        "intention": "Tester la résistance d’un bâtiment aux séismes et améliorer sa construction à partir des observations."
+      }
+    ],
+    "ev3": [
+      {
+        "projet": "pmulr80t5rbtj",
+        "intention": "Construire et programmer le Speedbot pour réinvestir la commande des moteurs."
+      },
+      {
+        "projet": "pmuw18w8vvnsg",
+        "intention": "Programmer des déplacements précis avec la base motrice."
+      },
+      {
+        "projet": "pmuw1aiweiq0w",
+        "intention": "Détecter des objets avec le capteur de distance et programmer une réaction."
+      },
+      {
+        "projet": "pmuw1bauypt1m",
+        "intention": "Associer la détection de distance et le bras mécanique pour interagir avec un objet."
+      },
+      {
+        "projet": "pmuw1itdlsstk",
+        "intention": "Détecter des lignes avec le capteur de couleur et ajuster la réaction du robot."
+      }
+    ],
+    "wedo": [
+      {
+        "projet": "pmur8a1nokaw9",
+        "intention": "Construire et programmer un simulateur sismique, tester un bâtiment et améliorer sa résistance."
+      }
+    ]
+  }
+}

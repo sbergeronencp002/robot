@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Administration — Robotique</title>
 <meta name="robots" content="noindex, nofollow">
-<link rel="stylesheet" href="assets/style.css?v=20261011c">
+<link rel="stylesheet" href="assets/style.css?v=20261011d">
 <script>
   (() => {
-    const versionLocale = "20261011c";
+    const versionLocale = "20261011d";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -22,7 +22,7 @@
   })();
 </script>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛠️</text></svg>">
-</head>
+<style>.admin-reduire{display:none}#panneau-animateurs[open] .admin-reduire{display:inline}#panneau-animateurs[open] .admin-afficher{display:none}.admin-etat{margin-left:auto}#admin-parcours select,#admin-parcours textarea{display:block;width:100%;margin:8px 0 16px;padding:10px;border:1px solid #ccd5df;border-radius:6px;font:inherit}#parcours-lignes{margin-top:24px}</style></head>
 <body class="admin-corps">
 
 <header class="entete">
@@ -87,18 +87,7 @@
     </div>
   </details>
 
-<section class="panneau" id="panneau-animateurs">
-<h2>4 · Animateurs et réservations</h2>
-<p class="panneau__aide">Modifiez les noms et les liens Microsoft Bookings. Ces réservations se publient séparément des projets.</p>
-<form id="form-animateurs">
-<div id="champs-animateurs"></div>
-<div class="barre-boutons">
-<button type="button" class="bouton bouton--secondaire" id="ajouter-animateur">Ajouter un animateur</button>
-<button type="submit" class="bouton bouton--publier" id="publier-animateurs">Publier les réservations</button>
-</div>
-<p id="etat-animateurs" role="status"></p>
-</form>
-</section>
+
   <!-- ===================== 2 · Formulaire ===================== -->
   <section class="panneau">
     <h2 id="titre-formulaire">2 · Nouveau projet</h2>
@@ -249,6 +238,19 @@
     </div>
   </details>
 
+<section class="panneau" id="admin-parcours"><h2>Parcours pédagogiques</h2><p>Sélectionnez jusqu’à cinq projets, ajustez leur ordre et précisez les apprentissages visés. Enregistrez votre brouillon, puis publiez les parcours pour les rendre visibles sur le site.</p><div class="grille-champs"><label>Cycle<select id="parcours-cycle"><option value="1">1er cycle</option><option value="2">2e cycle</option><option value="3">3e cycle</option></select></label><label>Ensemble<select id="parcours-kit"></select></label></div><div id="parcours-lignes"></div><div class="barre-boutons"><button class="bouton bouton--primaire" id="parcours-enregistrer">Enregistrer le brouillon</button><button class="bouton" id="parcours-recharger">Recharger depuis le dépôt</button><button class="bouton bouton--publier" id="parcours-publier">Publier les parcours</button><button class="bouton" id="parcours-exporter">Exporter les parcours</button><a class="bouton" href="index.html">Voir le site</a></div><p role="status" id="parcours-etat"></p><p>Les parcours sont disponibles pour les trois cycles. Si moins de cinq projets sont disponibles, le parcours présente les activités existantes.</p></section>
+<details class="panneau panneau--repliable" id="panneau-animateurs">
+<summary class="panneau__resume"><span class="panneau__resume-titre">4 · Animateurs et réservations</span><span class="admin-etat"><span class="admin-afficher">Afficher</span><span class="admin-reduire">Réduire</span></span></summary><div class="panneau__contenu">
+<p class="panneau__aide">Modifiez les noms et les liens Microsoft Bookings. Ces réservations se publient séparément des projets.</p>
+<form id="form-animateurs">
+<div id="champs-animateurs"></div>
+<div class="barre-boutons">
+<button type="button" class="bouton bouton--secondaire" id="ajouter-animateur">Ajouter un animateur</button>
+<button type="submit" class="bouton bouton--publier" id="publier-animateurs">Publier les réservations</button>
+</div>
+<p id="etat-animateurs" role="status"></p>
+</form>
+</div></details>
 </div>
 
 <footer class="pied">
@@ -257,7 +259,7 @@
   </div>
 </footer>
 
-<script src="assets/commun.js?v=20261011c"></script>
-<script src="assets/admin.js?v=20261011c"></script>
-</body>
+<script src="assets/commun.js?v=20261011d"></script>
+<script src="assets/admin.js?v=20261011d"></script>
+<script src="assets/parcours-admin.js?v=20261011d"></script></body>
 </html>

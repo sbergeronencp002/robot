@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Robotique — CSS des Bois-Francs</title>
 <meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
-<link rel="stylesheet" href="assets/style.css?v=20261011c">
+<link rel="stylesheet" href="assets/style.css?v=20261011d">
 <script>
   (() => {
-    const versionLocale = "20261011c";
+    const versionLocale = "20261011d";
     fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
       .then((reponse) => reponse.ok ? reponse.json() : null)
       .then((info) => {
@@ -53,6 +53,7 @@ posthog.init("phc_uAGEECfde4E5EoHMVWRrLFvAFDUbyccgM3nds8Ttdtcc", {
 .reservation-suite { width: 100%; justify-content: center; text-decoration: none; }
 @media(max-width: 760px) { .reservation-ouvrir { float: none; margin: 0 0 18px; } }
 </style>
+<link rel="stylesheet" href="assets/parcours.css?v=20261011d">
 </head>
 <body>
 
@@ -88,27 +89,28 @@ posthog.init("phc_uAGEECfde4E5EoHMVWRrLFvAFDUbyccgM3nds8Ttdtcc", {
         <p class="continuum__introduction">Choisissez votre cycle pour découvrir des projets qui accompagnent progressivement les élèves.</p>
 
         <div class="continuum__grille">
-      <button type="button" class="continuum__carte continuum__carte--1" data-cycle="1" aria-pressed="false">
+      <button type="button" class="continuum__carte continuum__carte--1" data-cycle="1" aria-pressed="false" aria-expanded="false" aria-controls="parcours">
         <span class="continuum__cycle">1er cycle</span>
         <strong class="continuum__intention">Construire et programmer</strong>
         <span class="continuum__description">L’élève s’initie à la robotique en construisant un robot en suivant un plan et en programmant des séquences simples à l’aide de pictogrammes.</span>
         <span class="continuum__action" data-compte-cycle="1">Voir les projets <span aria-hidden="true">→</span></span>
       </button>
 
-      <button type="button" class="continuum__carte continuum__carte--2" data-cycle="2" aria-pressed="false">
+      <button type="button" class="continuum__carte continuum__carte--2" data-cycle="2" aria-pressed="false" aria-expanded="false" aria-controls="parcours">
         <span class="continuum__cycle">2e cycle</span>
         <strong class="continuum__intention">Programmer, expérimenter et expliquer</strong>
         <span class="continuum__description">L’élève approfondit ses apprentissages en robotique en programmant avec des blocs de mots. Il formule des hypothèses, réalise des essais et explique ses résultats afin d’ajuster sa solution.</span>
         <span class="continuum__action" data-compte-cycle="2">Voir les projets <span aria-hidden="true">→</span></span>
       </button>
 
-      <button type="button" class="continuum__carte continuum__carte--3" data-cycle="3" aria-pressed="false">
+      <button type="button" class="continuum__carte continuum__carte--3" data-cycle="3" aria-pressed="false" aria-expanded="false" aria-controls="parcours">
         <span class="continuum__cycle">3e cycle</span>
         <strong class="continuum__intention">Interagir, concevoir et améliorer</strong>
         <span class="continuum__description">L’élève consolide ses apprentissages en robotique en faisant interagir son robot avec l’environnement à l’aide de capteurs. Il conçoit, modifie et améliore ses solutions à partir de ses essais et observations.</span>
         <span class="continuum__action" data-compte-cycle="3">Voir les projets <span aria-hidden="true">→</span></span>
       </button>
     </div>
+<section id="parcours" class="parcours" hidden aria-labelledby="parcours-titre"></section>
       </div>
     </details>
   </div>
@@ -245,8 +247,8 @@ posthog.init("phc_uAGEECfde4E5EoHMVWRrLFvAFDUbyccgM3nds8Ttdtcc", {
     }).catch(() => { choix.replaceChildren(); suite.hidden = true; document.getElementById("reservation-erreur").hidden = false; });
 })();
 </script>
-<script src="assets/commun.js?v=20261011c"></script>
-<script src="assets/app.js?v=20261011c"></script>
+<script src="assets/commun.js?v=20261011d"></script>
+<script src="assets/app.js?v=20261011d"></script>
 <!-- Cloudflare Web Analytics -->
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"cddf0e13b4ca4887b4f29ca86d311882"}'></script>
 <!-- End Cloudflare Web Analytics -->
