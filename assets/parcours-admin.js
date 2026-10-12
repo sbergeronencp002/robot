@@ -12,17 +12,47 @@
     function conserver(){if(!cycleActif||!kitActif)return;configuration[cycleActif] ||= {};configuration[cycleActif][kitActif]=lignes;try{localStorage.setItem(cleBrouillon,JSON.stringify(configuration));status.textContent='Brouillon enregistré.';}catch(_){status.textContent='Enregistrement impossible.'}}
     const disponibles = () => projets.filter(p => listeValeurs(p.cycle).includes($('parcours-cycle').value) && p.ensemble === $('parcours-kit').value);
     const lire = () => Array.from($('parcours-lignes').children).map(l => ({projet:l.querySelector('select').value,intention:disponibles().find(p=>p.id===l.querySelector('select').value)?.description || ''}));
+    function deplacer(depart, position) {
+      if (depart === position) return;
+      const [projet] = lignes.splice(depart, 1);
+      lignes.splice(position, 0, projet);
+      conserver(); rendre();
+      status.textContent = 'Projet déplacé à la position ' + (position + 1) + '. Brouillon enregistré.';
+      $('parcours-lignes').children[position]?.querySelector('.parcours-poignee').focus();
+    }
     function rendre() {
       $('parcours-lignes').replaceChildren();
       const choix = disponibles();
       lignes.forEach((e,i) => {
         const ligne = document.createElement('div'); ligne.className='parcours-admin-ligne';
+        const poignee = document.createElement('button');
+        poignee.type='button';poignee.className='parcours-poignee';poignee.textContent='⋮⋮';
+        poignee.setAttribute('aria-label','Déplacer le projet '+(i+1));
+        poignee.title='Glisser pour déplacer · flèches haut/bas au clavier';
+        poignee.onkeydown=event=>{if(event.key==='ArrowUp'||event.key==='ArrowDown'){event.preventDefault();const cible=i+(event.key==='ArrowUp'?-1:1);if(cible>=0&&cible<lignes.length)deplacer(i,cible);}};
+        poignee.onpointerdown=event=>{
+          if(event.button!==0)return;
+          event.preventDefault();poignee.setPointerCapture(event.pointerId);
+          ligne.classList.add('parcours-en-deplacement');
+          let destination=i;
+          const nettoyer=()=>{ligne.classList.remove('parcours-en-deplacement');$('parcours-lignes').querySelectorAll('.parcours-cible').forEach(e=>e.classList.remove('parcours-cible'));poignee.onpointermove=null;poignee.onpointerup=null;poignee.onpointercancel=null;poignee.onlostpointercapture=null;};
+          poignee.onpointermove=e=>{
+            const autres=Array.from($('parcours-lignes').children).filter(x=>x!==ligne);
+            destination=autres.filter(x=>{const r=x.getBoundingClientRect();return e.clientY>r.top+r.height/2;}).length;
+            $('parcours-lignes').querySelectorAll('.parcours-cible').forEach(x=>x.classList.remove('parcours-cible'));
+            const cible=autres[Math.min(destination,autres.length-1)];if(cible)cible.classList.add('parcours-cible');
+            if(e.clientY<70)window.scrollBy(0,-16);else if(e.clientY>window.innerHeight-70)window.scrollBy(0,16);
+          };
+          poignee.onpointerup=()=>{nettoyer();deplacer(i,destination);};
+          poignee.onpointercancel=nettoyer;poignee.onlostpointercapture=nettoyer;
+        };
+        ligne.append(poignee);
         const titre = document.createElement('h3'); titre.textContent=`Étape ${i+1}`; ligne.append(titre);
         const label = document.createElement('label'); label.textContent='Projet';
         const select = document.createElement('select'); select.add(new Option('Choisir un projet','')); choix.filter(p=>p.id===e.projet||!lignes.some(e=>e.projet===p.id)).forEach(p=>select.add(new Option(p.titre,p.id))); select.value=e.projet; label.append(select); ligne.append(label);
         select.onchange=()=>{lignes=lire();conserver();rendre();};
         const actions = document.createElement('div'); actions.className='barre-boutons';
-        [[-1,'↑ Monter'],[1,'↓ Descendre']].forEach(([delta,nom]) => { const b=document.createElement('button');b.type='button';b.className='bouton';b.textContent=nom;b.disabled=i+delta<0 || i+delta>=lignes.length;b.onclick=()=>{lignes=lire();[lignes[i],lignes[i+delta]]=[lignes[i+delta],lignes[i]];conserver();rendre();$('parcours-lignes').children[i+delta].querySelector('select').focus();};actions.append(b); });const retirer=document.createElement('button');retirer.type='button';retirer.className='bouton';retirer.textContent='Retirer';retirer.onclick=()=>{lignes.splice(i,1);conserver();rendre();};actions.append(retirer);ligne.append(actions);$('parcours-lignes').append(ligne);
+        [[-1,'↑ Monter'],[1,'↓ Descendre']].forEach(([delta,nom]) => { const b=document.createElement('button');b.type='button';b.className='bouton';b.textContent=nom;b.disabled=i+delta<0 || i+delta>=lignes.length;b.onclick=()=>{lignes=lire();[lignes[i],lignes[i+delta]]=[lignes[i+delta],lignes[i]];conserver();rendre();$('parcours-lignes').children[i+delta].querySelector('select').focus();};actions.append(b); });const retirer=document.createElement('button');retirer.type='button';retirer.className='bouton';retirer.textContent='×';retirer.setAttribute('aria-label','Retirer le projet '+(i+1));retirer.onclick=()=>{lignes.splice(i,1);conserver();rendre();};actions.append(retirer);ligne.append(actions);$('parcours-lignes').append(ligne);
       });
     }
     function charger(){cycleActif=$('parcours-cycle').value;kitActif=$('parcours-kit').value;lignes=(configuration[cycleActif]?.[kitActif]||[]).map(e=>({...e}));rendre();status.textContent='';}
