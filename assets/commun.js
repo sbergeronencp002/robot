@@ -142,7 +142,7 @@ const ICONE_DOC =
  * vers le cahier de l’élève et, lorsqu’il existe, le guide pédagogique.
  */
 function htmlTuile(projet, options = {}) {
-  const { interactif = true } = options;
+  const { interactif = true, personnel = false } = options;
 
   const cycles   = listeValeurs(projet.cycle).map(cycleParId).filter(Boolean);
   const ensemble = ensembleParId(projet.ensemble);
@@ -200,6 +200,7 @@ function htmlTuile(projet, options = {}) {
           ${actionGuide}
         </span>
       </div>
+      ${personnel ? `<button type="button" class="bouton mon-parcours-ajouter" data-mon-parcours-ajouter="${echapper(projet.id)}">Ajouter à mon parcours</button>` : ""}
     </div>
   </article>`;
 }

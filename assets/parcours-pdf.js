@@ -44,11 +44,12 @@
       const titre=doc.splitTextToSize((i+1)+". "+p.titre,largeur);
       doc.setFont("helvetica","normal");doc.setFontSize(11);
       const description=doc.splitTextToSize(p.description||"",largeur);
-      const hauteur=Math.max(p.imagePDF ? 46 : 0,titre.length*6.5+description.length*5.5+27);
+      const hauteur=Math.max(p.imagePDF ? 46 : 0,titre.length*6.5+description.length*5.5+34);
       if(y+hauteur>limite && hauteur<limite-20){doc.addPage();y=20;}
       const debut=y;
       if(p.imagePDF){const ratio=p.imagePDF.ratio;let w=44,h=w/ratio;if(h>40){h=40;w=h*ratio;}doc.addImage(p.imagePDF.data,"PNG",marge+(44-w)/2,y-4+(40-h)/2,w,h,undefined,"FAST");}
       texte((i+1)+". "+p.titre,13,true,[22,39,74]);
+      if(p.sousTitre)texte(p.sousTitre,9,false,[85,100,120]);
       if(p.duree)texte(p.duree+" min",9,false,[85,100,120]);
       y+=2;texte(p.description||"",11);y+=3;
       const liens=[["Cahier de l’élève",p.documents?.eleve||p.lien],["Guide de l’enseignant",p.documents?.guide]].filter(([,url])=>{try{return new URL(url).protocol==="https:";}catch{return false;}});
