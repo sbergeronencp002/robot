@@ -19,3 +19,16 @@
   body.impression-parcours .parcours-docs a:after{content:" — " attr(href);font-size:8pt;font-weight:normal}
   body.impression-parcours .parcours-docs{display:block}
 }
+
+/* Fiches de parcours : une seule ligne d’actions, une seule numérotation. */
+.parcours-etapes li{padding:18px;gap:18px}
+.parcours-etapes h4{margin:0 0 8px}
+.parcours-repere{font-size:.85rem;font-weight:500;color:var(--gris);margin:0 0 5px}
+.parcours-docs{align-items:center;gap:8px;margin-top:12px}
+.parcours-docs .bouton{padding:8px 12px;font-size:.85rem;min-height:40px}
+.parcours .mon-parcours-ajouter{width:auto;margin:0;justify-content:center;white-space:normal}
+.parcours-docs a{background:transparent;color:var(--accent);border-color:var(--bordure)}
+.parcours .mon-parcours-ajouter{background:var(--bleu-pale-2);color:var(--marine);border:1px solid var(--bordure)}
+.parcours .mon-parcours-ajouter:disabled{opacity:.7}
+.parcours-etapes img{height:100px}
+.parcours-etapes li>div>p:not(.parcours-repere){margin:8px 0}

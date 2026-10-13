@@ -49,3 +49,10 @@
  .entete-actions .reservation-ouvrir{float:none;margin:12px 0}
 }
 @media screen and (max-width:380px){.contenant{padding-inline:12px}.reservation-dialogue,.reservation-dialogue.mon-parcours-dialogue{padding-inline:12px}.filtres__bascule{padding-inline:10px;font-size:.9rem}.filtres__droite{gap:5px}}
+
+@media screen and (max-width:760px){
+ .parcours-docs{display:flex;flex-wrap:wrap;gap:8px}
+ .parcours-docs .bouton{min-height:44px;flex:0 1 auto}
+ .parcours .mon-parcours-ajouter{width:auto;margin:0}
+ .parcours-etapes li{padding:14px;gap:12px}
+}
