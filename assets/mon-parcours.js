@@ -7,6 +7,8 @@
   const selection=()=>ids.map(id=>catalogue.find(p=>p.id===id)).filter(Boolean);
   function sauver(){try{localStorage.setItem(cle,JSON.stringify(ids));etat.textContent="Sélection conservée dans ce navigateur.";}catch(_){etat.textContent="La sélection reste disponible pendant cette visite; ce navigateur ne permet pas sa sauvegarde.";}actualiser();}
   function actualiser(){
+    $("mon-parcours-duree").textContent=window.dureeTotaleParcours(selection());
+    $("mon-parcours-duree").hidden=!selection().length;
     $("mon-parcours-ouvrir").textContent="Mon parcours · "+ids.length;
     document.querySelectorAll("[data-mon-parcours-ajouter]").forEach(b=>{const dedans=ids.includes(b.dataset.monParcoursAjouter);b.textContent=dedans?"Ajouté à mon parcours ✓":"Ajouter à mon parcours";b.disabled=dedans;});
     $("mon-parcours-pdf").disabled=!selection().length;

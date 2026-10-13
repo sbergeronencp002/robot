@@ -1,5 +1,13 @@
 /* Export PDF du parcours : texte sélectionnable et documents cliquables. */
 (() => {
+  window.dureeTotaleParcours = projets => {
+    const connues=projets.filter(p=>Number.isFinite(Number(p.duree)) && Number(p.duree)>0);
+    const minutes=connues.reduce((total,p)=>total+Number(p.duree),0);
+    const h=Math.floor(minutes/60),m=minutes%60;
+    const libelle=h ? h+" h"+(m ? " "+m+" min" : "") : minutes+" min";
+    const manquantes=projets.length-connues.length;
+    return "Durée totale : "+libelle+(manquantes ? " · "+manquantes+" durée"+(manquantes>1?"s":"")+" à préciser" : "");
+  };
   let chargement;
   async function chargerPDF() {
     if (window.jspdf?.jsPDF) return window.jspdf.jsPDF;
@@ -36,7 +44,8 @@
     doc.setProperties({title:"Parcours robotique — "+cycle+" — "+ensemble,author:"Centre de services scolaire des Bois-Francs"});
     texte("Centre de services scolaire des Bois-Francs",10,false,[85,100,120]);y+=3;
     texte("Mon parcours robotique",22,true,[22,39,74]);y+=2;
-    texte(cycle+" · "+ensemble,13,true);y+=4;
+    texte(cycle+" · "+ensemble,13,true);y+=3;
+    texte(window.dureeTotaleParcours(projets),10,true);y+=4;
     texte("Une progression proposée à adapter au rythme de votre classe.",10);y+=7;
     projets.forEach((p,i)=>{
       x=p.imagePDF ? 70 : marge;largeur=192-x;
