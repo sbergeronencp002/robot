@@ -125,6 +125,14 @@ function lienSur(url) {
   }
 }
 
+/* Images internes exclusivement; data WebP seulement pour l'aperçu local de l'admin. */
+function imageSure(valeur) {
+  const source = String(valeur ?? "").trim();
+  if (/^images\/[a-zA-Z0-9_./-]+\.(?:webp|png|jpe?g|gif)$/i.test(source) && !source.split("/").includes("..")) return source;
+  if (/^data:image\/webp;base64,[a-zA-Z0-9+/=]+$/i.test(source)) return source;
+  return "";
+}
+
 const ICONE_HORLOGE =
   '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" ' +
   'stroke-width="2" stroke-linecap="round" aria-hidden="true">' +
@@ -156,8 +164,9 @@ function htmlTuile(projet, options = {}) {
     guide: String(projet.documents?.guide || "").trim()
   };
 
-  const visuel = projet.image
-    ? `<div class="tuile__visuel"><img src="${echapper(projet.image)}" alt="" loading="lazy" decoding="async"></div>`
+  const imageValide = imageSure(projet.image);
+  const visuel = imageValide
+    ? `<div class="tuile__visuel"><img src="${echapper(imageValide)}" alt="" loading="lazy" decoding="async"></div>`
     : `<div class="tuile__visuel tuile__visuel--vide" aria-hidden="true">🤖</div>`;
 
   const etiquettes = [
