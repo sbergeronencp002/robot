@@ -5,7 +5,16 @@
   const $=id=>document.getElementById(id);
   const dialogue=$("mon-parcours-dialogue"), liste=$("mon-parcours-liste"), etat=$("mon-parcours-etat");
   const selection=()=>ids.map(id=>catalogue.find(p=>p.id===id)).filter(Boolean);
-  function sauver(){try{localStorage.setItem(cle,JSON.stringify(ids));etat.textContent="Sélection conservée dans ce navigateur.";}catch(_){etat.textContent="La sélection reste disponible pendant cette visite; ce navigateur ne permet pas sa sauvegarde.";}actualiser();}
+  function sauver(){
+    try {
+      if (ids.length) localStorage.setItem(cle,JSON.stringify(ids));
+      else localStorage.removeItem(cle);
+      etat.textContent=ids.length ? "Sélection conservée dans ce navigateur." : "Votre parcours est vide.";
+    } catch (_) {
+      etat.textContent="La sélection reste disponible pendant cette visite; ce navigateur ne permet pas sa sauvegarde.";
+    }
+    actualiser();
+  }
   function actualiser(){
     $("mon-parcours-duree").textContent=window.dureeTotaleParcours(selection());
     $("mon-parcours-duree").hidden=!selection().length;
@@ -40,9 +49,22 @@
   $("mon-parcours-vider").onclick=()=>{if(!ids.length || !window.confirm("Retirer tous les projets de votre parcours ?"))return;ids=[];sauver();rendre();etat.textContent="Votre parcours est vide.";};
   dialogue.addEventListener("click",e=>{if(e.target===dialogue){const r=dialogue.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dialogue.close();}});
   document.addEventListener("click",e=>{const b=e.target.closest("[data-mon-parcours-ajouter]");if(b)ajouter([b.dataset.monParcoursAjouter]);});
-  function ajouter(nouveaux){ids=[...new Set([...ids,...nouveaux.filter(id=>catalogue.some(p=>p.id===id))])];sauver();etat.textContent="Projets ajoutés à votre parcours.";rendre();}
+  function ajouter(nouveaux){
+    // Reprendre l'état enregistré pour éviter de ressusciter une ancienne
+    // sélection lorsqu'un autre onglet vient de vider le parcours.
+    try {
+      const v=JSON.parse(localStorage.getItem(cle)||"[]");
+      if(Array.isArray(v)) ids=[...new Set(v.filter(id=>catalogue.some(p=>p.id===id)))];
+    } catch (_) {}
+    const valides=nouveaux.filter(id=>catalogue.some(p=>p.id===id));
+    if (!valides.length) return;
+    ids=[...new Set([...ids,...valides])];
+    sauver();
+    etat.textContent="Projets ajoutés à votre parcours.";
+    rendre();
+  }
   $("mon-parcours-pdf").onclick=async()=>{const b=$("mon-parcours-pdf");b.disabled=true;b.textContent="Génération du PDF…";try{await window.telechargerPDFParcours("Parcours personnalisé","Mes projets",selection().map(p=>({...p,sousTitre:(ENSEMBLES.find(e=>e.id===p.ensemble)?.nom||p.ensemble)+" · "+listeValeurs(p.cycle).map(c=>CYCLES.find(x=>x.id===c)?.court).filter(Boolean).join(", ")})));etat.textContent="Votre PDF est téléchargé.";}catch(e){etat.textContent=e.message;}finally{b.textContent="Télécharger mon parcours";actualiser();}};
-  window.monParcours={initialiser(projets){catalogue=projets;ids=ids.filter(id=>catalogue.some(p=>p.id===id));rendre();},ajouter,actualiser};
+  window.monParcours={initialiser(projets){catalogue=projets;ids=ids.filter(id=>catalogue.some(p=>p.id===id));sauver();rendre();},ajouter,actualiser};
   window.addEventListener("storage",e=>{if(e.key===cle){try{const v=JSON.parse(e.newValue||"[]");ids=Array.isArray(v)?[...new Set(v.filter(id=>catalogue.some(p=>p.id===id)))]:[];rendre();}catch(_){}}});
   actualiser();
 })();
