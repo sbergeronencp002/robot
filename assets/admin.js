@@ -859,7 +859,7 @@
       const materiel = libellesMateriel(p);
       const source = imagesEnAttente[p.image] || p.image;
       const vignette = source
-        ? `<span class="ligne-projet__vignette"><img src="${echapper(source)}" alt=""></span>`
+        ? `<span class="ligne-projet__vignette"><img src="${echapper(imageSure(source))}" alt=""></span>`
         : `<span class="ligne-projet__vignette" aria-hidden="true">🤖</span>`;
       return `
         <li class="ligne-projet${p.id === idEnEdition ? " ligne-projet--edition" : ""}">
