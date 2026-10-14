@@ -858,7 +858,7 @@
       const niveau = difficulteParId(p.difficulte);
       const materiel = libellesMateriel(p);
       const source = imagesEnAttente[p.image] || p.image;
-      const vignette = source
+      const vignette = imageSure(source)
         ? `<span class="ligne-projet__vignette"><img src="${echapper(imageSure(source))}" alt=""></span>`
         : `<span class="ligne-projet__vignette" aria-hidden="true">🤖</span>`;
       return `
