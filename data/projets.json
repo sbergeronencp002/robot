@@ -1,5 +1,28 @@
 [
   {
+    "id": "pmvpmyn9c1f9k",
+    "cree": "2026-10-26T19:14:44.928Z",
+    "titre": "L'hélicoptère",
+    "description": "Construis un helicoptère et programme le moteur pour faire tourner les pales.",
+    "cycle": [
+      "1"
+    ],
+    "ensemble": "essentiel",
+    "programmation": "pictos",
+    "moteurs": 1,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "debutant",
+    "duree": 60,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:w:/s/CSBF-Robotique2/IQChNrHOT20NQZ886doAuT74ASGK7WzAPm4VnxPbN0KiFkc?e=hlCKz8",
+      "guide": ""
+    },
+    "image": "images/2026-10-26-l-helicoptere-8mx6.webp"
+  },
+  {
     "id": "pmuy9ufktnoa5",
     "cree": "2026-10-07T15:37:46.589Z",
     "titre": "Le bolide de course - A",
