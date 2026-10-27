@@ -1,5 +1,28 @@
 [
   {
+    "id": "pmvr5jcbaklg3",
+    "cree": "2026-10-27T20:42:29.782Z",
+    "titre": "Le mini-golf - A",
+    "description": "Construis un parcours de mini-golf et programme le moteur pour réaliser un trou d'un coup.",
+    "cycle": [
+      "2"
+    ],
+    "ensemble": "essentiel",
+    "programmation": "scratch",
+    "moteurs": 2,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 180,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQAF435DCc4YTLFIVtzNjz29AbYA_RBmxlQ8audg_O6Wsk4?e=1ZnHv2",
+      "guide": ""
+    },
+    "image": "images/2026-10-27-le-mini-golf-a-bh4s.webp"
+  },
+  {
     "id": "pmvpmyn9c1f9k",
     "cree": "2026-10-26T19:14:44.928Z",
     "titre": "L'hélicoptère",
