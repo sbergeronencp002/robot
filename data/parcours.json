@@ -52,6 +52,10 @@
         "intention": "Construis et programme un laisser-passer pour permettre au personnage de passer plus rapidement."
       },
       {
+        "projet": "pmvpmyn9c1f9k",
+        "intention": "Construis un helicoptère et programme le moteur pour faire tourner les pales."
+      },
+      {
         "projet": "pmtykon4qrk1h",
         "intention": "Construis le compagnon et programme ses deux moteurs pour le faire avancer, reculer et tourner."
       }
@@ -80,6 +84,10 @@
       {
         "projet": "pmud2c85cd4w7",
         "intention": "Construis le Flipper, programme ses mouvements et relève des défis avec le capteur de couleur."
+      },
+      {
+        "projet": "pmvr5jcbaklg3",
+        "intention": "Construis un parcours de mini-golf et programme le moteur pour réaliser un trou d'un coup."
       }
     ],
     "prime": [
