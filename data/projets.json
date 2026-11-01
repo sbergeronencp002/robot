@@ -1,5 +1,28 @@
 [
   {
+    "id": "pmvxxco4nhs4d",
+    "cree": "2026-11-01T14:27:44.807Z",
+    "titre": "Speedbot - B",
+    "description": "Modifie le Speedbot, teste le robot et améliore ses performances.",
+    "cycle": [
+      "3"
+    ],
+    "ensemble": "ev3",
+    "programmation": "scratch",
+    "moteurs": 2,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQC6SPOaFvVISqyk6cUG3v21AU-E8BKSu5kcAUaSQG_bXEw?e=3Mj6aO",
+      "guide": ""
+    },
+    "image": "images/2026-11-01-speedbot-b-n5wq.webp"
+  },
+  {
     "id": "pmvr5jcbaklg3",
     "cree": "2026-10-27T20:42:29.782Z",
     "titre": "Le mini-golf - A",
@@ -580,7 +603,7 @@
     "id": "pmubblgsg7hxg",
     "cree": "2026-09-21T14:08:05.440Z",
     "titre": "Bevelbot - B",
-    "description": "Modifie les engrenages, teste le robot et améliore ses performances.",
+    "description": "Modifie le Bevelbot, teste le robot et améliore ses performances.",
     "cycle": [
       "2"
     ],
