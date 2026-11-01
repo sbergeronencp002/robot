@@ -1,28 +1,5 @@
 [
   {
-    "id": "pmvxxco4nhs4d",
-    "cree": "2026-11-01T14:27:44.807Z",
-    "titre": "Speedbot - B",
-    "description": "Modifie le Speedbot, teste le robot et améliore ses performances.",
-    "cycle": [
-      "3"
-    ],
-    "ensemble": "ev3",
-    "programmation": "scratch",
-    "moteurs": 2,
-    "composants": [],
-    "univers": [
-      "materiel"
-    ],
-    "difficulte": "intermediaire",
-    "duree": 120,
-    "documents": {
-      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQC6SPOaFvVISqyk6cUG3v21AU-E8BKSu5kcAUaSQG_bXEw?e=3Mj6aO",
-      "guide": ""
-    },
-    "image": "images/2026-11-01-speedbot-b-n5wq.webp"
-  },
-  {
     "id": "pmvr5jcbaklg3",
     "cree": "2026-10-27T20:42:29.782Z",
     "titre": "Le mini-golf - A",
@@ -49,7 +26,7 @@
     "id": "pmvpmyn9c1f9k",
     "cree": "2026-10-26T19:14:44.928Z",
     "titre": "L'hélicoptère",
-    "description": "Construis un helicoptère et programme le moteur pour faire tourner les pales.",
+    "description": "Construis un hélicoptère et programme le moteur pour faire tourner les pales.",
     "cycle": [
       "1"
     ],
@@ -885,5 +862,28 @@
       "guide": ""
     },
     "programmation": "scratch"
+  },
+  {
+    "id": "pmvxxco4nhs4d",
+    "cree": "2026-11-01T14:27:44.807Z",
+    "titre": "Speedbot - B",
+    "description": "Modifie le Speedbot, teste le robot et améliore ses performances.",
+    "cycle": [
+      "3"
+    ],
+    "ensemble": "ev3",
+    "programmation": "scratch",
+    "moteurs": 2,
+    "composants": [],
+    "univers": [
+      "materiel"
+    ],
+    "difficulte": "intermediaire",
+    "duree": 120,
+    "documents": {
+      "eleve": "https://csbf.sharepoint.com/:b:/s/CSBF-Robotique2/IQC6SPOaFvVISqyk6cUG3v21AU-E8BKSu5kcAUaSQG_bXEw?e=3Mj6aO",
+      "guide": ""
+    },
+    "image": "images/2026-11-01-speedbot-b-n5wq.webp"
   }
 ]
