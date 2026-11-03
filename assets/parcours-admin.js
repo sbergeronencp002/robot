@@ -23,7 +23,11 @@
     let cycleActif='',kitActif='';
     function conserver(){if(!cycleActif||!kitActif)return;configuration[cycleActif] ||= {};configuration[cycleActif][kitActif]=lignes;try{sauver();status.textContent='Brouillon enregistré — modifications non publiées.';}catch(_){status.textContent='Enregistrement impossible.'}}
     const disponibles = () => projets.filter(p => listeValeurs(p.cycle).includes($('parcours-cycle').value) && p.ensemble === $('parcours-kit').value);
-    const lire = () => Array.from($('parcours-lignes').children).map(l => ({projet:l.querySelector('select').value,intention:disponibles().find(p=>p.id===l.querySelector('select').value)?.description || ''}));
+    const lire = () => Array.from($('parcours-lignes').children).map(l => {
+      const id=l.querySelector('select').value;
+      const intentionConservee=lignes.find(e=>e.projet===id)?.intention;
+      return {projet:id,intention:intentionConservee ?? (disponibles().find(p=>p.id===id)?.description || '')};
+    });
     function deplacer(depart, position) {
       if (depart === position) return;
       const [projet] = lignes.splice(depart, 1);
@@ -85,7 +89,7 @@
         if(nonPublie && nouvelleCle!==cleBrouillon)throw new Error("Publiez ou exportez le brouillon du dépôt actuel avant de changer de dépôt.");
         baseDepot=distant;projets=distant.projets;cleBrouillon=nouvelleCle;
         const local=restaurer();
-        if(!local && !nonPublie)configuration=distant.configuration;
+        if(!local){nonPublie=false;shaBrouillon=undefined;signaler();configuration=distant.configuration;}
         if(local && shaBrouillon && shaBrouillon!==distant.sha){baseDepot.sha=shaBrouillon;kits();status.textContent="Le dépôt a changé depuis le brouillon. Vos choix sont conservés; exportez-les avant de résoudre le conflit.";return;}
         kits();status.textContent=nonPublie ? "Brouillon conservé — modifications non publiées." : "Parcours chargés depuis le dépôt.";
 
