@@ -866,7 +866,7 @@
           ${vignette}
           <span class="ligne-projet__infos">
             <span class="ligne-projet__titre">${echapper(p.titre)}</span>
-            <span class="ligne-projet__meta">${echapper(cycles.length ? cycles.map((c) => c.court).join(", ") : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(programmation ? programmation.nom : "—")} · ${echapper(univers.length ? univers.map((u) => u.court).join(", ") : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${materiel.length ? ` · ${echapper(materiel.join(" · "))}` : ""}${(p.documents?.eleve || p.lien) ? "" : " · <sans cahier>"}${p.documents?.guide ? " · guide ✓" : ""}</span>
+            <span class="ligne-projet__meta">${echapper(cycles.length ? cycles.map((c) => c.court).join(", ") : "—")} · ${echapper(ensemble ? ensemble.nom : "—")} · ${echapper(programmation ? programmation.nom : "—")} · ${echapper(univers.length ? univers.map((u) => u.court).join(", ") : "—")} · ${echapper(niveau ? niveau.nom : "—")} · ${echapper(p.duree || "—")} min${materiel.length ? ` · ${echapper(materiel.join(" · "))}` : ""}${(p.documents?.eleve || p.lien) ? "" : " · sans cahier"}${p.documents?.guide ? " · guide ✓" : ""}</span>
           </span>
           <span class="ligne-projet__actions">
             <button type="button" class="bouton bouton--secondaire bouton--petit" data-action="dupliquer" data-id="${echapper(p.id)}">Dupliquer</button>
@@ -1085,9 +1085,6 @@
       const imagesUtilisees = new Set(
         projets.map((p) => String(p.image || "")).filter((chemin) => chemin.startsWith("images/"))
       );
-      const imagesDeLaVersionChargee = new Set(
-        projetsBase.map((p) => String(p.image || "")).filter((chemin) => chemin.startsWith("images/"))
-      );
       const chemins = Object.keys(imagesEnAttente).filter((chemin) => imagesUtilisees.has(chemin));
       const elements = [];
 
@@ -1098,8 +1095,7 @@
       const imagesASupprimer = Array.isArray(contenuImages)
         ? contenuImages.filter((fichier) =>
             fichier.type === "file" &&
-            fichier.name !== ".gitkeep" &&
-            imagesDeLaVersionChargee.has(fichier.path) &&
+            /^\d{4}-\d{2}-\d{2}-[a-z0-9._-]+\.webp$/i.test(fichier.name) &&
             !imagesUtilisees.has(fichier.path)
           )
         : [];
