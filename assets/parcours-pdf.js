@@ -14,8 +14,10 @@
     if (!chargement) chargement = new Promise((resolve,reject) => {
       const script=document.createElement("script");
       script.src="https://cdn.jsdelivr.net/npm/jspdf@3.0.3/dist/jspdf.umd.min.js";
-      script.onload=()=>window.jspdf?.jsPDF ? resolve(window.jspdf.jsPDF) : reject(new Error("PDF indisponible."));
-      script.onerror=()=>{script.remove();chargement=null;reject(new Error("Impossible de charger le générateur PDF. Réessayez."));};
+      const limite=setTimeout(()=>echouer(),15000);
+      function echouer(){clearTimeout(limite);script.remove();chargement=null;reject(new Error("Impossible de charger le générateur PDF. Réessayez."));}
+      script.onload=()=>{clearTimeout(limite);if(window.jspdf?.jsPDF)resolve(window.jspdf.jsPDF);else echouer();};
+      script.onerror=echouer;
       document.head.append(script);
     });
     return chargement;
@@ -23,7 +25,14 @@
   async function chargerImagePDF(projet) {
     if (!projet.image) return projet;
     const img = new Image();img.crossOrigin="anonymous";
-    await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=()=>reject(new Error("L’image du projet « "+projet.titre+" » n’a pas pu être chargée. Réessayez."));img.src=new URL(projet.image,window.location.href).href;});
+    await new Promise((resolve,reject)=>{
+      const limite=setTimeout(()=>{img.src="";reject(new Error("Délai de chargement dépassé."));},8000);
+      img.onload=()=>{clearTimeout(limite);resolve();};
+      img.onerror=()=>{clearTimeout(limite);reject(new Error("Image indisponible."));};
+      try {img.src=new URL(projet.image,window.location.href).href;}
+      catch(e){clearTimeout(limite);reject(e);}
+    });
+    if (!img.naturalWidth || !img.naturalHeight) throw new Error("Dimensions de l’image invalides.");
     const ratio=img.naturalWidth/img.naturalHeight;
     const canvas=document.createElement("canvas");
     canvas.width=Math.min(900,img.naturalWidth);canvas.height=Math.max(1,Math.round(canvas.width/ratio));
@@ -80,7 +89,11 @@
   };
   window.telechargerPDFParcours = async (cycle,ensemble,projets) => {
     const jsPDF=await chargerPDF();
-    const avecImages=await Promise.all(projets.map(chargerImagePDF));
+    // Un média manquant ne doit jamais empêcher le téléchargement du parcours.
+    const avecImages=await Promise.all(projets.map(async projet => {
+      try { return await chargerImagePDF(projet); }
+      catch (erreur) { console.warn("Image ignorée pour le PDF :", projet.titre, erreur); return projet; }
+    }));
     const doc=window.creerPDFParcours(jsPDF,cycle,ensemble,avecImages);
     const nom=("parcours-"+cycle+"-"+ensemble).normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-zA-Z0-9]+/g,"-").toLowerCase();
     doc.save(nom+".pdf");
