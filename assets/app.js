@@ -11,7 +11,10 @@
     difficulte: [], duree: [], materiel: [], q: ""
   };
   let parcoursConfiguration = {};
-  fetch("data/parcours.json", {cache:"no-store"}).then(r => { if (!r.ok) throw new Error(); return r.json(); }).then(d => { parcoursConfiguration = d; }).catch(() => {});
+  const parcoursChargement = fetch("data/parcours.json", {cache:"no-store"})
+    .then(r => { if (!r.ok) throw new Error(`HTTP ${r.status}`); return r.json(); })
+    .then(d => { parcoursConfiguration = d; })
+    .catch(err => { console.error("Chargement des parcours impossible :", err); parcoursConfiguration = null; });
   let projets = [];
 
   const elGrille   = document.getElementById("grille");
@@ -172,9 +175,15 @@
   };
 
   window.addEventListener("afterprint", () => document.body.classList.remove("impression-parcours"));
-  function ouvrirParcours(cycle = "1", ensemble = "") {
+  async function ouvrirParcours(cycle = "1", ensemble = "") {
     const zone = document.getElementById("parcours");
     if (!projets.length) return;
+    await parcoursChargement;
+    if (!parcoursConfiguration) {
+      zone.hidden = false;
+      zone.textContent = "Les parcours ne sont pas disponibles pour le moment. Actualisez la page pour réessayer.";
+      return;
+    }
     const choix = ENSEMBLES.filter(e => projets.some(p => listeValeurs(p.cycle).includes(cycle) && p.ensemble === e.id));
 
     let configuration = parcoursConfiguration;
