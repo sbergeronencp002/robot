@@ -1,276 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr-CA">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Robotique — CSS des Bois-Francs</title>
-<meta name="description" content="Répertoire de projets de robotique pour le primaire : EV3, Spike Prime, Spike Essentiel et WeDo 2.0, classés par cycle, univers et difficulté.">
-<link rel="stylesheet" href="assets/style.css?v=20261103-auditfix">
-<script>
-  (() => {
-    const versionLocale = "20261103-auditfix";
-    fetch(`assets/version.json?t=${Date.now()}`, { cache: "no-store" })
-      .then((reponse) => reponse.ok ? reponse.json() : null)
-      .then((info) => {
-        if (!info?.version || info.version === versionLocale) return;
-        const adresse = new URL(window.location.href);
-        if (adresse.searchParams.get("_v") === info.version) return;
-        adresse.searchParams.set("_v", info.version);
-        window.location.replace(adresse.href);
-      })
-      .catch(() => {});
-  })();
-</script>
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
-<!-- PostHog : statistiques d'utilisation anonymes, sans enregistrement de sessions -->
-<script>
-!function(t,e){var o,n,p,r;e.__SV||(window.posthog&&window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}p||((p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",p.onerror=function(){p=null},(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r));var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],Object.defineProperty(u,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}}),Object.defineProperty(u.people,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(){return u.toString(1)+".people (stub)"}}),o="init capture register register_once for_session unregister unregister_for_session getFeatureFlag getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-posthog.init("phc_uAGEECfde4E5EoHMVWRrLFvAFDUbyccgM3nds8Ttdtcc", {
-  api_host: "https://us.i.posthog.com",
-  defaults: "2026-05-30",
-  person_profiles: "identified_only",
-  autocapture: false,
-  disable_session_recording: true,
-  capture_pageview: true
-});
-</script>
-<!-- Fin PostHog -->
-
-<style>
-.entete .contenant { position: relative; }
-.reservation-ouvrir { float: right; margin: 12px 0 12px 24px; background: var(--blanc); color: var(--marine); border-color: #b7cce1; }
-.reservation-ouvrir:hover { background: var(--bleu-pale); }
-.reservation-dialogue { width: min(460px, calc(100% - 32px)); max-height: calc(100dvh - 40px); overflow: auto; padding: 28px; border: 1px solid var(--bordure); border-radius: 14px; color: var(--texte); background: var(--blanc); box-shadow: var(--ombre-forte); }
-.reservation-dialogue::backdrop { background: rgba(22,39,74,.55); }
-.reservation-dialogue h2 { margin: 0 36px 10px 0; color: var(--marine); font-size: 1.35rem; line-height: 1.3; }
-.reservation-dialogue p { color: var(--gris); font-size: .92rem; }
-.reservation-fermer { position: absolute; top: 12px; right: 12px; padding: 6px 12px; font-size: 1.4rem; }
-.reservation-choix { display: grid; gap: 10px; margin: 20px 0; }
-.reservation-personne { display: flex; gap: 12px; align-items: center; padding: 12px 14px; border: 1px solid var(--bordure); border-radius: 8px; cursor: pointer; }
-.reservation-personne:has(:checked) { border-color: var(--accent); background: var(--bleu-pale-2); }
-.reservation-personne input { accent-color: var(--accent); width: 18px; height: 18px; }
-.reservation-personne strong { color: var(--marine); }
-.reservation-suite { width: 100%; justify-content: center; text-decoration: none; }
-@media(max-width: 760px) { .reservation-ouvrir { float: none; margin: 0 0 18px; } }
-</style>
-<link rel="stylesheet" href="assets/parcours.css?v=20261103-auditfix">
-<style>.mon-parcours-dialogue{width:min(800px,calc(100% - 32px))}#mon-parcours-liste{list-style:none;padding:0}.mon-parcours-ligne{display:grid;grid-template-columns:32px 1fr auto;gap:12px;align-items:center;border:1px solid var(--bordure);border-radius:8px;padding:12px;margin:10px 0}.mon-parcours-ligne p{margin:5px 0 0}.mon-parcours-poignee{touch-action:none;cursor:grab;border:0;background:transparent;font-size:24px;color:var(--gris);min-height:40px}.mon-parcours-actions{display:flex;gap:6px}.mon-parcours-actions button{padding:6px 10px}.mon-parcours-glisse{opacity:.5}.mon-parcours-cible{outline:2px solid var(--accent)}.mon-parcours-ajouter{margin-top:12px;width:100%;justify-content:center}@media(max-width:600px){.mon-parcours-ligne{grid-template-columns:28px 1fr}.mon-parcours-actions{grid-column:2}}</style><link rel="stylesheet" href="assets/mobile.css?v=20261103-auditfix">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#f2f5f9">
+  <title>Robotique — CSSBF | Maintenance</title>
+  <style>
+    :root { color-scheme: light; font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; padding: 24px; background: #f2f5f9; color: #18345b; display: grid; place-items: center; }
+    main { width: min(100%, 510px); padding: clamp(35px, 7vw, 54px) clamp(24px, 6vw, 46px); background: #fff; border: 1px solid #dde5ef; border-radius: 15px; box-shadow: 0 12px 35px rgba(21,43,73,.045); text-align: center; }
+    h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(25px, 5vw, 32px); line-height: 1.2; color: #163461; }
+    .accent { width: 49px; height: 2px; margin: 20px auto 24px; background: #1699ac; }
+    h2 { max-width: 340px; margin: 0 auto 15px; font-size: clamp(19px, 3.7vw, 22px); line-height: 1.35; }
+    p { max-width: 400px; margin: 0 auto; color: #526887; font-size: 14px; line-height: 1.8; }
+    footer { margin-top: 28px; font-size: 12px; color: #71829b; }
+  </style>
 </head>
 <body>
-
-<a class="saut-contenu" href="#resultats">Aller aux projets</a>
-
-<header class="entete">
-  <div class="contenant">
-
-    <p class="entete__organisme">Centre de services scolaire des Bois-Francs</p>
-    <h1 class="entete__titre">Robotique</h1>
-    <p class="entete__sous-titre">
-      Des projets de robotique clés en main pour votre classe.
-    </p>
-<div class="entete-actions">    <button type="button" class="bouton reservation-ouvrir" id="mon-parcours-ouvrir" aria-haspopup="dialog" aria-controls="mon-parcours-dialogue">Mon parcours · 0</button>
-    <button type="button" class="bouton reservation-ouvrir" id="reservation-ouvrir" aria-haspopup="dialog" aria-controls="reservation-dialogue">Réserver un accompagnement</button></div>
-  </div>
-</header>
-
-<section class="continuum" aria-label="Continuum pédagogique">
-  <div class="contenant">
-    <details class="continuum__details" open>
-      <summary class="continuum__resume">
-        <div>
-          <p class="continuum__sur-titre">Progression pédagogique</p>
-          <h2 class="continuum__titre">Un continuum pour tout le primaire</h2>
-        </div>
-        <span class="continuum__etat" aria-hidden="true">
-          <span class="continuum__etat--ouvert">Réduire</span>
-          <span class="continuum__etat--ferme">Afficher</span>
-          <span class="continuum__resume-chevron">⌃</span>
-        </span>
-      </summary>
-
-      <div class="continuum__contenu">
-        <p class="continuum__introduction">Choisissez votre cycle pour découvrir des projets qui accompagnent progressivement les élèves.</p>
-
-        <div class="continuum__grille">
-      <button type="button" class="continuum__carte continuum__carte--1" data-cycle="1" aria-pressed="false" aria-expanded="false" aria-controls="parcours">
-        <span class="continuum__cycle">1er cycle</span>
-        <strong class="continuum__intention">Construire et programmer</strong>
-        <span class="continuum__description">L’élève s’initie à la robotique en construisant un robot en suivant un plan et en programmant des séquences simples à l’aide de pictogrammes.</span>
-        <span class="continuum__action" data-compte-cycle="1">Voir les projets <span aria-hidden="true">→</span></span>
-      </button>
-
-      <button type="button" class="continuum__carte continuum__carte--2" data-cycle="2" aria-pressed="false" aria-expanded="false" aria-controls="parcours">
-        <span class="continuum__cycle">2e cycle</span>
-        <strong class="continuum__intention">Programmer, expérimenter et expliquer</strong>
-        <span class="continuum__description">L’élève approfondit ses apprentissages en robotique en programmant avec des blocs de mots. Il formule des hypothèses, réalise des essais et explique ses résultats afin d’ajuster sa solution.</span>
-        <span class="continuum__action" data-compte-cycle="2">Voir les projets <span aria-hidden="true">→</span></span>
-      </button>
-
-      <button type="button" class="continuum__carte continuum__carte--3" data-cycle="3" aria-pressed="false" aria-expanded="false" aria-controls="parcours">
-        <span class="continuum__cycle">3e cycle</span>
-        <strong class="continuum__intention">Interagir, concevoir et améliorer</strong>
-        <span class="continuum__description">L’élève consolide ses apprentissages en robotique en faisant interagir son robot avec l’environnement à l’aide de capteurs. Il conçoit, modifie et améliore ses solutions à partir de ses essais et observations.</span>
-        <span class="continuum__action" data-compte-cycle="3">Voir les projets <span aria-hidden="true">→</span></span>
-      </button>
-    </div>
-<section id="parcours" class="parcours" hidden aria-labelledby="parcours-titre"></section>
-      </div>
-    </details>
-  </div>
-</section>
-
-<nav class="filtres" id="zone-filtres" aria-label="Filtrer les projets">
-  <div class="contenant">
-    <button type="button" class="filtres__bascule" id="bascule-filtres"
-            aria-expanded="false" aria-controls="filtres-grille">
-      <span id="libelle-filtres">Filtrer les projets</span>
-      <span class="filtres__droite">
-        <span class="filtres__nombre" id="nombre-filtres" hidden></span>
-        <span class="filtres__etat" aria-hidden="true">
-          <span class="filtres__etat--ferme">Afficher</span>
-          <span class="filtres__etat--ouvert">Réduire</span>
-        </span>
-        <span class="filtres__chevron" aria-hidden="true">⌄</span>
-      </span>
-    </button>
-  </div>
-  <div class="contenant filtres__grille" id="filtres-grille">
-
-    <div class="groupe-filtre champ-recherche">
-      <label class="groupe-filtre__titre" for="recherche">Rechercher</label>
-      <div class="champ-recherche__boite">
-        <svg class="champ-recherche__icone" width="17" height="17" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-          <circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>
-        </svg>
-        <input type="search" id="recherche" autocomplete="off"
-               placeholder="Ex. : capteur de couleur, labyrinthe…">
-      </div>
-    </div>
-
-    <p class="filtres__aide">Vous pouvez sélectionner plusieurs choix dans une même catégorie.</p>
-
-    <div class="groupe-filtre">
-      <span class="groupe-filtre__titre" id="titre-cycle">Cycle</span>
-      <div class="jetons" id="filtres-cycle" role="group" aria-labelledby="titre-cycle"></div>
-    </div>
-
-    <div class="groupe-filtre">
-      <span class="groupe-filtre__titre" id="titre-ensemble">Ensemble de robotique</span>
-      <div class="jetons" id="filtres-ensemble" role="group" aria-labelledby="titre-ensemble"></div>
-    </div>
-
-    <div class="groupe-filtre">
-      <span class="groupe-filtre__titre" id="titre-programmation">Programmation</span>
-      <div class="jetons" id="filtres-programmation" role="group" aria-labelledby="titre-programmation"></div>
-    </div>
-
-    <div class="groupe-filtre">
-      <span class="groupe-filtre__titre" id="titre-univers">Univers</span>
-      <div class="jetons" id="filtres-univers" role="group" aria-labelledby="titre-univers"></div>
-    </div>
-
-    <div class="groupe-filtre">
-      <span class="groupe-filtre__titre" id="titre-difficulte">Difficulté</span>
-      <div class="jetons" id="filtres-difficulte" role="group" aria-labelledby="titre-difficulte"></div>
-    </div>
-
-    <div class="groupe-filtre">
-      <span class="groupe-filtre__titre" id="titre-duree">Durée</span>
-      <div class="jetons" id="filtres-duree" role="group" aria-labelledby="titre-duree"></div>
-    </div>
-
-    <div class="groupe-filtre">
-      <span class="groupe-filtre__titre" id="titre-materiel">Matériel utilisé</span>
-      <div class="jetons" id="filtres-materiel" role="group" aria-labelledby="titre-materiel"></div>
-    </div>
-
-  </div>
-</nav>
-
-<main class="contenant" id="resultats">
-  <div class="resultats">
-    <p class="resultats__compte" id="compte" role="status" aria-live="polite"></p>
-    <button type="button" class="lien-bouton" id="reinitialiser" hidden>Réinitialiser les filtres</button>
-  </div>
-
-  <ul class="grille" id="grille"></ul>
-
-  <div class="etat-vide" id="etat-vide" hidden>
-    <div class="etat-vide__icone" aria-hidden="true">🔍</div>
-    <h2 id="etat-vide-titre">Aucun projet ne correspond</h2>
-    <p id="etat-vide-texte">Essayez d’élargir votre recherche ou de retirer un filtre.</p>
-    <button type="button" class="lien-bouton" id="reinitialiser-2">Réinitialiser les filtres</button>
-  </div>
-</main>
-
-<footer class="pied">
-  <div class="contenant">
-    <p><strong>Centre de services scolaire des Bois-Francs</strong> — Service des ressources éducatives</p>
-  </div>
-</footer>
-
-<dialog class="reservation-dialogue" id="reservation-dialogue" aria-labelledby="reservation-titre" aria-describedby="reservation-description">
-  <button type="button" class="bouton bouton--secondaire reservation-fermer" id="reservation-fermer" aria-label="Fermer la fenêtre">×</button>
-  <h2 id="reservation-titre">Réserver un accompagnement</h2>
-  <p id="reservation-description">Choisissez un animateur pour un accompagnement en classe.</p>
-  <div class="reservation-choix" id="reservation-choix" role="group" aria-label="Animateur"></div>
-  <a class="bouton bouton--primaire reservation-suite" id="reservation-suite" target="_blank" rel="noopener noreferrer" hidden>Réserver</a>
-  <p>Les disponibilités s’affichent dans Microsoft Bookings, dans un nouvel onglet.</p>
-  <p id="reservation-erreur" role="status" hidden>Les réservations sont temporairement indisponibles. Réessayez plus tard.</p>
-</dialog>
-<script>
-(() => {
-  const dialogue = document.getElementById("reservation-dialogue");
-  const ouvrir = document.getElementById("reservation-ouvrir");
-  const suite = document.getElementById("reservation-suite");
-  const choix = document.getElementById("reservation-choix");
-  ouvrir.addEventListener("click", () => dialogue.showModal());
-  document.getElementById("reservation-fermer").addEventListener("click", () => dialogue.close());
-  dialogue.addEventListener("click", (event) => {
-    const rect = dialogue.getBoundingClientRect();
-    if (event.target === dialogue && (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom)) dialogue.close();
-  });
-  dialogue.addEventListener("close", () => ouvrir.focus());
-  fetch("data/animateurs.json?t=" + Date.now(), {cache:"no-store"})
-    .then(r => { if (!r.ok) throw new Error(); return r.json(); })
-    .then(liste => {
-      if (!Array.isArray(liste) || !liste.length) throw new Error();
-      liste.forEach((personne, index) => {
-        const url = new URL(personne.url);
-        if (url.protocol !== "https:" || url.hostname !== "bookings.cloud.microsoft" || !personne.nom) throw new Error();
-        const label = document.createElement("label");
-        label.className = "reservation-personne";
-        const input = document.createElement("input");
-        input.type = "radio"; input.name = "animateur"; input.value = String(index);
-        const nom = document.createElement("strong"); nom.textContent = personne.nom;
-        label.append(input, nom); choix.append(label);
-        input.addEventListener("change", () => { suite.href = url.href; suite.hidden = false; suite.textContent = "Réserver avec " + personne.nom; });
-      });
-    }).catch(() => { choix.replaceChildren(); suite.hidden = true; document.getElementById("reservation-erreur").hidden = false; });
-})();
-</script>
-<dialog class="reservation-dialogue" id="parcours-dialogue" aria-labelledby="parcours-dialogue-titre" aria-describedby="parcours-dialogue-description">
-  <button type="button" class="bouton bouton--secondaire reservation-fermer" id="parcours-dialogue-fermer" aria-label="Fermer la fenêtre">×</button>
-  <p class="continuum__sur-titre" id="parcours-dialogue-cycle"></p>
-  <h2 id="parcours-dialogue-titre">Choisir votre ensemble de robotique</h2>
-  <p id="parcours-dialogue-description">Quel ensemble utilisez-vous en classe ? Votre parcours sera adapté à ce matériel.</p>
-  <div class="reservation-choix" id="parcours-choix" role="group" aria-label="Ensemble de robotique"></div>
-  <button type="button" class="bouton bouton--primaire reservation-suite" id="parcours-confirmer" disabled>Afficher mon parcours</button>
-</dialog>
-<dialog class="reservation-dialogue mon-parcours-dialogue" id="mon-parcours-dialogue" aria-labelledby="mon-parcours-titre">
-<button type="button" class="bouton reservation-fermer" id="mon-parcours-fermer" aria-label="Fermer la fenêtre">×</button>
-<h2 id="mon-parcours-titre">Mon parcours</h2><p>Glissez les projets dans l’ordre souhaité. Votre sélection est conservée dans ce navigateur, sans compte.</p>
-<p id="mon-parcours-vide">Ajoutez des projets depuis le catalogue ou un parcours proposé.</p>
-<p id="mon-parcours-duree" role="status" hidden></p><ol id="mon-parcours-liste"></ol><button type="button" class="bouton bouton--primaire" id="mon-parcours-pdf" disabled>Télécharger mon parcours</button><button type="button" class="bouton" id="mon-parcours-vider" disabled>Vider mon parcours</button><p id="mon-parcours-etat" role="status"></p>
-</dialog>
-<script src="assets/commun.js?v=20261103-auditfix"></script>
-<script src="assets/parcours-pdf.js?v=20261103-auditfix"></script>
-<script src="assets/mon-parcours.js?v=20261103-auditfix"></script>
-<script src="assets/app.js?v=20261103-auditfix"></script>
-<!-- Cloudflare Web Analytics -->
-<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"cddf0e13b4ca4887b4f29ca86d311882"}'></script>
-<!-- End Cloudflare Web Analytics -->
-
+  <main>
+    <h1>Robotique · CSSBF</h1>
+    <div class="accent" aria-hidden="true"></div>
+    <h2>Site temporairement en maintenance</h2>
+    <p>La plateforme de projets de robotique et de programmation est temporairement indisponible.</p>
+    <footer>Merci de votre compréhension.</footer>
+  </main>
 </body>
 </html>
